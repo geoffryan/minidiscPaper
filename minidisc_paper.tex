@@ -16,12 +16,13 @@
 %Custom Commands
 \newcommand{\al}{\alpha}
 \newcommand{\be}{\beta}
-\newcommand{\sig}{\sigma}
-\newcommand{\Sig}{\Sigma}
 \newcommand{\gam}{\gamma}
 \newcommand{\Gam}{\Gamma}
 \newcommand{\de}{\delta}
 \newcommand{\De}{\Delta}
+\newcommand{\eps}{\epsilon}
+\newcommand{\sig}{\sigma}
+\newcommand{\Sig}{\Sigma}
 \newcommand{\ka}{\kappa}
 \newcommand{\lam}{\lambda}
 \newcommand{\pd}{\partial}
@@ -124,36 +125,54 @@ to circumbinary accretion \citep{Farris14, Farris15A, Farris15B}.
 The original \DISCO{} code has been modified to solve the GRHD equations in a 
 fixed space-time:
 \begin{equation}
-    \nabla_\mu \rho_0 u^\mu = 0 \text{ and } \nabla_\mu T^{\mu\nu} = -\dot{Q} u^\nu\ , \label{eq:GRHD}
+    \nabla_\mu \rho_0 u^\mu = 0 \text{ and } \nabla_\mu T^{\mu\nu} = -\dot{Q} u^\nu , \label{eq:GRHD}
 \end{equation}
 for a single species gas of rest-mass density $\rho_0$, four velocity $u^\mu$, 
-stress energy tensory $T^{\mu\nu}$ and local isotropic cooling $\dot{Q}$.
+stress energy tensory $T^{\mu\nu}$ and local isotropic cooling $\dot{Q}$.  
 
+To solve \eqref{eq:GRHD} numerically one must make a choice of which elements of $T^{\mu\nu}$ to be independent variables.  We follow the standard Valencia formulation (CITE) (also cite HARM, Duez2004, etc) for the momentum variables $T^0_i$ and choose an energy variable projected onto a known four-velocity $U^\mu$: $-U_\mu T^{\mu 0}$.
+In terms of coordinate derivatives \eqref{eq:GRHD} takes the standard flux-balanced conservation form
 \begin{equation}
-    \pd_0 \mathcal{U} + \pd_j \mathcal{F}^j = \mathcal{S}
+    \pd_0 \mathcal{U} + \pd_j \mathcal{F}^j = \mathcal{S} ,
 \end{equation}
-
-Our conserved variables are:
+with conserved variables
 \begin{equation}
     \mathcal{U} = \begin{pmatrix} D \\
                             S_i \\
                             \tau_U
-                \end{pmatrix} = \sqrt{-g} \begin{pmatrix} \Sig_0 u^0 \\ 
+                \end{pmatrix} = \sqrt{-g} \begin{pmatrix} \rho_0 u^0 \\ 
                                                     T^0_i \\
-                                                    -U^\mu T_\mu^0 - \Sig_0 u^0 \end{pmatrix} \ , \label{eq:cons}
+                                                    -U^\mu T_\mu^0 - \rho_0 u^0 \end{pmatrix} , \label{eq:cons}
 \end{equation}
-with corresponding fluxes:
+fluxes
 \begin{equation}
-    \mathcal{F}^j = \sqrt{-g} \begin{pmatrix} \Sig_0 u^j \\
+    \mathcal{F}^j = \sqrt{-g} \begin{pmatrix} \rho_0 u^j \\
                                                 T^j_i \\
-                                                -U^\mu T_\mu^j \end{pmatrix} \ ,\label{eq:fluxes}
+                                                -U^\mu T_\mu^j \end{pmatrix} ,\label{eq:fluxes}
 \end{equation}
-and source terms:
+and source terms 
 \begin{equation}
     \mathcal{S} = \sqrt{-g} \begin{pmatrix} 0 \\
                         \frac{1}{2}T^{\mu\nu}\pd_i g_{\mu\nu} - \dot{Q}u_i \\
-                        T^{\mu\nu}\nabla_\mu U_\nu + U^\mu u_\mu \dot{Q} \end{pmatrix} \ .\label{eq:sources}
+                        T^{\mu\nu}\nabla_\mu U_\nu + U^\mu u_\mu \dot{Q} \end{pmatrix} .\label{eq:sources}
 \end{equation}
+
+In this work we assume an ideal gas with stress tensor
+\begin{equation}
+	T^{\mu\nu} = \rho_0 h u^\mu u^\nu + P g^{\mu\nu} ,
+\end{equation}
+where $P$ is the gas pressure, $h = 1 + \eps + P/\rho_0$ the relativistic specific enthalpy, and $\eps$ the specific internal energy. Furthermore we assume the gamma law equation of state
+\begin{equation}
+	P = (\Gam - 1) \rho_0 \eps .
+\end{equation}
+
+\subsection{Choice of Energy Variable}
+\label{sec:energy}
+
+
+
+
+
 
 
 %%%%%
