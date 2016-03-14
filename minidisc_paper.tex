@@ -15,8 +15,11 @@
 
 %Custom Commands
 \newcommand{\al}{\alpha}
-\newcommand{\si}{\sigma}
-\newcommand{\Ga}{\Gamma}
+\newcommand{\be}{\beta}
+\newcommand{\sig}{\sigma}
+\newcommand{\Sig}{\Sigma}
+\newcommand{\gam}{\gamma}
+\newcommand{\Gam}{\Gamma}
 \newcommand{\de}{\delta}
 \newcommand{\De}{\Delta}
 \newcommand{\ka}{\kappa}
@@ -113,6 +116,44 @@ calculates effective $\alpha$'s and spectra. Results are discussed in Section \r
 \section{Numerical Setup}
 \label{sec:numerics}
 
+The basis of our hydrodynamics scheme is the \DISCO{} code; a moving mesh hydro
+code optimized for disc geometry. This code was first used in the context of
+protoplanetary discs \citep{Duffell12, Duffell13, Duffell14} and later applied 
+to circumbinary accretion \citep{Farris14, Farris15A, Farris15B}. 
+
+The original \DISCO{} code has been modified to solve the GRHD equations in a 
+fixed space-time:
+\begin{equation}
+    \nabla_\mu \rho_0 u^\mu = 0 \text{ and } \nabla_\mu T^{\mu\nu} = -\dot{Q} u^\nu\ , \label{eq:GRHD}
+\end{equation}
+for a single species gas of rest-mass density $\rho_0$, four velocity $u^\mu$, 
+stress energy tensory $T^{\mu\nu}$ and local isotropic cooling $\dot{Q}$.
+
+\begin{equation}
+    \pd_0 \mathcal{U} + \pd_j \mathcal{F}^j = \mathcal{S}
+\end{equation}
+
+Our conserved variables are:
+\begin{equation}
+    \mathcal{U} = \begin{pmatrix} D \\
+                            S_i \\
+                            \tau_U
+                \end{pmatrix} = \sqrt{-g} \begin{pmatrix} \Sig_0 u^0 \\ 
+                                                    T^0_i \\
+                                                    -U^\mu T_\mu^0 - \Sig_0 u^0 \end{pmatrix} \ , \label{eq:cons}
+\end{equation}
+with corresponding fluxes:
+\begin{equation}
+    \mathcal{F}^j = \sqrt{-g} \begin{pmatrix} \Sig_0 u^j \\
+                                                T^j_i \\
+                                                -U^\mu T_\mu^j \end{pmatrix} \ ,\label{eq:fluxes}
+\end{equation}
+and source terms:
+\begin{equation}
+    \mathcal{S} = \sqrt{-g} \begin{pmatrix} 0 \\
+                        \frac{1}{2}T^{\mu\nu}\pd_i g_{\mu\nu} - \dot{Q}u_i \\
+                        T^{\mu\nu}\nabla_\mu U_\nu + U^\mu u_\mu \dot{Q} \end{pmatrix} \ .\label{eq:sources}
+\end{equation}
 
 
 %%%%%
