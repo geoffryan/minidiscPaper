@@ -28,6 +28,7 @@
 \newcommand{\boxfit}{{\texttt{BoxFit}}}
 \newcommand{\ramcode}{{\texttt{RAM}}}
 \newcommand{\blastcode}{{\texttt{BLAST}}}
+\newcommand{\DISCO}{{\texttt{DISCO}}}
 \newcommand{\swift}{{\it Swift}}
 \newcommand{\swiftXRT}{{\it Swift-XRT}}
 \newcommand{\XRT}{{\it XRT}}
@@ -47,6 +48,8 @@
 
 \begin{abstract}
 
+ABSTRACT ABSTRACT ABSTRACT
+
 \end{abstract}
 
 
@@ -55,16 +58,60 @@
 %%%%%
 
 \section{Introduction}
+\label{sec:intro}
 
-Previous work in \citep{Farris14,Farris15A,Farris15B}.
+Binary black holes are awesome!  
 
+Since galaxies form hierarchically there should be a lot of supermassive ones maybe!  
 
+But, you know, final parsec problem?
+
+Global circumbinary accretion still an active problem, uncertain when it aids
+or hinders black hole mergers.
+
+Observationally, need EM counterparts to identify SMBBHs.  EM counterparts 
+probably accretion powered.
+
+Also, you know, LIGO.  GW150914 and others.  Stellar mass BBHs, EM counterparts
+will almost certainly involve some flavour of circumbinary accretion.
+
+Newtonian work has been done on global discs.  Seems in indicate enhanced
+accretion rates and negative(?) torques on the binary.  Broad structure is
+quasi-stationary Shakura-Sunyaev disc in outer regions. Possibly eccentric
+cavity near BHs. Ballistic streams from cavity edge feed minidiscs around each BH, with a bridge flowing between them.
+
+Newtonian simulations are necessarily underresolved near each BH, approximate accretion prescriptions are introduced to prevent artifical accumulation of mass.
+
+In this work we present the results of two dimensional inviscid general relativistic
+hydrodynamic simulations of accretion discs around a black hole in a binary.
+They are built to model minidics seen in global circumbinary calculations,
+and can be seen as a ``zoomed in'' calculation of the hydrodynamics in the 
+immediate vicinity of one of the black holes.
+
+Newtonian calculations have been performed with alpha viscosity and either isothermal \citep{Farris14} or adiabatic \citep{Farris15A, Farris15B} thermodynamics. The adiabatic calculations included local blackbody cooling to dissipate the
+viscous heat generation, and were shown to lead to the Shakura-Sunyaev disc
+when performed with a single central black hole.
+
+Although alpha viscosity is typically used to model the unknown angular 
+momentum transport mechanism in accretion discs, we find minidiscs accrete with
+ideal hydrodynamics alone.  This is due to the presence of spiral waves (shocks?) excited by the binary companion. These shocks transport angular momentum outwards (cite Binney \& Tremaine?) and locally heat the disc. We include local 
+black-body cooling with electron-scattering opacity to remove shock-generated
+heat self-consistently from the disc.  This allows the disc to find a natural
+temperature equilibrium, and allows a direct estimate of the emission spectrum.
+
+This paper is organized as follows in Section \ref{sec:numerics} we present the
+numerical setup used in the calculations; a version of the \DISCO{} code 
+modified to work in an arbitrary space-time, with optimizations for thin 
+relativistic accretion discs.  In Section \ref{sec:models} we detail the 
+minidisc models calculated.  Section \ref{sec:results} analyzes the models and
+calculates effective $\alpha$'s and spectra. Results are discussed in Section \ref{sec:discussion} and the work is summarized in \ref{sec:summary}.
 
 %%%%%
 %Section 2 - Numerical Setup
 %%%%%
 
 \section{Numerical Setup}
+\label{sec:numerics}
 
 
 
@@ -73,6 +120,7 @@ Previous work in \citep{Farris14,Farris15A,Farris15B}.
 %%%%%
 
 \section{Minidisc Models}
+\label{sec:models}
 
 
 
@@ -81,6 +129,7 @@ Previous work in \citep{Farris14,Farris15A,Farris15B}.
 %%%%%
 
 \section{Results}
+\label{sec:results}
 
 
 
@@ -89,6 +138,7 @@ Previous work in \citep{Farris14,Farris15A,Farris15B}.
 %%%%%%
 
 \section{Discussion}
+\label{sec:discussion}
 
 
 
@@ -97,6 +147,7 @@ Previous work in \citep{Farris14,Farris15A,Farris15B}.
 %%%%%%
 
 \section{Summary}
+\label{sec:summary}
 
 
 
