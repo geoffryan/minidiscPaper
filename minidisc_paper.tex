@@ -25,21 +25,13 @@
 \newcommand{\Sig}{\Sigma}
 \newcommand{\ka}{\kappa}
 \newcommand{\lam}{\lambda}
+\newcommand{\om}{\omega}
+\newcommand{\Om}{\Omega}
+\newcommand{\Mach}{\mathcal{M}}
 \newcommand{\pd}{\partial}
 \newcommand{\dd}{\mbox{d}}
 
-\newcommand{\scalefit}{{\texttt{ScaleFit}}}
-\newcommand{\boxfit}{{\texttt{BoxFit}}}
-\newcommand{\ramcode}{{\texttt{RAM}}}
-\newcommand{\blastcode}{{\texttt{BLAST}}}
 \newcommand{\DISCO}{{\texttt{DISCO}}}
-\newcommand{\swift}{{\it Swift}}
-\newcommand{\swiftXRT}{{\it Swift-XRT}}
-\newcommand{\XRT}{{\it XRT}}
-\newcommand{\vela}{{\it Vela}}
-\newcommand{\bepposax}{{\it BeppoSAX}}
-\newcommand{\chandra}{{\it Chandra}}
-\newcommand{\ram}{{\texttt{RAM}}}
 
 \newcommand{\OO}{\mathcal{O}}
 
@@ -52,7 +44,7 @@
 
 \begin{abstract}
 
-ABSTRACT ABSTRACT ABSTRACT
+ABSTRACT ABSTRACT ABSTRACT ABSTRACT ABSTRACT ABSTRACT ABSTRACT ABSTRACT ABSTRACT ABSTRACT ABSTRACT ABSTRACT ABSTRACT ABSTRACT ABSTRACT ABSTRACT ABSTRACT ABSTRACT ABSTRACT ABSTRACT ABSTRACT ABSTRACT ABSTRACT ABSTRACT ABSTRACT ABSTRACT ABSTRACT ABSTRACT ABSTRACT ABSTRACT ABSTRACT ABSTRACT ABSTRACT ABSTRACT ABSTRACT ABSTRACT ABSTRACT ABSTRACT ABSTRACT ABSTRACT ABSTRACT ABSTRACT ABSTRACT ABSTRACT ABSTRACT ABSTRACT ABSTRACT ABSTRACT
 
 \end{abstract}
 
@@ -133,7 +125,7 @@ stress energy tensory $T^{\mu\nu}$ and local isotropic cooling $\dot{Q}$.
 To solve \eqref{eq:GRHD} numerically one must make a choice of which elements of $T^{\mu\nu}$ to be independent variables.  We follow the standard Valencia formulation (CITE) (also cite HARM, Duez2004, etc) for the momentum variables $T^0_i$ and choose an energy variable projected onto a known four-velocity $U^\mu$: $-U_\mu T^{\mu 0}$.
 In terms of coordinate derivatives \eqref{eq:GRHD} takes the standard flux-balanced conservation form
 \begin{equation}
-    \pd_0 \mathcal{U} + \pd_j \mathcal{F}^j = \mathcal{S} ,
+    \pd_0 \mathcal{U} + \pd_j \mathcal{F}^j = \mathcal{S} , \label{eq:consLaw}
 \end{equation}
 with conserved variables
 \begin{equation}
@@ -163,14 +155,71 @@ In this work we assume an ideal gas with stress tensor
 \end{equation}
 where $P$ is the gas pressure, $h = 1 + \eps + P/\rho_0$ the relativistic specific enthalpy, and $\eps$ the specific internal energy. Furthermore we assume the gamma law equation of state
 \begin{equation}
-	P = (\Gam - 1) \rho_0 \eps .
+	P = (\Gam - 1) \rho_0 \eps . \label{eq:gammalaw}
 \end{equation}
 
-\subsection{Choice of Energy Variable}
-\label{sec:energy}
+\DISCO{} is a Godunov type code which solves hyperbolic systems of equations of the form \eqref{eq:consLaw} on a moving mesh in cylindrical coordinates ($r$, $\phi$, $z$).  The mesh motion is restricted to be in the $\phi$-direction, which greatly reduces numerical viscosity due to bulk azimuthal flow.  For radial flows, the code performs at the same level as fixed mesh codes.  In this work, the velocities of cell interfaces are fixed to $V^\phi \equiv U^\phi/U^0$.   
 
+% More words here
+HLL Riemann Solver, PLM reconstruction, RK2 time integration.
 
+All calculations in this work are performed in two dimensions spatial dimensions ($r$ and $\phi$) using vertically integrated fluid quantities and metric terms evaluated on the equator $z=0$.  We denote the surface density as $\Sig_0 = \int \dd z \rho_0$ and the vertically integrated pressure $\Pi = \int \dd z P$.  
 
+\subsection{The Energy Variable $\tau_U$}
+\label{subsec:energy}
+
+Thin accretion discs are highly supersonic: $\Mach = u^{\hat{\phi}} \sqrt{1-c_s^2}/c_s \gg 1$.  This is a challenge for (grid-based?) hydro codes, as the specific internal energy $\eps \sim cs^2$ while the specific kinetic energy $w-1 \sim \tilde{u}^2$, giving $\eps / (w-1) \sim \OO(\Mach^{-2})$.  For hydro codes based on conservation laws, the energy variable must necessarily contain both the kinetic and internal energies.  However, the kinetic energy is due to the bulk motion of the fluid, and largely determined by the momentum equations (for Newtonian codes this is exactly true).  The energy equation is solved exclusively to track the internal energy of the fluid, but for supersonic flows the internal energy is a small perturbation on top of the total energy.  This makes the internal energy subject to much larger truncation (?) errors than the other fluid quantities.
+
+Several schemes exist to combat this issue.  ORBITAL ADVECTION? FARGO? The Newtonian \DISCO{} code includes the option to specify an exact rotation profile $\Om(r)$, and chooses as its energy variable $\frac{1}{2}\rho v_r^2 + \frac{1}{2}\rho(v_\phi-r\Om)^2 + \rho \eps$; subtracting the kinetic energy associated with $\Om$. This introduces source terms in the energy equation proportional to $\pd_r \Om$, which are exactly known since $\Om(r)$ is exactly known.  When $\Om$ is chosen close to the fluid $v_\phi / r$ this subtraction allows for accurate evolution of the internal energy even for very thin (high $\Mach$) discs (CITE?).
+
+Our energy variable $\tau_U$ is the relativistic analogue to the Newtonian scheme.  Subtracting the kinetic energy associated with some bulk motion can be seen as simply measuring the energy in a particular frame with a velocity near the fluid velocity. We specify an exactly known four-velocity $U^\mu(x^\nu)$ and define the energy as the projection of the stress energy tensor onto this time-like vector $-U_\mu T^{\mu 0}$.  We also perform the standard operation of subtracting the rest-mass energy from the total energy to arrive at our energy variable:
+\begin{equation}
+	\tau_U = -U_\mu T^{\mu 0} - D \ . \label{eq:tauU}
+\end{equation}
+This is very similar to the energy variable $\tau$ used by (HARM, Duez04):
+\begin{equation}
+	\tau = -n_\mu T^{\mu 0} - D \ , \label{eq:tau}
+\end{equation}
+where $n^\mu$ is the unit time-like normal vector. In fact, the choice of \eqref{eq:tau} can be seen as just making the choice to measure energy with respect to normal observers.  It is easy to determine: %HA
+\begin{equation}
+\tau_U + D = W\left(\tau + D\right) - \gamma^{ij}U_i S_j  \ ,
+\end{equation}
+where $W = -n_\mu U^\mu$ is the $U$ Lorentz factor in the coordinate frame.
+
+If $U^\mu$ is chosen sufficiently close to the fluid velocity then the dominant component of $\tau_U$ will be the internal energy.  In the case of a thin accretion disc around a black hole, we use a $U^\mu$ which is Keplerian outside the innermost stable circular orbit (ISCO) and smoothly plunging inside.  For a Schwarzschild black hole of mass $M$ this takes the form (in Schwarzschild coordinates):
+\begin{align}
+	U^0 &= \left \{ \begin{matrix} \frac{2\sqrt{2}/3}{1-2M/r} & r < 6M \\
+						\frac{1}{\sqrt{1-3M/r}} & r > 6M \end{matrix} \right . , \nonumber \\
+	U^r &= \left \{ \begin{matrix} -\frac{1}{3}\sqrt{\frac{6M}{r}-1} & r < 6M \\
+						0 & r > 6M \end{matrix} \right . , \nonumber \\
+	U^\phi &= \left \{ \begin{matrix}  \frac{2 \sqrt{3} M}{r^2} & r < 6M \\
+						\sqrt{\frac{M/r^3}{1-3M/r}} & r > 6M \end{matrix} \right . .
+\end{align}
+
+We find using $\tau_U$ instead of $\tau$ essential for accurately evolving thin discs with even moderate mach numbers.
+
+\subsection{Radiative Cooling}
+\label{subsec:cooling}
+
+We restrict our attention to optically thick discs, where radiative cooling occurs at the local black body rate. We impose a cooling function (CITE FRANK\&KING)
+\begin{equation}
+	\dot{Q} = \frac{8}{3} \frac{\sig T^4}{\ka \Sig} , \label{eq:BBcooling}
+\end{equation}
+where $\sig$ is the Stefan-Boltzmann constant, $T = m_p \Pi / \Sig$ is the gas temperature (assuming pure Hydrogen), and $\ka $ is the opacity.  We assume the dominant opacity is due to electron scattering and take $\ka = \ka_{es} = 0.4 cm^2/g$.
+
+Because of the strong dependence on temperature in \eqref{eq:BBcooling} the cooling time scale can be much shorter than the local hydrodynamic time scale.  To avoid large restrictions on the global time step we exactly solve an evolution equation for the temperature subject to cooling.  Since time evolution in \DISCO{} is performed via the method of lines it is sufficient to prescribe a first order in time implementation of cooling.  The evolution equation for the specific internal energy is:
+\begin{equation}
+	\pd_t \eps = -\frac{u^i}{u^0} \pd_i \eps - \frac{\Pi}{\Sig u^0} \nabla_\mu u^\mu - \frac{1}{\Sig u^0} \dot{Q} . \label{eq:epsEvolution}
+\end{equation}
+The terms on the right hand side of \eqref{epsEvolution} are energy loss due to advection, expansion, and cooling respectively.  The Riemann solver already takes into account advection and expansion, so to first order in time we can consider just the evolution due to cooling
+\begin{equation}
+	\pd_t \eps \approx - \frac{1}{\Sig u^0} \dot{Q} \ .
+\end{equation}
+To first order in time the surface density $\Sig$ and the fluid velocity $u^\mu$ are unchanged by cooling.  Therefore one can write the following equation for the temperature evolution due to cooling:
+\begin{equation}
+	\pd_t T = - \left(\frac{\pd \eps}{\pd T}\right)_{\Sig}^{-1} \frac{\dot{Q}}{\Sig u^0} \ . \label{eq:Tevolution}
+\end{equation}
+Cooling in \DISCO{} is implemented in the following way.  At the beginning of a time step we have the primitives $\mathcal{P}^0$ and corresponding conservatives $\mathcal{U}^0$.  The Riemann solver and geometric source terms produce $\mathcal{U}^1_{hydro}$.  The initial temperature $T^0$ is evolved by integrating \eqref{eq:Tevolution}, keeping $\Sig$ and $u^0$ held to their initial values.  With the equation of state \eqref{eq:gammalaw} and $\ka = \ka_{es}$ this can be done exactly, yielding $T^1_{cooling}$.  We define the first-order change in $\mathcal{U}$ due to cooling as $\De \mathcal{U}_{cooling} = \mathcal{U}(T^1_{cooling}) - \mathcal{U}^0$.  Then the final value of the conservatives is $\mathcal{U}^1 = \mathcal{U}^1_{hydro} +\De \mathcal{U}_{cooling}$.
 
 
 
