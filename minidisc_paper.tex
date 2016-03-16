@@ -207,11 +207,13 @@ We restrict our attention to optically thick discs, where radiative cooling occu
 \end{equation}
 where $\sig$ is the Stefan-Boltzmann constant, $T = m_p \Pi / \Sig$ is the gas temperature (assuming pure Hydrogen), and $\ka $ is the opacity.  We assume the dominant opacity is due to electron scattering and take $\ka = \ka_{es} = 0.4 cm^2/g$.
 
+EASIER TO JUST SAY OPERATOR SPLITTING?
+
 Because of the strong dependence on temperature in \eqref{eq:BBcooling} the cooling time scale can be much shorter than the local hydrodynamic time scale.  To avoid large restrictions on the global time step we exactly solve an evolution equation for the temperature subject to cooling.  Since time evolution in \DISCO{} is performed via the method of lines it is sufficient to prescribe a first order in time implementation of cooling.  The evolution equation for the specific internal energy is:
 \begin{equation}
 	\pd_t \eps = -\frac{u^i}{u^0} \pd_i \eps - \frac{\Pi}{\Sig u^0} \nabla_\mu u^\mu - \frac{1}{\Sig u^0} \dot{Q} . \label{eq:epsEvolution}
 \end{equation}
-The terms on the right hand side of \eqref{epsEvolution} are energy loss due to advection, expansion, and cooling respectively.  The Riemann solver already takes into account advection and expansion, so to first order in time we can consider just the evolution due to cooling
+The terms on the right hand side of \eqref{eq:epsEvolution} are energy loss due to advection, expansion, and cooling respectively.  The Riemann solver already takes into account advection and expansion, so to first order in time we can consider just the evolution due to cooling
 \begin{equation}
 	\pd_t \eps \approx - \frac{1}{\Sig u^0} \dot{Q} \ .
 \end{equation}
@@ -221,7 +223,32 @@ To first order in time the surface density $\Sig$ and the fluid velocity $u^\mu$
 \end{equation}
 Cooling in \DISCO{} is implemented in the following way.  At the beginning of a time step we have the primitives $\mathcal{P}^0$ and corresponding conservatives $\mathcal{U}^0$.  The Riemann solver and geometric source terms produce $\mathcal{U}^1_{hydro}$.  The initial temperature $T^0$ is evolved by integrating \eqref{eq:Tevolution}, keeping $\Sig$ and $u^0$ held to their initial values.  With the equation of state \eqref{eq:gammalaw} and $\ka = \ka_{es}$ this can be done exactly, yielding $T^1_{cooling}$.  We define the first-order change in $\mathcal{U}$ due to cooling as $\De \mathcal{U}_{cooling} = \mathcal{U}(T^1_{cooling}) - \mathcal{U}^0$.  Then the final value of the conservatives is $\mathcal{U}^1 = \mathcal{U}^1_{hydro} +\De \mathcal{U}_{cooling}$.
 
+\subsection{Frame and Tidal Forces}
+\label{subsec:frameforces}
 
+We perform all calculations in a frame co-orbiting with the secondary black hole.  In this frame the dominant contribution to the metric is that of the secondary black hole itself, which we take to be the Schwarzschild metric in Kerr-Schild coordinates.  We then perform a coordinate transformation to a frame rigidly rotating with the binary frequency $\Om_{bin}$, which is equivalent to adding a shift $\be^\phi = \Om_{bin}$ to the metric.  This shift automatically adds both Coriolis and centrifugal forces to the equations of motion for the gas.
+
+Incorporating the tidal forces due to the primary cannot be done exactly, as there is no exact metric for a binary black hole.  We make a pragmatic choice and include tidal forces as quasi-Newtonian source terms to the energy and momentum equations, which should be valid in the limit of large binary separation.
+
+A source is added to the second of \eqref{eq:GRHD} in the following way:
+\begin{equation}
+	\nabla_\mu T^{\mu\nu} = -\dot{Q} u^\nu - f^\nu . 
+\end{equation}
+This modifies \eqref{eq:sources} as:
+\begin{equation}
+	\mathcal{S} = \sqrt{-g} \begin{pmatrix} 0 \\
+                        \frac{1}{2}T^{\mu\nu}\pd_i g_{\mu\nu} - \dot{Q}u_i  + f_i \\
+                        T^{\mu\nu}\nabla_\mu U_\nu + U^\mu u_\mu \dot{Q} - U^\mu f_\mu \end{pmatrix} .\label{eq:sources}
+\end{equation}
+Requiring the force satisfy $u^\mu f_\mu = 0$ gives $f_0$ as a function of $f_i$.  The spatial components $f_i$ are determined from the Newtonian tidal forces.  The primary black hole $M_1$ has a fixed location $\vec{a}$ relative to the secondary at the origin.  In an orthonormal frame we specify $\vec{f}$ as:
+\begin{equation}
+	\vec{f} = \Sig h (u^0)^2 \left( -\vec{\nabla} \Phi_N \right) \ ,
+\end{equation}
+where $-\vec{\nabla} \Phi_N$ is:
+\begin{equation}
+	-\nabla \Phi_{N} = M_1 \left( -\frac{\vec{r} - \vec{a}}{|\vec{r}-\vec{a}|^3} - \frac{\vec{a}}{a^3}\right)\ .
+\end{equation}
+Then $f_r = (\vec{f})_r$ and $f_\phi = r(\vec{f})_\phi$.
 
 
 %%%%%
