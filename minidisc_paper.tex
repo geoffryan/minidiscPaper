@@ -193,7 +193,7 @@ If $U^\mu$ is chosen sufficiently close to the fluid velocity then the dominant 
 	U^r &= \left \{ \begin{matrix} -\frac{1}{3}\sqrt{\frac{6M}{r}-1} & r < 6M \\
 						0 & r > 6M \end{matrix} \right . , \nonumber \\
 	U^\phi &= \left \{ \begin{matrix}  \frac{2 \sqrt{3} M}{r^2} & r < 6M \\
-						\sqrt{\frac{M/r^3}{1-3M/r}} & r > 6M \end{matrix} \right . .
+						\sqrt{\frac{M/r^3}{1-3M/r}} & r > 6M \end{matrix} \right . . \label{eq:Ugeo}
 \end{align}
 
 We find using $\tau_U$ instead of $\tau$ essential for accurately evolving thin discs with even moderate mach numbers.
@@ -240,7 +240,7 @@ This modifies \eqref{eq:sources} as:
                         \frac{1}{2}T^{\mu\nu}\pd_i g_{\mu\nu} - \dot{Q}u_i  + f_i \\
                         T^{\mu\nu}\nabla_\mu U_\nu + U^\mu u_\mu \dot{Q} - U^\mu f_\mu \end{pmatrix} .\label{eq:sources}
 \end{equation}
-Requiring the force satisfy $u^\mu f_\mu = 0$ gives $f_0$ as a function of $f_i$.  The spatial components $f_i$ are determined from the Newtonian tidal forces.  The primary black hole $M_1$ has a fixed location $\vec{a}$ relative to the secondary at the origin.  In an orthonormal frame we specify $\vec{f}$ as:
+Requiring the force satisfy $u^\mu f_\mu = 0$ gives $f_0$ as a function of $f_i$.  The spatial components $f_i$ are determined from the Newtonian tidal forces.  The primary black hole $M_1$ has a fixed location $\vec{a}$ relative to the secondary at the origin.  In an orthonormal frame at position $\vec{r}$ we specify $\vec{f}$ as:
 \begin{equation}
 	\vec{f} = \Sig h (u^0)^2 \left( -\vec{\nabla} \Phi_N \right) \ ,
 \end{equation}
@@ -258,7 +258,19 @@ Then $f_r = (\vec{f})_r$ and $f_\phi = r(\vec{f})_\phi$.
 \section{Minidisc Models}
 \label{sec:models}
 
+Early work on circumbinary accretion predicted a cavity to form within $r<2a$, where $a$ is the binary separation. Global Newtonian hydrodynamics calculations confirmed the existence of a cavity but also demonstrated the presence of smaller accretion discs (``minidiscs'') around each member of the binary.  These minidiscs are fed by streams falling ballistically off the cavity wall, revealing the essential role non-axisymmetry plays in accreting binary systems.
 
+To model the growth and structure of minidiscs we must specify both the parameters of the binary black hole system and the accretion stream.  The binary mass $M = M_1+M_2$ can be taken to be arbitrary, essentially setting the length scale $GM/c^2$.  We restrict our attention to circular binaries, and fix the separation to be $a = 100M$.  This is the separation where gravitational wave emission begins to dominate the binary orbital dynamics. (CITE)  This is an astrophysically interesting separation, as general relativistic effects should begin to become important for the hydrodynamics, but still provides enough of a scale separation between the separation and event horizons of the black holes that our approximate treatment of tidal forces should be valid.  We run calculations for several mass ratios.
+
+We model the accretion streams as radial infall through the $L2$ Lagrange point of the binary.  The radial velocity is set to be $v^r = -1/2 v_{bin}$, where $v_{bin} = \sqrt{M/a}$ is the binary orbital velocity.  The angular velocity of the stream is zero in the co-rotating frame.  Since the streams are ballistic the sound speed should be significantly less than the stream velocity.  To ensure this, we set the pressure in the stream as $\Pi = 5 \times 10^{-6} \Sig$.  Several values of this parameter were used during testing, we found they did not affect the resulting minidisc. Rather shock heating and radiative cooling allow the gas to find its own equilibrium temperature once its incorporated into the disc.  We run several different accretion rates, and set the density in the stream accordingly.
+
+The numerical grid is centred on the secondary BH and extends from $4 M_2$ to $R_{L2}$, the radius of the $L2$ Lagrange point. Radial zones are distributed logarithmically and azimuthal zones are placed to keep the aspect ratio of cells close to unity.  On the outer boundary away from the stream a diode boundary condition is used: zero gradient in all fluid variables with the radial velocity restricted to be positive.  The stream extends over $\phi \in [-0.2, 0.2]$, with the grid zones fixed to the stream parameters.  
+
+At the inner boundary a hybrid boundary condition is used.  The fluid velocity is set to be exactly \eqref{eq:Ugeo}, appropriate for ballistic matter infalling on geodesics.  The density is set to be $\Sig = -\dot{M} / r U^r \De \phi$, where $\dot{M}$ is calculated from the innermost non-boundary annulus.  Given $\Sig$, the pressure $\Pi$ is set to ensure isentropic infall.
+
+Although the inner boundary is outside the event horizon of the secondary, we find it does not affect the evolution of the system.  This is because it is still inside the sonic radius of the flow, so no information can propagate out to the minidisc itself.  
+
+Because of the dimensionfull parameters in \eqref{eq:BBcooling} the structure of minidiscs will qualitatively differ as $\dot{M}$ is varied.  As such we consider several values of $\dot{M}$ and several values of $q$.  The lowest value of $\dot{M}$ corresponds to the discs considered in \cite{Farris14}, where the initial disc profile had $\mathcal{M}(a) = 32$.  We then step in factors of 10 over four orders of magnitude.  We consider mass ratios $q = 0.11, 0.43, 1.0$.
 
 %%%%%
 %Section 4 - Results
