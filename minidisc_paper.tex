@@ -279,6 +279,43 @@ Because of the dimensionfull parameters in \eqref{eq:BBcooling} the structure of
 \section{Results}
 \label{sec:results}
 
+Each model was run for 30 $T_{bin}$ on the Pleiades cluster at NASA AMES.
+
+\subsection{Fiducial Run}
+\label{subsec:fiducial}
+
+\subsection{Wave Propagation}
+\label{subsec:prop}
+
+A linear perturbation to a fluid quantity of azimuthal mode $m$ and pattern speed $\Omega_P$ can be written as:
+\begin{equation}
+	\delta X(t, r, \phi) = A_{m,\omega}(r) \exp \left( i \int_r k(r) \dd r  + i m (\phi \Omega_P t) \right)\ . \label{eq:pert}
+\end{equation}
+Such perturbations are spirals with pitch angle $\tan \theta = m / k r$. The hydro equations for such a mode reduce to a system of ODEs in the radial coordinate $r$.  In the `tight winding' limit $k' / k \gg A'/A$, the perturbation is highly oscillatory, and the WKB approximation may be used to yield the well-known (CITE BinneyTreamaine) dispersion relation for tightly wound waves in a gaseous disc:
+\begin{equation}
+	\Omega^2 - m^2(\Omega-\Omega_P)^2 + c_s^2 k^2 = 0 \ . \label{eq:dispNewt}
+\end{equation}
+A generalization of \eqref{eq:dispNewt} to a disc in the Schwarzschild metric is straightforward. Keeping \eqref{eq:pert} as the definition of a perturbation quantity, the same process used to derive \eqref{eq:dispNewt} can be applied to the relativistic hydro equations \eqref{eq:GRHD}. The state to perturb around is a constant density, isentropic disc with fluid velocity \eqref{eq:Ugeo}.  Assuming the disc is cold ($c_s \ll 1$) then leads to the relativistic dispersion relation:
+\begin{equation}
+	\frac{1-6M/r}{1-2M/r}\left(U^\phi\right)^2 - m^2(U^\phi-U^0\Omega_P)^2 + \left(1-2M/r\right) c_s^2 k^2 = 0 \ . \label{eq:dispRel}
+\end{equation}
+In Schwarzschild coordinates the perturbation remains a spiral with the same opening angle as in the Newtonian case.  The dispersion relation can be solved for the radial wave number $k$ yielding:
+\begin{align}
+	\tan \theta &= \left( \frac{r U^\phi}{c_s} \right)^{-1} \left(1-\frac{2M}{r}\right)^{\frac{1}{2}} \label{eq:dispRelPitch} \\ \nonumber
+		&\times \left(\left(1- \frac{U^0 \Omega_P}{U^\phi}\right)^2 - \frac{1}{m^2}\frac{1-6M/r}{1-2M/r}\right)^{-\frac{1}{2}}\ . 
+\end{align}
+Shocks, of course, are intrinsically non-linear perturbations to a fluid flow.  Weak shocks, however, travel very near the local sound speed and can be approximated as linear waves.  The degree to which spiral shocks in the minidiscs satisfy \eqref{eq:dispRelPitch} can be used to gauge their non-linearity.  
+
+In Figure (FIGURE HERE) we plot the pitch angle of shocks found in the minidisc calculations against the average Mach number of each annulus. The pitch angle is determined by first identifying at each radius the angular position of the two greatest peaks in $\Sigma(r)$, giving $\Phi_i(r)$, where $i=A,B$ identifies the particular shock. Then $\tan \theta_i$ is calculated by numerically differencing $\Phi_i(r)$. We find good agreement between the numerically calculated pitch angles and the theoretical relationship $\eqref{eq:dispRelPitch}$, indicating the shocks propagate mostly in the linear regime.
+
+
+\subsection{Shock Dissipation}
+\label{subsec:diss}
+
+
+\subsection{Angular Momentum Transport}
+\label{subsec:angmom}
+
 
 
 %%%%%%
