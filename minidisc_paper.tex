@@ -56,41 +56,23 @@ Newtonian calculations have demonstrated circumbinary black hole accretion is me
 \section{Introduction}
 \label{sec:intro}
 
-Binary black holes are awesome!  
+Recent developments have generated much interest in black hole binaries.  Several studies (CITE GRAHAM, MARIA) have identified candidate supermassive black hole (SMBH) binaries using variability of quasar light curves.  LIGO/VIRGO (cite LIGO) has detected two mergers of stellar-mass black holes, the first measurement of general relativity in the strong field regime.
 
-Since galaxies form hierarchically there should be a lot of supermassive ones maybe!  
+SMBH binaries are thought to be somewhat ubiquitous in the universe.  Present day galaxies are the result of several past mergers, indicating they have certainly housed SMBH binaries many times over their history. The mechanism by which SMBH binaries actually merge is still a matter of much debate. The ``final parsec problem,'' that dynamical friction with stellar bodies ceases to be effective at merging a SMBH binary when the separation $a \lesssim 1pc$, indicates non-gravitational processes may play an important role.
 
-But, you know, final parsec problem?
+EM counterparts --> gas dynamics
 
-Global circumbinary accretion still an active problem, uncertain when it aids
-or hinders black hole mergers.
+The global structure of circumbinary accretion is an active problem.  Much work has been done using both analytic (CITE Zoltan, Rafikov, others?) and numerical (CITE Milos MacFadyen, Brian, Dan etc) methods. Through this a highly dynamic picture has emerged.  At large distances $r \gg a$ the circumbinary disc resembles a Shakura-Sunyaev thin disc around a point mass $M_{bin}$.  In the inner region $r \sim a$ the binary carves a cavity out of the global disc.  Gas flows from the cavity wall in streams, feeding a persistent ``minidisc'' around each black hole.  Gas can be traded between black holes and flung back to the cavity walls, exciting non-axisymmetric lumps which precess around the cavity wall. Overall accretion rates are similar to those expected from single BH discs.  Minidiscs appear to be hot and are the brightest components of EM emission.
 
-Observationally, need EM counterparts to identify SMBBHs.  EM counterparts 
-probably accretion powered.
+Due to the large length scales involved, global simulations of these discs have been restricted to Newtonian calculations which either excise the cavity completely or employ mass sinks with approximate accretion prescriptions.  This is necessary to prevent artificial accumulation of mass near each BH, but wipes out all detailed structure of the minidiscs themselves.
 
-Also, you know, LIGO.  GW150914 and others.  Stellar mass BBHs, EM counterparts
-will almost certainly involve some flavour of circumbinary accretion.
+In this work we present the results of two dimensional inviscid general relativistic hydrodynamic simulations of accretion discs around an individual member of a black hole binary. They are built to model minidics seen in global circumbinary calculations, and can be seen as a ``zoomed in'' calculation of the hydrodynamics in the immediate vicinity of one of the black holes.  These calculations serve a double purpose. Firstly they provide a much better resolved view of minidisc emission structure, potentially informing searches for EM counterparts of SMBH binaries.  Secondly, the detailed accretion dynamics can inform the prescriptions used in larger Newtonian simulations, facilitating the approach to a global understanding of circumbinary accretion.
 
-Newtonian work has been done on global discs.  Seems in indicate enhanced
-accretion rates and negative(?) torques on the binary.  Broad structure is
-quasi-stationary Shakura-Sunyaev disc in outer regions. Possibly eccentric
-cavity near BHs. Ballistic streams from cavity edge feed minidiscs around each BH, with a bridge flowing between them.
-
-Newtonian simulations are necessarily underresolved near each BH, approximate accretion prescriptions are introduced to prevent artifical accumulation of mass.
-
-In this work we present the results of two dimensional inviscid general relativistic
-hydrodynamic simulations of accretion discs around a black hole in a binary.
-They are built to model minidics seen in global circumbinary calculations,
-and can be seen as a ``zoomed in'' calculation of the hydrodynamics in the 
-immediate vicinity of one of the black holes.
-
-Newtonian calculations have been performed with alpha viscosity and either isothermal \citep{Farris14} or adiabatic \citep{Farris15A, Farris15B} thermodynamics. The adiabatic calculations included local blackbody cooling to dissipate the
-viscous heat generation, and were shown to lead to the Shakura-Sunyaev disc
-when performed with a single central black hole.
+Newtonian calculations have been performed with alpha viscosity and either isothermal \citep{Farris14} or adiabatic \citep{Farris15A, Farris15B} thermodynamics. The adiabatic calculations included local blackbody cooling to dissipate the viscous heat generation, and were shown to lead to the Shakura-Sunyaev disc when performed with a single central black hole.
 
 Although alpha viscosity is typically used to model the unknown angular 
 momentum transport mechanism in accretion discs, we find minidiscs accrete with
-ideal hydrodynamics alone.  This is due to the presence of spiral waves (shocks?) excited by the binary companion. These shocks transport angular momentum outwards (cite Binney \& Tremaine?) and locally heat the disc. We include local 
+ideal hydrodynamics alone.  This is due to the presence of spiral shocks excited by the binary companion. These shocks transport angular momentum outwards (cite Binney \& Tremaine?) and locally heat the disc. We include local 
 black-body cooling with electron-scattering opacity to remove shock-generated
 heat self-consistently from the disc.  This allows the disc to find a natural
 temperature equilibrium, and allows a direct estimate of the emission spectrum.
@@ -160,8 +142,7 @@ where $P$ is the gas pressure, $h = 1 + \eps + P/\rho_0$ the relativistic specif
 
 \DISCO{} is a Godunov type code which solves hyperbolic systems of equations of the form \eqref{eq:consLaw} on a moving mesh in cylindrical coordinates ($r$, $\phi$, $z$).  The mesh motion is restricted to be in the $\phi$-direction, which greatly reduces numerical viscosity due to bulk azimuthal flow.  For radial flows, the code performs at the same level as fixed mesh codes.  In this work, the velocities of cell interfaces are fixed to $V^\phi \equiv U^\phi/U^0$.   
 
-% More words here
-HLL Riemann Solver, PLM reconstruction, RK2 time integration.
+\DISCO{} is second order accurate in time and space.  It uses the piecewise linear method (PLM) to interpolate the cell-centred primitive values to the cell interfaces for the Riemann fluxes.  The relativistic HLLC approximate Riemann solver (CITE Mignone and Bodo) is employed to calculate intercell fluxes, and the time evolution is performed via the RK2-TVD algorithm of (CITE SHU).  The time step is Courant limited with a typical CFL number of $0.1$.
 
 All calculations in this work are performed in two dimensions spatial dimensions ($r$ and $\phi$) using vertically integrated fluid quantities and metric terms evaluated on the equator $z=0$.  We denote the surface density as $\Sig_0 = \int \dd z \rho_0$ and the vertically integrated pressure $\Pi = \int \dd z P$.  
 
@@ -284,6 +265,13 @@ Each model was run for 30 $T_{bin}$ on the Pleiades cluster at NASA AMES.
 \subsection{Fiducial Run}
 \label{subsec:fiducial}
 
+Here's a disc Fig \ref{fi:sig}.
+
+\begin{figure*}
+\plotone{figs/q011_m3_sig.png}
+\caption{\label{fi:sig} Surface density for fiducial minidisc after 28 orbits.  Magenta dashed lines are level curves of the Roche potential corresponding to the L1 and L2 Lagrange points.}
+\end{figure*}
+
 \subsection{Wave Propagation}
 \label{subsec:prop}
 
@@ -306,15 +294,49 @@ In Schwarzschild coordinates the perturbation remains a spiral with the same ope
 \end{align}
 Shocks, of course, are intrinsically non-linear perturbations to a fluid flow.  Weak shocks, however, travel very near the local sound speed and can be approximated as linear waves.  The degree to which spiral shocks in the minidiscs satisfy \eqref{eq:dispRelPitch} can be used to gauge their non-linearity.  
 
-In Figure (FIGURE HERE) we plot the pitch angle of shocks found in the minidisc calculations against the average Mach number of each annulus. The pitch angle is determined by first identifying at each radius the angular position of the two greatest peaks in $\Sigma(r)$, giving $\Phi_i(r)$, where $i=A,B$ identifies the particular shock. Then $\tan \theta_i$ is calculated by numerically differencing $\Phi_i(r)$. We find good agreement between the numerically calculated pitch angles and the theoretical relationship $\eqref{eq:dispRelPitch}$, indicating the shocks propagate mostly in the linear regime.
+In Figure \ref{fi:disp} we plot the pitch angle of shocks found in the minidisc calculations against the average Mach number of each annulus. The pitch angle is determined by first identifying at each radius the angular position of the two greatest peaks in $\Sigma(r)$, giving $\Phi_i(r)$, where $i=A,B$ identifies the particular shock. Then $\tan \theta_i$ is calculated by numerically differencing $\Phi_i(r)$. We find good agreement between the numerically calculated pitch angles and the theoretical relationship $\eqref{eq:dispRelPitch}$, indicating the shocks propagate mostly in the linear regime.
+
+\begin{figure}
+\plotone{figs/q011_m3_tanq_mach.png}
+\caption{\label{fi:disp} Dispersion relation for spiral waves in the fiducial run. Blue and orange crosses correspond to the primary and secondary shock, respectively.  Grey line is the prediction for tightly wound waves from the WKB approximation.}
+\end{figure}
+
+% Calculate difference between true value and analytic? Plot as function of r?
 
 
 \subsection{Shock Dissipation}
 \label{subsec:diss}
 
+To quantitatively measure the coupling between the spiral shocks and the bulk disc flow we measure the irreversible heating at each shock in post-processing. 
+
+To locate shocked gas in the simulation output we employ a relativistic shock detector (CITE Rezzolla/Zanotti).  The basic algorithm compares neighbouring zones and classifies the interface as a shock if the relative normal velocity $v_{12} \equiv (v_1 - v_2) / (1-v_1 v_2)$ between the zones is greater than the maximum possible relative velocity produced by a rarefaction wave $(v_{12})_{\mathcal{RS}}$.  We find this algorithm to be somewhat too sensitive in detecting shocks, so we restrict it in the following way.  For a fluid cell to be considered part of a shockwave, it must satisfy: 1) $v_{12} - (v_{12})_{\mathcal{RS}} > \Delta v_{amb}$, where $\Delta v_{amb}$ is the peak ambient value of $v_{12} - (v_{12})_{\mathcal{RS}}$ in the annulus under consideration and 2) the entropy flux must be positive: $v^i \partial_i s > 0$.
+
+We locate shocking gas at each annulus of the computational grid and compute the jump in specific entropy $\Delta s_i = s_{i,b} - s_{i,a}$ over each shock.  The specific irreversible heating is $\propto \psi_Q \equiv \exp{(\Delta s_i)} - 1$ (CITE RAFIKOV).  The irreversible heating at each annulus in the limit of small radial velocity is:
+\begin{equation}
+	\dot{Q}_{irr} = \sum_i \left( r\Sigma u^\phi T \right)_{i,a} \psi_{Q,i} \ .
+\end{equation}
+
+Figure \ref{fi:diss} shows the radial profiles of $\Delta S$, $\psi_Q$, $\dot{Q}_{irr}$, and $\dot{Q}_{cool}$ for the fiducial minidisc.  Note that $\dot{Q}_{irr}$ ignores heating (cooling) due to adiabatic compression (expansion).  We find $\psi_Q \sim$ a few $10^{-1}$.
+
+\begin{figure}
+\plotone{figs/q011_m3_diss_r.png}
+\caption{\label{fi:diss} Radial profiles of shock quantities in the fiducial run.  From top to bottom the entropy jump $\De s$, $\psi_Q$, and irreversible heating $\dot{Q}_{irr}$ and cooling $\dot{Q}_{cool}$.}
+\end{figure}
 
 \subsection{Angular Momentum Transport}
 \label{subsec:angmom}
+
+Dissipation in the fluid flow is an (inevitable?) sign of angular momentum transport, and hence accretion. Indeed in every simulation under consideration the accretion rate through the inner boundary (into the black hole) was matched by the accretion rate through the outer boundary (matter injection from the nozzle).  A quasi-equilibrium, where the inner and outer accretion rates match, typically occurred within a few ($<10$) $T_{bin}$. 
+
+The relative strength of an accretion flow is typically measured by determining an effective Shakura-Sunyaev (or Novikov-Thorne) $\al$-parameter.  The gravitational forces of the companion, plus the global character of the shocks providing the dissipation, make $\al_{eff}$ a somewhat fuzzy notion.  We present two measures of $\al_{eff}$.  First, following (CITE STONE CV), we calculate the $\al$ required at each radii for a Novikov-Thorne disc of the same average temperature and accretion rate.  Second, (CITE RAFIKOV) determines for shocked Newtonian discs $\al_{eff} \sim \psi_Q / 3\pi$.  We take this same prescription without modification, as $\psi_Q$ is a scalar quantity and hence frame independent.  
+
+The radial profiles of both $\al_{\dot{M}}$ and $\al_{\dot{Q}}$ are plotted in Fig \ref{fi:alpha} for the fiducial run.  We see they are broadly similar across the disc, except near the ISCO at $r=6M$ where $\al_{\dot{M}}$ diverges.  Both indicate 
+
+\begin{figure}
+\plotone{figs/q011_m3_alpha_r.png}
+\caption{\label{fi:alpha} Radial profile of effective $\al$ parameters in the fiducial run measured from the accretion rate $\al_{\dot{M}}$ (blue) and the local dissipation $\al_{\dot{Q}}$ (orange).}
+\end{figure}
+
 
 
 
