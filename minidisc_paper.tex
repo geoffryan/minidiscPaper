@@ -35,6 +35,9 @@
 
 \newcommand{\OO}{\mathcal{O}}
 
+\newcommand{\ave}[1]{\left \langle #1 \right \rangle}
+\newcommand{\aveRe}[1]{\left [ #1 \right ]}
+
 \begin{document}
 
 \title{Minidiscs in Circumbinary Black Hole Accretion}
@@ -297,7 +300,7 @@ Shocks, of course, are intrinsically non-linear perturbations to a fluid flow.  
 In Figure \ref{fi:disp} we plot the pitch angle of shocks found in the minidisc calculations against the average Mach number of each annulus. The pitch angle is determined by first identifying at each radius the angular position of the two greatest peaks in $\Sigma(r)$, giving $\Phi_i(r)$, where $i=A,B$ identifies the particular shock. Then $\tan \theta_i$ is calculated by numerically differencing $\Phi_i(r)$. We find good agreement between the numerically calculated pitch angles and the theoretical relationship $\eqref{eq:dispRelPitch}$, indicating the shocks propagate mostly in the linear regime.
 
 \begin{figure}
-\plotone{figs/q011_m3_tanq_mach.png}
+\plotone{figs/q011_m3_tanq_mach.pdf}
 \caption{\label{fi:disp} Dispersion relation for spiral waves in the fiducial run. Blue and orange crosses correspond to the primary and secondary shock, respectively.  Grey line is the prediction for tightly wound waves from the WKB approximation.}
 \end{figure}
 
@@ -330,12 +333,34 @@ Dissipation in the fluid flow is an (inevitable?) sign of angular momentum trans
 
 The relative strength of an accretion flow is typically measured by determining an effective Shakura-Sunyaev (or Novikov-Thorne) $\al$-parameter.  The gravitational forces of the companion, plus the global character of the shocks providing the dissipation, make $\al_{eff}$ a somewhat fuzzy notion.  We present two measures of $\al_{eff}$.  First, following (CITE STONE CV), we calculate the $\al$ required at each radii for a Novikov-Thorne disc of the same average temperature and accretion rate.  Second, (CITE RAFIKOV) determines for shocked Newtonian discs $\al_{eff} \sim \psi_Q / 3\pi$.  We take this same prescription without modification, as $\psi_Q$ is a scalar quantity and hence frame independent.  
 
-The radial profiles of both $\al_{\dot{M}}$ and $\al_{\dot{Q}}$ are plotted in Fig \ref{fi:alpha} for the fiducial run.  We see they are broadly similar across the disc, except near the ISCO at $r=6M$ where $\al_{\dot{M}}$ diverges.  Both indicate 
+The radial profiles of both $\al_{\dot{M}}$ and $\al_{\dot{Q}}$ are plotted in Fig \ref{fi:alpha} for the fiducial run.  We see they are broadly similar across the disc, except near the ISCO at $r=6M$ where $\al_{\dot{M}}$ diverges.  
 
 \begin{figure}
-\plotone{figs/q011_m3_alpha_r.png}
+\plotone{figs/q011_m3_alpha_r.pdf}
 \caption{\label{fi:alpha} Radial profile of effective $\al$ parameters in the fiducial run measured from the accretion rate $\al_{\dot{M}}$ (blue) and the local dissipation $\al_{\dot{Q}}$ (orange).}
 \end{figure}
+
+A more detailed comparison between accretion and shock dissipation can be made by analyzing the angular momentum transport itself.  Defining angular integrated quantities as: $\ave{\cdot} = \int \dd \phi \sqrt{-g} (\cdot)$, we can write the angular integrated continuity and angular momentum equations \eqref{eq:GRHD} in a coordinate frame:
+\begin{align}
+	\partial_t \ave{\Sig u^0} + \partial_r \ave{\Sig u^r} &= 0 \ ,\label{eq:aveAng}\\
+	\partial_t \ave{\Sig h u^0 u_\phi} + \partial_r \ave{\Sig h u^r u_\phi} &= \ave{f_\phi}- \ave{u_\phi \dot{Q}_{cool}} \ .\nonumber
+\end{align} 
+We can decompose \eqref{eq:aveAng} by factoring out the continuity equation.  First define:
+\begin{align*}
+	\aveRe{\Sig h u^0 u_\phi} &= \ave{\Sig h u^0 u_\phi} - \ave{\Sig u^0}\ave{\overline{h u_\phi}} \ , \\
+	\ave{\overline{h u_\phi}} &= \frac{1}{2\pi} \ave{h u_\phi} \ .
+\end{align*}
+We can then write angular momentum conservation as:
+\begin{equation}
+	\ave{\Sig u^\mu} \partial_\mu \ave{\overline{h u_\phi}} + \partial_\mu \aveRe{\Sig h u^\mu u_\phi} =  \ave{f_\phi}- \langle u_\phi \dot{Q}_{cool} \rangle \ , 
+\end{equation}
+or
+\begin{equation}
+	\partial_t \ave{T^0_\phi} = -\dot{M} \partial_r \ave{\overline{h u_\phi}} -  \partial_r \aveRe{\Sig h u^r u_\phi} +  \ave{f_\phi}- \langle u_\phi \dot{Q}_{cool} \rangle \ . \label{eq:angMomDecom}
+\end{equation} 
+Equation \eqref{eq:angMomDecom} decomposes the rate of change of angular momentum into four contributions: accretion, Reynolds-type stress, external torques, and cooling respectively.
+
+
 
 
 
