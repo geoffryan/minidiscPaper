@@ -316,7 +316,7 @@ To locate shocked gas in the simulation output we employ a relativistic shock de
 
 We locate shocking gas at each annulus of the computational grid and compute the jump in specific entropy $\Delta s_i = s_{i,b} - s_{i,a}$ over each shock.  The specific irreversible heating is $\propto \psi_Q \equiv \exp{(\Delta s_i)} - 1$ (CITE RAFIKOV).  The irreversible heating at each annulus in the limit of small radial velocity is:
 \begin{equation}
-	\dot{Q}_{irr} = \sum_i \left( r\Sigma u^\phi T \right)_{i,a} \psi_{Q,i} \ .
+	\dot{Q}_{irr} = \sum_i \left( r\Sigma u^\phi T \right)_{i,a} \psi_{Q,i} \ . \label{eq:QirrRaf}
 \end{equation}
 
 Figure \ref{fi:diss} shows the radial profiles of $\Delta S$, $\psi_Q$, $\dot{Q}_{irr}$, and $\dot{Q}_{cool}$ for the fiducial minidisc.  Note that $\dot{Q}_{irr}$ ignores heating (cooling) due to adiabatic compression (expansion).  We find $\psi_Q \sim$ a few $10^{-1}$.
@@ -361,7 +361,29 @@ or
 \end{align} 
 Equation \eqref{eq:angMomDecom} decomposes the rate of change of angular momentum into four contributions: accretion ($\tau_{\dot{M}}$), Reynolds-type stress ($\tau_{Re}$), external torques ($\tau_{ext}$), and cooling ($\tau_{cool}$).  Accretion torque is due to the bulk flow of gas over a radially-varying specific angular momentum profile. The Reynolds torque is due to non-axisymmetric structures in the flow, particularly varying azimuthal profiles of radial mass flux and specific angular momentum. External torques in our case are completely due to the presence of the binary companion. The cooling torque $\tau_{cool}$ is a purely relativistic effect, representing the loss of energy to photons. It is small so long as the rest-mass energy density is greater than the thermal energy of the gas.
 
+Each of these torques can be measured directly from DISCO output.  The Reynolds torque $\tau_{Re}$ in particular measures precisely the effect of spiral shocks on angular momentum transport.  One can also estimate the torque due to spiral shocks from $\psi_Q$ directly (CITE RAFIKOV):
+\begin{equation}
+	\tau_{irr} = \frac{\dot{Q}_{irr}}{u^\phi - u^0 \Om_P} \ . \label{eq:tauRaf}
+\end{equation}
+Alternately, one can ask what sort of local angular momentum flux could account for the accretion and shock heating in an azimuthally averaged sense (such as an $\al$-viscosity).  Such a flux would be an addition $t^{\mu\nu}$ to the gas stress energy tensor.  Assuming, like the viscous stress tensor, $u_\mu t^{\mu\nu}_{non-id} = 0$ the energy and angular momentum conservation equations are modified to:
+\begin{align}
+	&\partial_t \ave{\Sig \eps u^\mu} + \partial_r \ave{\Sig \eps u^r} = \ave{\Pi \nabla_\mu u^\mu} - \dot{Q}_{cool} + \ave{t^{\mu\nu} \nabla_\mu u_\nu} \ ,\\
+	&\partial_t \ave{\Sig h u^0 u_\phi + t^0_\phi} + \partial_r \ave{\Sig h u^r u_\phi + t^r_\phi} = \ave{f_\phi} \ .
+\end{align}
+Identifying $\ave{t^{\mu\nu} \nabla_\mu u_\nu} \sim \ave{t^r_\phi \partial_r u_\phi}$ with $\ave{\dot{Q}_{irr}}$, one gets the relation:
+\begin{equation}
+	\tau_{t} = \partial_r \ave{t^r_\phi} \approx \partial_r \left(\frac{\dot{Q}_{irr}}{\ave{\partial_r u^\phi}} \right)\ . \label{eq:tauLoc}
+\end{equation}
+Such a local model neglects the global structure of spiral shock waves but may be interesting on the basis of comparison,  especially since it is the root of the $\alpha$-prescription.
 
+We compare the predicted torque due to spiral shocks eq \eqref{eq:tauRaf} to the measured $\tau_{Re}$ and $\tau_{\dot{M}}$ in Fig \ref{fi:torque}.  The measured torques are calculated by azimuthally integrating grid quantities and centred differencing in $r$ when necessary.  The predicted torques due to irreversible shock heating, on the other hand, are calculated directly from the entropy jump $\De s$ measured to calculate $\psi_Q$.  The prediction follows a very similar profile to the measured torques, but underestimates them by a factor $\lesssim 2$.  
+
+%There are many possible explanations for the difference.  Equations \eqraf{eq:QirrRaf} and \eqref{eq:tauRaf} in their original context were derived in a Newtonian context for tightly wound waves with negligible radial velocity.  Although the relativistic generalization is straightforward, the inner part of the minidisc show perhaps sufficient radial velocity to affect the entropy production at the shock fronts.  On the other hand, 
+
+\begin{figure}
+	\plotone{figs/q011_m3_torque_r.pdf}
+	\caption{\label{fi:torque} Measured accretion torque $\tau_{\dot{M}}$ (black crosses), Reynolds torque $\tau_{Re}$ (blue crosses), predicted torque from spiral shocks $\tau_{irr}$ (eq. \eqref{eq:tauRaf}, red crosses), and predicted torque from local dissipation $\tau_t$ (eq. \eqref{eq:tauLoc}, orange crosses) for the fiducial run after 28 orbits.}  
+\end{figure}
 
 %%%%%%
 % Discussion %
