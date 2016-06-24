@@ -347,7 +347,7 @@ A more detailed comparison between accretion and shock dissipation can be made b
 \end{align} 
 We can decompose \eqref{eq:aveAng} by factoring out the continuity equation.  First define:
 \begin{align*}
-	\aveRe{\Sig h u^0 u_\phi} &= \ave{\Sig h u^0 u_\phi} - \ave{\Sig u^0}\ave{\overline{h u_\phi}} \ , \\
+	\aveRe{\Sig h u^\mu u_\phi} &= \ave{\Sig h u^\mu u_\phi} - \ave{\Sig u^\mu}\ave{\overline{h u_\phi}} \ , \\
 	\ave{\overline{h u_\phi}} &= \frac{1}{2\pi} \ave{h u_\phi} \ .
 \end{align*}
 We can then write angular momentum conservation as:
@@ -355,13 +355,11 @@ We can then write angular momentum conservation as:
 	\ave{\Sig u^\mu} \partial_\mu \ave{\overline{h u_\phi}} + \partial_\mu \aveRe{\Sig h u^\mu u_\phi} =  \ave{f_\phi}- \langle u_\phi \dot{Q}_{cool} \rangle \ , 
 \end{equation}
 or
-\begin{equation}
-	\partial_t \ave{T^0_\phi} = -\dot{M} \partial_r \ave{\overline{h u_\phi}} -  \partial_r \aveRe{\Sig h u^r u_\phi} +  \ave{f_\phi}- \langle u_\phi \dot{Q}_{cool} \rangle \ . \label{eq:angMomDecom}
-\end{equation} 
-Equation \eqref{eq:angMomDecom} decomposes the rate of change of angular momentum into four contributions: accretion, Reynolds-type stress, external torques, and cooling respectively.
-
-
-
+\begin{align}
+	\partial_t \ave{T^0_\phi} &= -\dot{M} \partial_r \ave{\overline{h u_\phi}} -  \partial_r \aveRe{\Sig h u^r u_\phi} +  \ave{f_\phi}- \langle u_\phi \dot{Q}_{cool} \rangle \ , \nonumber \\
+	&\equiv \tau_{\dot{M}} + \tau_{Re} + \tau_{ext} + \tau_{cool} \ . \label{eq:angMomDecom}
+\end{align} 
+Equation \eqref{eq:angMomDecom} decomposes the rate of change of angular momentum into four contributions: accretion ($\tau_{\dot{M}}$), Reynolds-type stress ($\tau_{Re}$), external torques ($\tau_{ext}$), and cooling ($\tau_{cool}$).  Accretion torque is due to the bulk flow of gas over a radially-varying specific angular momentum profile. The Reynolds torque is due to non-axisymmetric structures in the flow, particularly varying azimuthal profiles of radial mass flux and specific angular momentum. External torques in our case are completely due to the presence of the binary companion. The cooling torque $\tau_{cool}$ is a purely relativistic effect, representing the loss of energy to photons. It is small so long as the rest-mass energy density is greater than the thermal energy of the gas.
 
 
 
