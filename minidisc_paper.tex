@@ -267,6 +267,7 @@ Because of the dimensionfull parameters in \eqref{eq:BBcooling} the structure of
 
 %%% Shock Detection %%%
 \subsection{Shock Detection}
+\label{subsec:shockDet}
 
 To characterize the role of spiral shocks we first must find them in the simulation output.  We use a modified version of the relativistic shock detector presented in \citep{Zanotti10}.  The basic algorithm classifies adjacent zones (say in the $\phi$ direction) by considering the Riemann problem at their interface.  Interfaces are classified as shocks if the Riemann problem solution requires at least one shock.  We find this to be too sensitive a criteria, so we add additional constraints for an interface to be considered a shock.
 
@@ -286,7 +287,26 @@ Our full shock detector algorithm runs on each annulus of the computational grid
 
 The final output of the shock detector is the position $\Phi(r)$ for the leading and trailing edge of both shock waves at each annulus of the computational grid.
 
-\subsection{Torque Decomposition}
+\subsection{Wave Propagation}
+
+A linear perturbation to a fluid quantity of azimuthal mode $m$ and pattern speed $\Omega_P$ can be written as:
+\begin{equation}
+	\delta X(t, r, \phi) = A_{m,\omega}(r) \exp \left( i \int_r k(r) \dd r  + i m (\phi \Omega_P t) \right)\ . \label{eq:pert}
+\end{equation}
+Such perturbations are spirals with pitch angle $\tan \theta = m / k r$. The hydro equations for such a mode reduce to a system of ODEs in the radial coordinate $r$.  In the `tight winding' limit $k' / k \gg A'/A$, the perturbation is highly oscillatory, and the WKB approximation may be used to yield the well-known (CITE BinneyTreamaine) dispersion relation for tightly wound waves in a gaseous disc:
+\begin{equation}
+	\Omega^2 - m^2(\Omega-\Omega_P)^2 + c_s^2 k^2 = 0 \ . \label{eq:dispNewt}
+\end{equation}
+A generalization of \eqref{eq:dispNewt} to a disc in the Schwarzschild metric is straightforward. Keeping \eqref{eq:pert} as the definition of a perturbation quantity, the same process used to derive \eqref{eq:dispNewt} can be applied to the relativistic hydro equations \eqref{eq:GRHD}. The state to perturb around is a constant density, isentropic disc with fluid velocity \eqref{eq:Ugeo}.  Assuming the disc is cold ($c_s \ll 1$) then leads to the relativistic dispersion relation:
+\begin{equation}
+	\frac{1-6M/r}{1-2M/r}\left(U^\phi\right)^2 - m^2(U^\phi-U^0\Omega_P)^2 + \left(1-2M/r\right) c_s^2 k^2 = 0 \ . \label{eq:dispRel}
+\end{equation}
+In Schwarzschild coordinates the perturbation remains a spiral with the same opening angle as in the Newtonian case.  The dispersion relation can be solved for the radial wave number $k$ yielding:
+\begin{align}
+	\tan \theta &= \left( \frac{r U^\phi}{c_s} \right)^{-1} \left(1-\frac{2M}{r}\right)^{\frac{1}{2}} \label{eq:dispRelPitch} \\ \nonumber
+		&\times \left(\left(1- \frac{U^0 \Omega_P}{U^\phi}\right)^2 - \frac{1}{m^2}\frac{1-6M/r}{1-2M/r}\right)^{-\frac{1}{2}}\ . 
+\end{align}
+Shocks, of course, are intrinsically non-linear perturbations to a fluid flow.  Weak shocks, however, travel very near the local sound speed and can be approximated as linear waves.  The degree to which spiral shocks in the minidiscs satisfy \eqref{eq:dispRelPitch} can be used to gauge their non-linearity.  
 
 %%%%%
 %Section 5 - Results
@@ -320,7 +340,7 @@ We take as the $\dot{M} = 2 \times 10^{-3} M_\odot / y$ model as our fiducial ru
 
 \begin{figure}
 \plotone{figs/q011_m3_sig_0500.png}
-\caption{\label{fi:sig-fid-8} As Fig. \ref{fi:sig-fid-0}, but at $t = 5 T_{orb}$}
+\caption{\label{fi:sig-fid-5} As Fig. \ref{fi:sig-fid-0}, but at $t = 5 T_{orb}$}
 \end{figure}
 
 \begin{figure}
@@ -328,42 +348,33 @@ We take as the $\dot{M} = 2 \times 10^{-3} M_\odot / y$ model as our fiducial ru
 \caption{\label{fi:sig-fid-13} As Fig. \ref{fi:sig-fid-0}, but at $t = 13 T_{orb}$}
 \end{figure}
 
-After 8 orbits the accretion rate through the disc becomes comparable to the stream.  For the next 8 orbits a complicated and turbulent interaction occurs between the disc and stream.  The stream begins wobbling and sending gas to the disc in clumps.  Clumps execute and orbit of the black hole and collide with original stream causing it to wobble further.  The spiral shocks retain their structure through the turbulent accretion (Fig \ref{fi:sig-fid-13}).
+At $t\sim 8 T_{orb}$ the accretion rate through the disc becomes comparable to the stream.  For the next 8 orbits a complicated and turbulent interaction occurs between the disc and stream.  The stream begins wobbling and sending gas to the disc in clumps.  Clumps execute and orbit of the black hole and collide with original stream causing it to wobble further.  The spiral shocks retain their structure through the turbulent accretion (Fig \ref{fi:sig-fid-13}).
 
-At $T~17 T_{orb}$ the disc-stream interaction stabilizes and the disc reaches a quasi-steady state.  The accretion rate through the inner boundary matches the inflow rate through the outer boundary and the two-armed spiral shocks lock into a constant pattern.  Small-scale flows still occur as gas slowly redistributes within the disc, relaxing to a true steady state.  The simulation ends at $T~30 T_{orb}$ (Fig \ref{fi:sig-fid-28}), before this secular evolution ends.
+At $t\sim17 T_{orb}$ the disc-stream interaction stabilizes and the disc reaches a quasi-steady state.  The accretion rate through the inner boundary matches the inflow rate through the outer boundary and the two-armed spiral shocks lock into a constant pattern.  Small-scale flows still occur as gas slowly redistributes within the disc, relaxing to a true steady state.  The simulation ends at $T\sim30 T_{orb}$ (Fig \ref{fi:sig-fid-28}), before this secular evolution ends.
 
 \begin{figure*}
 \plotone{figs/q011_m3_sig_2800.png}
-\caption{\label{fi:sig-fid-13} As Fig. \ref{fi:sig-fid-0}, but at $t = 28 T_{orb}$}
+\caption{\label{fi:sig-fid-28} As Fig. \ref{fi:sig-fid-0}, but at $t = 28 T_{orb}$}
 \end{figure*}
 
 \subsection{Wave Propagation}
-\label{subsec:prop}
+\label{subsec:res-prop}
 
-A linear perturbation to a fluid quantity of azimuthal mode $m$ and pattern speed $\Omega_P$ can be written as:
+As a first diagnostic we check whether the two-armed spiral shocks adhere to the dispersion relation for tightly wound linear waves \eqref{eq:dispRelPitch}.  The shock detector (see Sec. \ref{subsec:shockDet}) returns the azimuthal coordinates of the leading $\Phi_{i,lead}(r)$ and trailing $\Phi_{i,trail}(r)$ edge of each shock $i=A,B$.  We consider the centre of each shock $\Phi_i = (\Phi_{i,lead} + \Phi_{i,trail}) / 2$.  The pitch angle of a spiral $\Phi(r)$ is:
 \begin{equation}
-	\delta X(t, r, \phi) = A_{m,\omega}(r) \exp \left( i \int_r k(r) \dd r  + i m (\phi \Omega_P t) \right)\ . \label{eq:pert}
+	\tan \theta = -\frac{1}{r \Phi'(r)} \ . \label{eq:deftanp} 
 \end{equation}
-Such perturbations are spirals with pitch angle $\tan \theta = m / k r$. The hydro equations for such a mode reduce to a system of ODEs in the radial coordinate $r$.  In the `tight winding' limit $k' / k \gg A'/A$, the perturbation is highly oscillatory, and the WKB approximation may be used to yield the well-known (CITE BinneyTreamaine) dispersion relation for tightly wound waves in a gaseous disc:
-\begin{equation}
-	\Omega^2 - m^2(\Omega-\Omega_P)^2 + c_s^2 k^2 = 0 \ . \label{eq:dispNewt}
-\end{equation}
-A generalization of \eqref{eq:dispNewt} to a disc in the Schwarzschild metric is straightforward. Keeping \eqref{eq:pert} as the definition of a perturbation quantity, the same process used to derive \eqref{eq:dispNewt} can be applied to the relativistic hydro equations \eqref{eq:GRHD}. The state to perturb around is a constant density, isentropic disc with fluid velocity \eqref{eq:Ugeo}.  Assuming the disc is cold ($c_s \ll 1$) then leads to the relativistic dispersion relation:
-\begin{equation}
-	\frac{1-6M/r}{1-2M/r}\left(U^\phi\right)^2 - m^2(U^\phi-U^0\Omega_P)^2 + \left(1-2M/r\right) c_s^2 k^2 = 0 \ . \label{eq:dispRel}
-\end{equation}
-In Schwarzschild coordinates the perturbation remains a spiral with the same opening angle as in the Newtonian case.  The dispersion relation can be solved for the radial wave number $k$ yielding:
+We compute $\tan \theta_i$ for each shock according to \eqref{eq:deftanp} by performing a numerical centred difference on $\Phi_i(r)$.  At each radius we compute the average mach number $\mathcal{M}$ as:
 \begin{align}
-	\tan \theta &= \left( \frac{r U^\phi}{c_s} \right)^{-1} \left(1-\frac{2M}{r}\right)^{\frac{1}{2}} \label{eq:dispRelPitch} \\ \nonumber
-		&\times \left(\left(1- \frac{U^0 \Omega_P}{U^\phi}\right)^2 - \frac{1}{m^2}\frac{1-6M/r}{1-2M/r}\right)^{-\frac{1}{2}}\ . 
+	\langle \mathcal{M} \rangle &=  \frac{|u|}{c_s / \sqrt{1-c_s^2}} \ , \\
+	\text{where: } |u| &= \sqrt{\gamma_{\mu\nu} \langle u^\mu \rangle  \langle u^\nu \rangle} \nonumber \ .
 \end{align}
-Shocks, of course, are intrinsically non-linear perturbations to a fluid flow.  Weak shocks, however, travel very near the local sound speed and can be approximated as linear waves.  The degree to which spiral shocks in the minidiscs satisfy \eqref{eq:dispRelPitch} can be used to gauge their non-linearity.  
 
-In Figure \ref{fi:disp} we plot the pitch angle of shocks found in the minidisc calculations against the average Mach number of each annulus. The pitch angle is determined by first identifying at each radius the angular position of the two greatest peaks in $\Sigma(r)$, giving $\Phi_i(r)$, where $i=A,B$ identifies the particular shock. Then $\tan \theta_i$ is calculated by numerically differencing $\Phi_i(r)$. We find good agreement between the numerically calculated pitch angles and the theoretical relationship $\eqref{eq:dispRelPitch}$, indicating the shocks propagate mostly in the linear regime.
+In Figure \ref{fi:disp} we plot the pitch angle of shocks found in the minidisc calculations against the average Mach number of each annulus. We find good agreement between the numerically calculated pitch angles and the theoretical relationship $\eqref{eq:dispRelPitch}$, indicating the shocks propagate mostly in the linear regime.
 
 \begin{figure}
-\plotone{figs/q011_m3_tanq_mach.pdf}
-\caption{\label{fi:disp} Dispersion relation for spiral waves in the fiducial run. Blue and orange crosses correspond to the primary and secondary shock, respectively.  Grey line is the prediction for tightly wound waves from the WKB approximation.}
+\plotone{figs/q011_all_tanq_mach.pdf}
+\caption{\label{fi:disp} Pitch angle versus average Mach number for Model 1 (blue circles), Model 2 (orange crosses), and Model 3 (green triangles). Lines are the analytic prediction from the dispersion relation for tightly wound linear waves for Model 1 (solid), Model 2 (dashed), and Model 3 (dotted).}
 \end{figure}
 
 % Calculate difference between true value and analytic? Plot as function of r?
