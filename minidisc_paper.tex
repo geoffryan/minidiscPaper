@@ -256,23 +256,85 @@ Although the inner boundary is outside the event horizon of the secondary, we fi
 
 Because of the dimensionfull parameters in \eqref{eq:BBcooling} the structure of minidiscs will qualitatively differ as $\dot{M}$ is varied.  As such we consider several values of $\dot{M}$ and several values of $q$.  The lowest value of $\dot{M}$ corresponds to the discs considered in \cite{Farris14}, where the initial disc profile had $\mathcal{M}(a) = 32$.  We then step in factors of 10 over four orders of magnitude.  We consider mass ratios $q = 0.11, 0.43, 1.0$.
 
+
 %%%%%
-%Section 4 - Results
+%Section 4 - Analysis
 %%%%%
+
+\section{Analysis}
+\label{sec:analysis}
+
+
+%%% Shock Detection %%%
+\subsection{Shock Detection}
+
+To characterize the role of spiral shocks we first must find them in the simulation output.  We use a modified version of the relativistic shock detector presented in \citep{Zanotti10}.  The basic algorithm classifies adjacent zones (say in the $\phi$ direction) by considering the Riemann problem at their interface.  Interfaces are classified as shocks if the Riemann problem solution requires at least one shock.  We find this to be too sensitive a criteria, so we add additional constraints for an interface to be considered a shock.
+
+In the simple algorithm first the relative normal velocity $v_{12}$ is calculated.  Assuming $\phi$-separated cells $1$ and $2$ with $\Pi_1 > \Pi_2$ this is:
+\begin{equation}
+	v_{12} = \frac{v^{\hat{\phi}}_1 - v^{\hat{\phi}}_2}{1 - v^{\hat{\phi}}_1 v^{\hat{\phi}}_2} \ . \label{eq:vrel}
+\end{equation}
+In the above $v^{\hat{\phi}}$ is the azimuthal 3-velocity in an orthonormal frame. The relative velocity $v_{12}$ is compared to the critical velocity $(\tilde{v}_{12})_{\mathcal{R} \mathcal{S}}$:
+\begin{equation}
+	(v_{12})_{\mathcal{R}\mathcal{S}} = \tanh \int_{\Pi_1}^{\Pi_2} \frac{\sqrt{h(\Pi)^2 + \mathcal{A}_12(1-c_s(\Pi)^2)}}{(h(\Pi)^2 + \mathcal{A}_1^2)(\Sig(\Pi) c_s(\Pi)} \dd \Pi \ . \label{eq:vrs}
+\end{equation}  
+In the integral in \eqref{eq:vrs}, thermodynamic quantities $h$, $c_s$, and $\Sig$ are calculated at the specific entropy $s_1$ of cell 1 and $\mathcal{A}_1 = h_1 u_1^{\hat{r}}$.  This velocity is the largest normal velocity that a single rarefaction wave can provide between cells 1 and 2    \citep{Rezzolla03}.  If $v_{12} > (\tilde{v}_{12})_{\mathcal{R}\mathcal{S}}$ a shock is necessarily present.
+
+We find the criteria $v_{12} > (\tilde{v}_{12})_{\mathcal{R}\mathcal{S}}$ alone far too sensitive, so to consider an interface a shock we require $v_{12} - (\tilde{v}_{12})_{\mathcal{R}\mathcal{S}} > \Delta v_{amb}$, where $\Delta v_{amb}$ is a threshold value.  Lastly we require the specific entropy to increase in the direction of the flow: $u^\phi \partial_\phi s > 0$.
+
+Our full shock detector algorithm runs on each annulus of the computational grid.  Since the shocks tend to have small pitch angles they have small radial width but may extend over a few zones azimuthally.  The algorithm identifies all zones in the annulus separated by a shock via our criteria above and groups them into contiguous segments.  The two segments with the largest values of $v_{12} -  (\tilde{v}_{12})_{\mathcal{R}\mathcal{S}} $ are classified as the shocks. The threshold $\Delta v_{amb}$ is set for each annulus to be the larger of $0$ or the fourth largest maxima of $v_{12} -  (\tilde{v}_{12})_{\mathcal{R}\mathcal{S}} $. We find this value to have good discriminatory power for these runs, picking out the shocks but ignoring the ambient flow.
+
+The final output of the shock detector is the position $\Phi(r)$ for the leading and trailing edge of both shock waves at each annulus of the computational grid.
+
+\subsection{Torque Decomposition}
+
+%%%%%
+%Section 5 - Results
+%%%%%
+
 
 \section{Results}
 \label{sec:results}
 
-Each model was run for 30 $T_{bin}$ on the Pleiades cluster at NASA AMES.
+Each model was run for 30 $T_{bin}$ on the Pleiades cluster at NASA AMES...
 
 \subsection{Fiducial Run}
 \label{subsec:fiducial}
 
-Here's a disc Fig \ref{fi:sig}.
+We take as the $\dot{M} = 2 \times 10^{-3} M_\odot / y$ model as our fiducial run.  The initial disc has a surface density much higher than the stream from $L2$ (Fig \ref{fi:sig-fid-0}).  In the first orbit the initial disc develops its own tightly wound two-armed spiral as the gas in the outer radii is flung away.  The two-armed spiral begins tightly wound and diffuse, but quickly sharpens into a shock and begins to open as the disc heats (Fig \ref{fi:sig-fid-1}).  Some gas flung to the boundary falls back, and accretion proceeds in clumps for the first two orbits (Fig \ref{fi:sig-fid-2}).  After two orbits the bulk of the initial disc has either been accreted or thrown out the outer boundary.  As the remaining disc accretes it becomes more diffuse, cools, the spiral shocks tighten, and the accretion rate drops (Fig \ref{fi:sig-fid-5}).
+
+\begin{figure}
+\plotone{figs/q011_m3_sig_0000.png}
+\caption{\label{fi:sig-fid-0} Initial surface density for fiducial minidisc.  Magenta dashed lines are level curves of the Roche potential corresponding to the L1 and L2 Lagrange points.}
+\end{figure}
+
+\begin{figure}
+\plotone{figs/q011_m3_sig_0100.png}
+\caption{\label{fi:sig-fid-1} As Fig. \ref{fi:sig-fid-0}, but at $t = T_{orb}$}
+\end{figure}
+
+\begin{figure}
+\plotone{figs/q011_m3_sig_0200.png}
+\caption{\label{fi:sig-fid-2} As Fig. \ref{fi:sig-fid-0}, but at $t = 2 T_{orb}$}
+\end{figure}
+
+\begin{figure}
+\plotone{figs/q011_m3_sig_0500.png}
+\caption{\label{fi:sig-fid-8} As Fig. \ref{fi:sig-fid-0}, but at $t = 5 T_{orb}$}
+\end{figure}
+
+\begin{figure}
+\plotone{figs/q011_m3_sig_1300.png}
+\caption{\label{fi:sig-fid-13} As Fig. \ref{fi:sig-fid-0}, but at $t = 13 T_{orb}$}
+\end{figure}
+
+After 8 orbits the accretion rate through the disc becomes comparable to the stream.  For the next 8 orbits a complicated and turbulent interaction occurs between the disc and stream.  The stream begins wobbling and sending gas to the disc in clumps.  Clumps execute and orbit of the black hole and collide with original stream causing it to wobble further.  The spiral shocks retain their structure through the turbulent accretion (Fig \ref{fi:sig-fid-13}).
+
+At $T~17 T_{orb}$ the disc-stream interaction stabilizes and the disc reaches a quasi-steady state.  The accretion rate through the inner boundary matches the inflow rate through the outer boundary and the two-armed spiral shocks lock into a constant pattern.  Small-scale flows still occur as gas slowly redistributes within the disc, relaxing to a true steady state.  The simulation ends at $T~30 T_{orb}$ (Fig \ref{fi:sig-fid-28}), before this secular evolution ends.
 
 \begin{figure*}
-\plotone{figs/q011_m3_sig.png}
-\caption{\label{fi:sig} Surface density for fiducial minidisc after 28 orbits.  Magenta dashed lines are level curves of the Roche potential corresponding to the L1 and L2 Lagrange points.}
+\plotone{figs/q011_m3_sig_2800.png}
+\caption{\label{fi:sig-fid-13} As Fig. \ref{fi:sig-fid-0}, but at $t = 28 T_{orb}$}
 \end{figure*}
 
 \subsection{Wave Propagation}
