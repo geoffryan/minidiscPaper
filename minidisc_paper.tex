@@ -36,7 +36,9 @@
 \newcommand{\OO}{\mathcal{O}}
 
 \newcommand{\ave}[1]{\left \langle #1 \right \rangle}
-\newcommand{\aveRe}[1]{\left [ #1 \right ]}
+\newcommand{\avet}[1]{ \langle #1 \rangle}
+\newcommand{\aveRe}[1]{\left \langle #1 \right \rangle_{Re}}
+\newcommand{\aveRet}[1]{ \langle #1  \rangle_{Re}}
 
 \begin{document}
 
@@ -291,22 +293,50 @@ The final output of the shock detector is the position $\Phi(r)$ for the leading
 
 A linear perturbation to a fluid quantity of azimuthal mode $m$ and pattern speed $\Omega_P$ can be written as:
 \begin{equation}
-	\delta X(t, r, \phi) = A_{m,\omega}(r) \exp \left( i \int_r k(r) \dd r  + i m (\phi \Omega_P t) \right)\ . \label{eq:pert}
+	\delta X(t, r, \phi) = \tilde{X}_{m,\omega}(r) \exp \left( i \int_r k(r) \dd r  + i m (\phi - \Omega_P t) \right)\ . \label{eq:pert}
 \end{equation}
-Such perturbations are spirals with pitch angle $\tan \theta = m / k r$. The hydro equations for such a mode reduce to a system of ODEs in the radial coordinate $r$.  In the `tight winding' limit $k' / k \gg A'/A$, the perturbation is highly oscillatory, and the WKB approximation may be used to yield the well-known (CITE BinneyTreamaine) dispersion relation for tightly wound waves in a gaseous disc:
+Such perturbations are spirals with pitch angle:
+\begin{equation}
+	\tan \theta = m / k r \ . \label{eq:pitch}
+\end{equation}
+The hydro equations for such a mode reduce to a system of ODEs in the radial coordinate $r$.  In the `tight winding' limit $k \gg \tilde{X}'/\tilde{X}$, the perturbation is highly oscillatory, and the WKB approximation may be used to yield the well-known (CITE BinneyTreamaine) dispersion relation for tightly wound waves in a Newtonian gaseous disc:
 \begin{equation}
 	\Omega^2 - m^2(\Omega-\Omega_P)^2 + c_s^2 k^2 = 0 \ . \label{eq:dispNewt}
 \end{equation}
-A generalization of \eqref{eq:dispNewt} to a disc in the Schwarzschild metric is straightforward. Keeping \eqref{eq:pert} as the definition of a perturbation quantity, the same process used to derive \eqref{eq:dispNewt} can be applied to the relativistic hydro equations \eqref{eq:GRHD}. The state to perturb around is a constant density, isentropic disc with fluid velocity \eqref{eq:Ugeo}.  Assuming the disc is cold ($c_s \ll 1$) then leads to the relativistic dispersion relation:
+The generalization of \eqref{eq:dispNewt} to a disc in the Schwarzschild metric is straightforward \citep{Perez97}.  The background state is a steady thin disc of sound speed $c_s \ll 1$ and velocity given by \eqref{eq:Ugeo} in the region $r > r_{ISCO}$.  Assuming the perturbation is adiabatic, tightly wound, and neglecting vertical structure leads to the dispersion relation for relativistic $p$-modes \citep{Abramowicz13}:
 \begin{equation}
-	\frac{1-6M/r}{1-2M/r}\left(U^\phi\right)^2 - m^2(U^\phi-U^0\Omega_P)^2 + \left(1-2M/r\right) c_s^2 k^2 = 0 \ . \label{eq:dispRel}
+	\left(1-\frac{6M}{r} \right)\left(U^\phi\right)^2 - m^2(U^\phi-U^0\Omega_P)^2 + g_{rr} c_s^2 k^2 = 0 \ . \label{eq:disprel}
 \end{equation}
-In Schwarzschild coordinates the perturbation remains a spiral with the same opening angle as in the Newtonian case.  The dispersion relation can be solved for the radial wave number $k$ yielding:
+In Schwarzschild coordinates the perturbation remains a spiral with pitch angle \eqref{eq:pitch}.  The dispersion relation can be solved for the radial wave number $k$ yielding:
 \begin{align}
 	\tan \theta &= \left( \frac{r U^\phi}{c_s} \right)^{-1} \left(1-\frac{2M}{r}\right)^{\frac{1}{2}} \label{eq:dispRelPitch} \\ \nonumber
-		&\times \left(\left(1- \frac{U^0 \Omega_P}{U^\phi}\right)^2 - \frac{1}{m^2}\frac{1-6M/r}{1-2M/r}\right)^{-\frac{1}{2}}\ . 
+		&\times \left(\left(1- \frac{U^0 \Omega_P}{U^\phi}\right)^2 - \frac{1}{m^2}\left(1-\frac{6M}{r}\right)\right)^{-\frac{1}{2}}\ . 
 \end{align}
 Shocks, of course, are intrinsically non-linear perturbations to a fluid flow.  Weak shocks, however, travel very near the local sound speed and can be approximated as linear waves.  The degree to which spiral shocks in the minidiscs satisfy \eqref{eq:dispRelPitch} can be used to gauge their non-linearity.  
+
+\subsection{Angular Momentum Decomposition}
+\label{subsec:angMomDecom}
+
+A detailed look at the angular momentum transport due to spiral shocks requires a decomposition of the various torques acting on the system. Defining angular integrated quantities as: $\avet{\cdot} = \int \dd \phi \sqrt{-g} (\cdot)$, we can write effective one dimensional continuity and angular momentum equations \eqref{eq:GRHD} in a coordinate frame:
+\begin{align}
+	\partial_t \ave{\Sig u^0} + \partial_r \ave{\Sig u^r} &= 0 \ ,\label{eq:aveAng}\\
+	\partial_t \ave{\Sig h u^0 u_\phi} + \partial_r \ave{\Sig h u^r u_\phi} &= \ave{f_\phi}- \ave{u_\phi \dot{Q}_{cool}} \ .\nonumber
+\end{align} 
+We can decompose \eqref{eq:aveAng} by separating the part that strictly obeys the continuity equation.  First define:
+\begin{align*}
+	\aveRe{\Sig h u^\mu u_\phi} &= \ave{\Sig h u^\mu u_\phi} - \ave{\Sig u^\mu} \ell \ , \\
+	\ell &= \frac{\ave{\Sig h u^0 u_\phi}}{\ave{\Sig u^0} } \ .
+\end{align*}
+We can then write angular momentum conservation as:
+\begin{equation}
+	\ave{\Sig u^\mu} \partial_\mu \ell + \partial_\mu \aveRe{\Sig h u^\mu u_\phi} =  \ave{f_\phi}- \langle u_\phi \dot{Q}_{cool} \rangle \ , 
+\end{equation}
+or
+\begin{align}
+	\ave{\Sig u^0} \partial_t \ell &= \dot{M} \partial_r \ell -  \partial_r \aveRe{\Sig h u^r u_\phi} +  \ave{f_\phi}- \langle u_\phi \dot{Q}_{cool} \rangle \ , \nonumber \\
+	&\equiv \tau_{\dot{M}} + \tau_{Re} + \tau_{ext} + \tau_{cool} \ . \label{eq:angMomDecom}
+\end{align} 
+Equation \eqref{eq:angMomDecom} decomposes the rate of change of angular momentum into four contributions: accretion ($\tau_{\dot{M}}$), Reynolds-type stress ($\tau_{Re}$), external torques ($\tau_{ext}$), and cooling ($\tau_{cool}$).  Accretion torque is due to the bulk flow of gas over a radially-varying specific angular momentum profile. The Reynolds torque is due to non-axisymmetric structures in the flow, particularly varying azimuthal profiles of radial mass flux and specific angular momentum. External torques in our case are completely due to the presence of the binary companion. The cooling torque $\tau_{cool}$ is a purely relativistic effect, representing the loss of energy to photons. It is small so long as the rest-mass energy density is greater than the thermal energy of the gas.
 
 %%%%%
 %Section 5 - Results
@@ -321,7 +351,12 @@ Each model was run for 30 $T_{bin}$ on the Pleiades cluster at NASA AMES...
 \subsection{Fiducial Run}
 \label{subsec:fiducial}
 
-We take as the $\dot{M} = 2 \times 10^{-3} M_\odot / y$ model as our fiducial run.  The initial disc has a surface density much higher than the stream from $L2$ (Fig \ref{fi:sig-fid-0}).  In the first orbit the initial disc develops its own tightly wound two-armed spiral as the gas in the outer radii is flung away.  The two-armed spiral begins tightly wound and diffuse, but quickly sharpens into a shock and begins to open as the disc heats (Fig \ref{fi:sig-fid-1}).  Some gas flung to the boundary falls back, and accretion proceeds in clumps for the first two orbits (Fig \ref{fi:sig-fid-2}).  After two orbits the bulk of the initial disc has either been accreted or thrown out the outer boundary.  As the remaining disc accretes it becomes more diffuse, cools, the spiral shocks tighten, and the accretion rate drops (Fig \ref{fi:sig-fid-5}).
+We take as the $\dot{M} = 2 \times 10^{-3} M_\odot / y$ model as our fiducial run.  The accretion rate through the inner ($r=4 M$) and outer ($r=r_{L2}$) boundaries is plotted as a function of time in Fig \ref{fi:mdot-fid}. The initial disc has a surface density much higher than the stream from $L2$ (Fig \ref{fi:sig-fid-0}).  In the first orbit the initial disc develops its own tightly wound two-armed spiral as the gas in the outer radii is flung away.  The two-armed spiral begins tightly wound and diffuse, but quickly sharpens into a shock and begins to open as the disc heats (Fig \ref{fi:sig-fid-05}).  Some gas flung to the boundary falls back, and accretion proceeds in clumps for the first two orbits (Fig \ref{fi:sig-fid-2}).  After two orbits the bulk of the initial disc has either been accreted or thrown out the outer boundary.  As the remaining disc accretes it becomes more diffuse, cools, the spiral shocks tighten, and the accretion rate drops (Fig \ref{fi:sig-fid-5}).
+
+\begin{figure}
+\plotone{figs/q011_m3_mdot.pdf}
+\caption{\label{fi:mdot-fid} Time series of the accretion rate measured as a fraction of the nozzle through the inner (blue crosses) and outer (oranges x's) boundaries of Model 2.}
+\end{figure}
 
 \begin{figure}
 \plotone{figs/q011_m3_sig_0000.png}
@@ -329,32 +364,32 @@ We take as the $\dot{M} = 2 \times 10^{-3} M_\odot / y$ model as our fiducial ru
 \end{figure}
 
 \begin{figure}
-\plotone{figs/q011_m3_sig_0100.png}
-\caption{\label{fi:sig-fid-1} As Fig. \ref{fi:sig-fid-0}, but at $t = T_{orb}$}
+\plotone{figs/q011_m3_sig_0050.png}
+\caption{\label{fi:sig-fid-05} As Fig. \ref{fi:sig-fid-0}, but at $t = 1/2\ T_{bin}$}
 \end{figure}
 
 \begin{figure}
 \plotone{figs/q011_m3_sig_0200.png}
-\caption{\label{fi:sig-fid-2} As Fig. \ref{fi:sig-fid-0}, but at $t = 2 T_{orb}$}
+\caption{\label{fi:sig-fid-2} As Fig. \ref{fi:sig-fid-0}, but at $t = 2 T_{bin}$}
 \end{figure}
 
 \begin{figure}
 \plotone{figs/q011_m3_sig_0500.png}
-\caption{\label{fi:sig-fid-5} As Fig. \ref{fi:sig-fid-0}, but at $t = 5 T_{orb}$}
+\caption{\label{fi:sig-fid-5} As Fig. \ref{fi:sig-fid-0}, but at $t = 5 T_{bin}$}
 \end{figure}
 
 \begin{figure}
 \plotone{figs/q011_m3_sig_1300.png}
-\caption{\label{fi:sig-fid-13} As Fig. \ref{fi:sig-fid-0}, but at $t = 13 T_{orb}$}
+\caption{\label{fi:sig-fid-13} As Fig. \ref{fi:sig-fid-0}, but at $t = 13 T_{bin}$}
 \end{figure}
 
-At $t\sim 8 T_{orb}$ the accretion rate through the disc becomes comparable to the stream.  For the next 8 orbits a complicated and turbulent interaction occurs between the disc and stream.  The stream begins wobbling and sending gas to the disc in clumps.  Clumps execute and orbit of the black hole and collide with original stream causing it to wobble further.  The spiral shocks retain their structure through the turbulent accretion (Fig \ref{fi:sig-fid-13}).
+At $t\sim 8 T_{bin}$ the accretion rate through the disc becomes comparable to the stream.  For the next 8 orbits a complicated and turbulent interaction occurs between the disc and stream.  The stream begins wobbling and sending gas to the disc in clumps.  Clumps execute and orbit of the black hole and collide with original stream causing it to wobble further.  The spiral shocks retain their structure through the turbulent accretion (Fig \ref{fi:sig-fid-13}).
 
-At $t\sim17 T_{orb}$ the disc-stream interaction stabilizes and the disc reaches a quasi-steady state.  The accretion rate through the inner boundary matches the inflow rate through the outer boundary and the two-armed spiral shocks lock into a constant pattern.  Small-scale flows still occur as gas slowly redistributes within the disc, relaxing to a true steady state.  The simulation ends at $T\sim30 T_{orb}$ (Fig \ref{fi:sig-fid-28}), before this secular evolution ends.
+At $t\sim17 T_{bin}$ the disc-stream interaction stabilizes and the disc reaches a quasi-steady state.  The accretion rate through the inner boundary matches the inflow rate through the outer boundary and the two-armed spiral shocks lock into a constant pattern.  Small-scale flows still occur as gas slowly redistributes within the disc, relaxing to a true steady state.  The simulation ends at $T\sim30 T_{bin}$ (Fig \ref{fi:sig-fid-28}), before this secular evolution ends.
 
 \begin{figure*}
 \plotone{figs/q011_m3_sig_2800.png}
-\caption{\label{fi:sig-fid-28} As Fig. \ref{fi:sig-fid-0}, but at $t = 28 T_{orb}$}
+\caption{\label{fi:sig-fid-28} As Fig. \ref{fi:sig-fid-0}, but at $t = 28 T_{bin}$}
 \end{figure*}
 
 \subsection{Wave Propagation}
@@ -383,20 +418,24 @@ In Figure \ref{fi:disp} we plot the pitch angle of shocks found in the minidisc 
 \subsection{Shock Dissipation}
 \label{subsec:diss}
 
-To quantitatively measure the coupling between the spiral shocks and the bulk disc flow we measure the irreversible heating at each shock in post-processing. 
-
-To locate shocked gas in the simulation output we employ a relativistic shock detector (CITE Rezzolla/Zanotti).  The basic algorithm compares neighbouring zones and classifies the interface as a shock if the relative normal velocity $v_{12} \equiv (v_1 - v_2) / (1-v_1 v_2)$ between the zones is greater than the maximum possible relative velocity produced by a rarefaction wave $(v_{12})_{\mathcal{RS}}$.  We find this algorithm to be somewhat too sensitive in detecting shocks, so we restrict it in the following way.  For a fluid cell to be considered part of a shockwave, it must satisfy: 1) $v_{12} - (v_{12})_{\mathcal{RS}} > \Delta v_{amb}$, where $\Delta v_{amb}$ is the peak ambient value of $v_{12} - (v_{12})_{\mathcal{RS}}$ in the annulus under consideration and 2) the entropy flux must be positive: $v^i \partial_i s > 0$.
-
-We locate shocking gas at each annulus of the computational grid and compute the jump in specific entropy $\Delta s_i = s_{i,b} - s_{i,a}$ over each shock.  The specific irreversible heating is $\propto \psi_Q \equiv \exp{(\Delta s_i)} - 1$ (CITE RAFIKOV).  The irreversible heating at each annulus in the limit of small radial velocity is:
+To quantitatively measure the coupling between the spiral shocks and the bulk disc flow we measure the irreversible heating at each shock in post-processing.  Given the shock locations we compute the jump in specific entropy $\Delta s_i = s_{i,trail} - s_{i,lead}$ over each shock at each radius.  To measure the specific irreversible heating over a shock of strength $\De s$ \cite{Rafikov16} defines the parameter $\psi_Q$ for a $\Gam$-law gas:
 \begin{equation}
-	\dot{Q}_{irr} = \sum_i \left( r\Sigma u^\phi T \right)_{i,a} \psi_{Q,i} \ . \label{eq:QirrRaf}
+	\psi_Q \equiv \frac{1}{\Gam - 1} \left( e^{(\Gam -1)\De s } - 1 \right) \ . \label{eq:def-psi}
+\end{equation}
+Then the specific irreversible heating at a shock is simply $T_{lead} \psi_Q$.  To determine the irreversible heating rate at a shock, the specific heating rate must be multiplied by the mass flux through the shock surface $\Phi(r)$.  When summed over all the shocks in an annulus, one gets the total irreversible heating rate:
+\begin{equation}
+	\dot{Q}_{irr} = \sum_i \left[ \Sigma \left(r u^\phi - r \Phi'(r) u^r \right) T \right]_{i,lead} \psi_{Q,i} \ . \label{eq:QirrRaf}
 \end{equation}
 
-Figure \ref{fi:diss} shows the radial profiles of $\Delta S$, $\psi_Q$, $\dot{Q}_{irr}$, and $\dot{Q}_{cool}$ for the fiducial minidisc.  Note that $\dot{Q}_{irr}$ ignores heating (cooling) due to adiabatic compression (expansion).  We find $\psi_Q \sim$ a few $10^{-1}$.
+Figure \ref{fi:diss} shows the radial profiles of $\Delta s_i$, $\psi_{Q,i}$, $\avet{\dot{Q}_{irr}}$, and $\avet{\dot{Q}_{cool}}$ for Model 2 averaged from $20 T_{bin}$ to $29 T_{bin}$.  Note that $\avet{\dot{Q}_{irr}}$ ignores heating (cooling) due to adiabatic compression (expansion) and advection.  Both $\De s$ and $\psi_Q$ vary over an order of magnitude through the disc, reflecting the double-peaked radial distribution seen in Fig \ref{fi:sig-fid-28}. On average $\psi_Q \sim 0.1$.  
+
+The distribution of irreversible heating and cooling in Model 2 has a much smoother radial dependence than $\psi_Q$. The is reflective of the universal (ANDREW: OK to use this word?) character of emission from thin accretion discs: the profile of $\avet{\dot{Q}_{cool}}$ for a steady axisymmetric thin disc subject to local dissipation depends only on the accretion rate and black hole parameters, not the particular form of the dissipation or opacities.  For comparison we plot the expected Novikov-Thorne $\avet{\dot{Q}_{NT}}$ using the asymptotic value of $\dot{M}$ from Fig \ref{fi:mdot-fid}. 
+
+The heating and cooling are broadly similar over the extent of the disc, with $\avet{\dot{Q}_{irr}} \lesssim \avet{\dot{Q}_{cool}}$ most often.  Even in a steady state one would not expect them to match exactly, as some energy must be advected inwards.  Both $\avet{\dot{Q}_{irr}}$ and $\avet{\dot{Q}_{cool}}$ agree with the Novikov-Thorne profile in $12 M \lesssim r \lesssim 30M$ but far exceed it in the inner disc as $r \to r_{ISCO}$, peaking at $r \approx 7.5M$.
 
 \begin{figure}
 \plotone{figs/q011_m3_diss_r.pdf}
-\caption{\label{fi:diss} Radial profiles of shock quantities in the fiducial run.  From top to bottom the entropy jump $\De s$, $\psi_Q$, and irreversible heating $\dot{Q}_{irr}$ and cooling $\dot{Q}_{cool}$.}
+\caption{\label{fi:diss} Radial profiles of dissipative shock quantities in Model 2, time averaged from $(20 - 29) T_{bin}$.  From top to bottom the entropy jump $\De s$, $\psi_Q$, and irreversible heating $\dot{Q}$. The shocks $A,B$ are plotted in blue and orange respectively.  The bottom panel contains as well the total irreversible heating according to \eqref{eq:QirrRaf} in black, the local cooling rate integrated over each annulus $\avet{\dot{Q}_{cool}}$ in green, and the same quantity from a Novikov-Thorne disc with $\dot{M} = 0.75 \dot{M}_2$ in grey.}
 \end{figure}
 
 \subsection{Angular Momentum Transport}
@@ -404,7 +443,7 @@ Figure \ref{fi:diss} shows the radial profiles of $\Delta S$, $\psi_Q$, $\dot{Q}
 
 Dissipation in the fluid flow is an (inevitable?) sign of angular momentum transport, and hence accretion. Indeed in every simulation under consideration the accretion rate through the inner boundary (into the black hole) was matched by the accretion rate through the outer boundary (matter injection from the nozzle).  A quasi-equilibrium, where the inner and outer accretion rates match, typically occurred within a few ($<10$) $T_{bin}$. 
 
-The relative strength of an accretion flow is typically measured by determining an effective Shakura-Sunyaev (or Novikov-Thorne) $\al$-parameter.  The gravitational forces of the companion, plus the global character of the shocks providing the dissipation, make $\al_{eff}$ a somewhat fuzzy notion.  We present two measures of $\al_{eff}$.  First, following (CITE STONE CV), we calculate the $\al$ required at each radii for a Novikov-Thorne disc of the same average temperature and accretion rate.  Second, (CITE RAFIKOV) determines for shocked Newtonian discs $\al_{eff} \sim \psi_Q / 3\pi$.  We take this same prescription without modification, as $\psi_Q$ is a scalar quantity and hence frame independent.  
+The relative strength of an accretion flow is typically measured by determining an effective Shakura-Sunyaev (or Novikov-Thorne) $\al$-parameter.  The gravitational forces of the companion, plus the global character of the shocks providing the dissipation, make $\al_{eff}$ a somewhat fuzzy notion.  We present two measures of $\al_{eff}$.  First, following \cite{Ju16}, we calculate the $\al$ required at each radii for a Novikov-Thorne disc of the same average temperature and accretion rate.  Second, \cite{Rafikov16} determines for shocked Newtonian discs $\al_{eff} \sim \psi_Q / 3\pi$.  We take this same prescription without modification, as $\psi_Q$ is a scalar quantity and hence frame independent.  
 
 The radial profiles of both $\al_{\dot{M}}$ and $\al_{\dot{Q}}$ are plotted in Fig \ref{fi:alpha} for the fiducial run.  We see they are broadly similar across the disc, except near the ISCO at $r=6M$ where $\al_{\dot{M}}$ diverges.  
 
@@ -413,31 +452,12 @@ The radial profiles of both $\al_{\dot{M}}$ and $\al_{\dot{Q}}$ are plotted in F
 \caption{\label{fi:alpha} Radial profile of effective $\al$ parameters in the fiducial run measured from the accretion rate $\al_{\dot{M}}$ (blue) and the local dissipation $\al_{\dot{Q}}$ (orange).}
 \end{figure}
 
-A more detailed comparison between accretion and shock dissipation can be made by analyzing the angular momentum transport itself.  Defining angular integrated quantities as: $\ave{\cdot} = \int \dd \phi \sqrt{-g} (\cdot)$, we can write the angular integrated continuity and angular momentum equations \eqref{eq:GRHD} in a coordinate frame:
-\begin{align}
-	\partial_t \ave{\Sig u^0} + \partial_r \ave{\Sig u^r} &= 0 \ ,\label{eq:aveAng}\\
-	\partial_t \ave{\Sig h u^0 u_\phi} + \partial_r \ave{\Sig h u^r u_\phi} &= \ave{f_\phi}- \ave{u_\phi \dot{Q}_{cool}} \ .\nonumber
-\end{align} 
-We can decompose \eqref{eq:aveAng} by factoring out the continuity equation.  First define:
-\begin{align*}
-	\aveRe{\Sig h u^\mu u_\phi} &= \ave{\Sig h u^\mu u_\phi} - \ave{\Sig u^\mu}\ave{\overline{h u_\phi}} \ , \\
-	\ave{\overline{h u_\phi}} &= \frac{1}{2\pi} \ave{h u_\phi} \ .
-\end{align*}
-We can then write angular momentum conservation as:
+To see the effect of the spiral shocks in detail we decompose the torques acting on the disc according to \eqref{eq:angMomDecom} (see Sec \ref{subsec:angMomDecom} for details). Each of the torques $\tau_{\dot{M}}$, $\tau_{Re}$, $\tau_{ext}$, and $\tau_{cool}$ can be measured directly from DISCO output.  The Reynolds torque $\tau_{Re}$ in particular measures the angular momentum transport due to non-axisymmetric features.  One can estimate the torque due to spiral shocks from $\psi_Q$ directly \citep{Rafikov16}:
 \begin{equation}
-	\ave{\Sig u^\mu} \partial_\mu \ave{\overline{h u_\phi}} + \partial_\mu \aveRe{\Sig h u^\mu u_\phi} =  \ave{f_\phi}- \langle u_\phi \dot{Q}_{cool} \rangle \ , 
+	\tau_{irr} = \frac{\dot{Q}_{irr}}{v^\phi - \Om_P} \ . \label{eq:tauRaf}
 \end{equation}
-or
-\begin{align}
-	\partial_t \ave{T^0_\phi} &= -\dot{M} \partial_r \ave{\overline{h u_\phi}} -  \partial_r \aveRe{\Sig h u^r u_\phi} +  \ave{f_\phi}- \langle u_\phi \dot{Q}_{cool} \rangle \ , \nonumber \\
-	&\equiv \tau_{\dot{M}} + \tau_{Re} + \tau_{ext} + \tau_{cool} \ . \label{eq:angMomDecom}
-\end{align} 
-Equation \eqref{eq:angMomDecom} decomposes the rate of change of angular momentum into four contributions: accretion ($\tau_{\dot{M}}$), Reynolds-type stress ($\tau_{Re}$), external torques ($\tau_{ext}$), and cooling ($\tau_{cool}$).  Accretion torque is due to the bulk flow of gas over a radially-varying specific angular momentum profile. The Reynolds torque is due to non-axisymmetric structures in the flow, particularly varying azimuthal profiles of radial mass flux and specific angular momentum. External torques in our case are completely due to the presence of the binary companion. The cooling torque $\tau_{cool}$ is a purely relativistic effect, representing the loss of energy to photons. It is small so long as the rest-mass energy density is greater than the thermal energy of the gas.
+If angular momentum transport in minidiscs is completely due to shocks $\tau_{irr}$ should match $\tau_Re$.
 
-Each of these torques can be measured directly from DISCO output.  The Reynolds torque $\tau_{Re}$ in particular measures precisely the effect of spiral shocks on angular momentum transport.  One can also estimate the torque due to spiral shocks from $\psi_Q$ directly (CITE RAFIKOV):
-\begin{equation}
-	\tau_{irr} = \frac{\dot{Q}_{irr}}{u^\phi - u^0 \Om_P} \ . \label{eq:tauRaf}
-\end{equation}
 Alternately, one can ask what sort of local angular momentum flux could account for the accretion and shock heating in an azimuthally averaged sense (such as an $\al$-viscosity).  Such a flux would be an addition $t^{\mu\nu}$ to the gas stress energy tensor.  Assuming, like the viscous stress tensor, $u_\mu t^{\mu\nu}_{non-id} = 0$ the energy and angular momentum conservation equations are modified to:
 \begin{align}
 	&\partial_t \ave{\Sig \eps u^\mu} + \partial_r \ave{\Sig \eps u^r} = \ave{\Pi \nabla_\mu u^\mu} - \dot{Q}_{cool} + \ave{t^{\mu\nu} \nabla_\mu u_\nu} \ ,\\
@@ -449,13 +469,11 @@ Identifying $\ave{t^{\mu\nu} \nabla_\mu u_\nu} \sim \ave{t^r_\phi \partial_r u^\
 \end{equation}
 Such a local model neglects the global structure of spiral shock waves but may be interesting on the basis of comparison,  especially since it is the root of the $\alpha$-prescription.
 
-We compare the predicted torque due to spiral shocks eq \eqref{eq:tauRaf} to the measured $\tau_{Re}$ and $\tau_{\dot{M}}$ in Fig \ref{fi:torque}.  The measured torques are calculated by azimuthally integrating grid quantities and centred differencing in $r$ when necessary.  The predicted torques due to irreversible shock heating, on the other hand, are calculated directly from the entropy jump $\De s$ measured to calculate $\psi_Q$.  The prediction follows a very similar profile to the measured torques, but underestimates them by a factor $\lesssim 2$.  
-
-%There are many possible explanations for the difference.  Equations \eqraf{eq:QirrRaf} and \eqref{eq:tauRaf} in their original context were derived in a Newtonian context for tightly wound waves with negligible radial velocity.  Although the relativistic generalization is straightforward, the inner part of the minidisc show perhaps sufficient radial velocity to affect the entropy production at the shock fronts.  On the other hand, 
+We compare the predicted torque due to spiral shocks eq \eqref{eq:tauRaf} to the measured $\tau_{Re}$ and $\tau_{\dot{M}}$ for Model 2 in Fig \ref{fi:torque-fid}.  The measured torques are calculated by azimuthally integrating grid quantities and centred differencing in $r$ when necessary.  The predicted torques due to irreversible shock heating, on the other hand, are calculated directly from the entropy jump $\De s$ measured to calculate $\psi_Q$.  The shock torque model $\tau_{irr}$ shows good agreement with $\tau_{Re}$, deviating by at most $30\%$ in $r < 60M$.  Since the disc is not in a steady state, one would not expect the accretion torque $\tau_{\dot{M}}$ to match exactly with the other torques, although it is evident they follow a similar profile.
 
 \begin{figure}
 	\plotone{figs/q011_m3_torque_r.pdf}
-	\caption{\label{fi:torque} Measured accretion torque $\tau_{\dot{M}}$ (black crosses), Reynolds torque $\tau_{Re}$ (blue crosses), predicted torque from spiral shocks $\tau_{irr}$ (eq. \eqref{eq:tauRaf}, red crosses), and predicted torque from local dissipation $\tau_t$ (eq. \eqref{eq:tauLoc}, orange crosses) for the fiducial run after 28 orbits.}  
+	\caption{\label{fi:torque-fid} Time averaged accretion torque $\tau_{\dot{M}}$ (black crosses), Reynolds torque $\tau_{Re}$ (blue crosses), predicted torque from spiral shocks $\tau_{irr}$ (eq. \eqref{eq:tauRaf}, red crosses), and predicted torque from local dissipation $\tau_t$ (eq. \eqref{eq:tauLoc}, orange crosses) for the fiducial run. Time averaging was over $(20-29)T_{bin}$.}  
 \end{figure}
 
 %%%%%%
@@ -476,9 +494,9 @@ We compare the predicted torque due to spiral shocks eq \eqref{eq:tauRaf} to the
 
 We performed relativistic hydrodynamical simulations of accretion discs in the Schwarzschild metric subject to tidal forces of a binary companion.  Discs were fed from a nozzle at the L2 Lagrange point, emulating the accretion streams feeding minidiscs seen in circumbinary accretion.  The tidal forces excited two-armed spiral shock waves,  generating heat through dissipation and providing angular momentum transport throughout the disc.
 
-The spiral shocks propagate primarily in the linear regime, agreeing with the relativistic generalization of the well-known $WKB$ dispersion relation.  Measurements of the jump in specific entropy at the shocks provided an estimate of the irreversible heating of the disc.  Comparisons of the predicted angular momentum flux due to shock heating to the measured value showed good qualitative agreement, but predictions underestimated the measured flux by a factor $\lesssim 2$.  Approximate values of the Shakura-Sunyaev $\al$-parameter were found to be on the order of a few $\times 10^{-2}$.
+The spiral shocks propagate primarily in the linear regime, agreeing with the relativistic generalization of the well-known $WKB$ dispersion relation.  Measurements of the jump in specific entropy at the shocks provided an estimate of the irreversible heating of the disc.  The cooling profile qualitatively follows the Novikov-Thorne profile in the outer disc, but maintains a significant excess of emission within $r < 10 M$.  Comparisons of the predicted angular momentum flux due to shock heating to the measured value showed good agreement, with the shock transport model under-predicting the torques by $30\%$ at worst.  Approximate values of the Shakura-Sunyaev $\al$-parameter were found to be on the order of a few $\times 10^{-2}$.
 
-Accretion via due to spiral shocks is a purely hydrodynamical effect, occuring without the need for magnetic fields or radiation.  Any disc in a binary system will be subject to tidal forces, and the ensuing spiral shocks can carry a non-negligible portion of the angular momentum transport budget.  
+Accretion via due to spiral shocks is a purely hydrodynamical effect, occuring without the need for magnetic fields or radiation.  Any disc in a binary system will be subject to tidal forces, and the ensuing spiral shocks can carry a non-negligible portion of the angular momentum transport budget.  Spiral shocks can propagate through the ISCO, and may provide an emission excess over the standard Novikov-Thorne models.
 
 %%%%%%
 % Acknowledgements %
