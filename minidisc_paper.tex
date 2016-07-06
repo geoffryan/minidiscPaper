@@ -61,7 +61,7 @@ Newtonian calculations have demonstrated circumbinary black hole accretion is me
 \section{Introduction}
 \label{sec:intro}
 
-Recent developments have generated much interest in black hole binaries.  Several studies have identified candidate supermassive black hole (SMBH) binaries using variability of quasar light curves \citep{Graham15, Charisi16}.  LIGO/VIRGO has detected two mergers of stellar-mass black holes, the first measurement of general relativity in the strong field regime \citep{LIGO16GW150914Discoovery}.
+Recent developments have generated much interest in black hole binaries.  Several studies have identified candidate supermassive black hole (SMBH) binaries using variability of quasar light curves \citep{Graham15, Charisi16}.  LIGO/VIRGO has detected two mergers of stellar-mass black holes, the first measurement of general relativity in the strong field regime \citep{LIGO16GW150914Discovery}.
 
 SMBH binaries are thought to be somewhat ubiquitous in the universe.  Present day galaxies are the result of several past mergers, indicating they have certainly housed SMBH binaries many times over their history. The mechanism by which SMBH binaries actually merge is still a matter of much debate. The ``final parsec problem,'' that dynamical friction with stellar bodies ceases to be effective at merging a SMBH binary when the separation $a \lesssim 1pc$, indicates non-gravitational processes may play an important role.
 
@@ -107,7 +107,7 @@ fixed space-time:
     \nabla_\mu \rho_0 u^\mu = 0 \text{ and } \nabla_\mu T^{\mu\nu} = -\dot{Q} u^\nu , \label{eq:GRHD}
 \end{equation}
 for a single species gas of rest-mass density $\rho_0$, four velocity $u^\mu$, 
-stress energy tensory $T^{\mu\nu}$ and local isotropic cooling $\dot{Q}$.  
+stress energy tensor $T^{\mu\nu}$ and local isotropic cooling $\dot{Q}$.  
 
 To solve \eqref{eq:GRHD} numerically one must make a choice of which elements of $T^{\mu\nu}$ to be independent variables.  We follow the standard Valencia formulation (CITE) (also cite HARM, Duez2004, etc) for the momentum variables $T^0_i$ and choose an energy variable projected onto a known four-velocity $U^\mu$: $-U_\mu T^{\mu 0}$.
 In terms of coordinate derivatives \eqref{eq:GRHD} takes the standard flux-balanced conservation form
@@ -147,7 +147,7 @@ where $P$ is the gas pressure, $h = 1 + \eps + P/\rho_0$ the relativistic specif
 
 \DISCO{} is a Godunov type code which solves hyperbolic systems of equations of the form \eqref{eq:consLaw} on a moving mesh in cylindrical coordinates ($r$, $\phi$, $z$).  The mesh motion is restricted to be in the $\phi$-direction, which greatly reduces numerical viscosity due to bulk azimuthal flow.  For radial flows, the code performs at the same level as fixed mesh codes.  In this work, the velocities of cell interfaces are fixed to $V^\phi \equiv U^\phi/U^0$.   
 
-\DISCO{} is second order accurate in time and space.  It uses the piecewise linear method (PLM) to interpolate the cell-centred primitive values to the cell interfaces for the Riemann fluxes.  The relativistic HLLC approximate Riemann solver (CITE Mignone and Bodo) is employed to calculate intercell fluxes, and the time evolution is performed via the RK2-TVD algorithm of (CITE SHU).  The time step is Courant limited with a typical CFL number of $0.1$.
+\DISCO{} is second order accurate in time and space.  It uses the piecewise linear method (PLM) to interpolate the cell-centred primitive values to the cell interfaces for the Riemann fluxes.  The relativistic HLLC approximate Riemann solver \citep{Mignone05} is employed to calculate intercell fluxes and the time evolution is performed via the RK2-TVD algorithm of \cite{Gottlieb98}.  The time step is Courant limited with a typical CFL number of $0.1$.
 
 All calculations in this work are performed in two dimensions spatial dimensions ($r$ and $\phi$) using vertically integrated fluid quantities and metric terms evaluated on the equator $z=0$.  We denote the surface density as $\Sig_0 = \int \dd z \rho_0$ and the vertically integrated pressure $\Pi = \int \dd z P$.  
 
@@ -187,55 +187,73 @@ We find using $\tau_U$ instead of $\tau$ essential for accurately evolving thin 
 \subsection{Radiative Cooling}
 \label{subsec:cooling}
 
-We restrict our attention to optically thick discs, where radiative cooling occurs at the local black body rate. We impose a cooling function (CITE FRANK\&KING)
+We restrict our attention to optically thick discs, where radiative cooling occurs at the local black body rate. We impose a cooling function \citep{Novikov73, FrankKingRaine}:
 \begin{equation}
-	\dot{Q} = \frac{8}{3} \frac{\sig T^4}{\ka \Sig} , \label{eq:BBcooling}
+	\dot{Q} = \frac{8}{3} \frac{\sig_{SB} T^4}{\ka \Sig} , \label{eq:BBcooling}
 \end{equation}
-where $\sig$ is the Stefan-Boltzmann constant, $T = m_p \Pi / \Sig$ is the gas temperature (assuming pure Hydrogen), and $\ka $ is the opacity.  We assume the dominant opacity is due to electron scattering and take $\ka = \ka_{es} = 0.4 cm^2/g$.
+where $\sig_{SB}$ is the Stefan-Boltzmann constant, $T = m_p \Pi / \Sig$ is the gas temperature (assuming pure Hydrogen), and $\ka $ is the opacity.  We assume the dominant opacity is due to electron scattering and take $\ka = \ka_{es} = 0.4 cm^2/g$.
 
-EASIER TO JUST SAY OPERATOR SPLITTING?
+The cooling time scale can be much shorter than the local hydrodynamic time scale.  To avoid large restrictions on the global time step we use operator splitting to separate the hydrodynamic and cooling evolutions.  Since time evolution in \DISCO{} is performed via the method of lines it is sufficient to prescribe the split scheme only to first order in time.
 
-Because of the strong dependence on temperature in \eqref{eq:BBcooling} the cooling time scale can be much shorter than the local hydrodynamic time scale.  To avoid large restrictions on the global time step we exactly solve an evolution equation for the temperature subject to cooling.  Since time evolution in \DISCO{} is performed via the method of lines it is sufficient to prescribe a first order in time implementation of cooling.  The evolution equation for the specific internal energy is:
+Since the cooling is isotropic to first order in time it only affects the internal energy of the gas, having no effect on either the surface density or fluid velocity.  As such for our cooling operator we solve a simple evolution equation for the temperature, leaving $\Sig$ and $u^\mu$ constant.  The change in the conserved variables $\De \mathcal{U}_{cool}$ due to the temperature change alone is added to the change from the hydro evolution.
+
+Schematically, a first order time step for a single cell begins with primitives $\mathcal{P}^0$ and conservatives $\mathcal{U}^i = \mathcal{U}(\mathcal{P}^i)$.  Over a time step $\De t$ the hydro routines (Riemann fluxes and geometric source terms) add $\De \mathcal{U}^i_{hydro}$.  The cooling scheme evolves the initial temperature $T^i$ to a new temperature $T'$ and calculates the change $\De \mathcal{U}^i_{cool} = \mathcal{U}(T') - \mathcal{U}^i$, where $\mathcal{U}(T')$ is calculated assuming the initial values of $\Sig$ and $u^\mu$.  The evolved conservative variables are the sum of the hydro and cooling contributions: 
 \begin{equation}
-	\pd_t \eps = -\frac{u^i}{u^0} \pd_i \eps - \frac{\Pi}{\Sig u^0} \nabla_\mu u^\mu - \frac{1}{\Sig u^0} \dot{Q} . \label{eq:epsEvolution}
+	\mathcal{U}^{i+1} = \mathcal{U}^i + \De \mathcal{U}^i_{hydro} + \De \mathcal{U}^i_{cool} \ . \label{eq:opsplitU}
 \end{equation}
-The terms on the right hand side of \eqref{eq:epsEvolution} are energy loss due to advection, expansion, and cooling respectively.  The Riemann solver already takes into account advection and expansion, so to first order in time we can consider just the evolution due to cooling
+The primitive variables are calculated accordingly: $\mathcal{P}^{i+1} = \mathcal{P}(\mathcal{U}^{i+1})$.
+
+The temperature evolution equation used to calculate $\De \mathcal{U}_{cool}$, is found from the energy equation obtained by projecting \eqref{eq:GRHD} onto the velocity $u^\mu$.
+\begin{equation}
+	\Sig u^\mu \nabla_\mu \eps = \Pi \nabla_\mu u^\mu - \dot{Q} \ .
+\end{equation}
+Neglecting the advection and adiabatic expansion effects of the hydrodynamic evolution, we are left with a simple equation for the specific internal energy:
 \begin{equation}
 	\pd_t \eps \approx - \frac{1}{\Sig u^0} \dot{Q} \ .
 \end{equation}
-To first order in time the surface density $\Sig$ and the fluid velocity $u^\mu$ are unchanged by cooling.  Therefore one can write the following equation for the temperature evolution due to cooling:
+Assuming $\Sig$ and $u^\mu$ are constant gives the following equation for the temperature evolution due to cooling:
 \begin{equation}
 	\pd_t T = - \left(\frac{\pd \eps}{\pd T}\right)_{\Sig}^{-1} \frac{\dot{Q}}{\Sig u^0} \ . \label{eq:Tevolution}
 \end{equation}
-Cooling in \DISCO{} is implemented in the following way.  At the beginning of a time step we have the primitives $\mathcal{P}^0$ and corresponding conservatives $\mathcal{U}^0$.  The Riemann solver and geometric source terms produce $\mathcal{U}^1_{hydro}$.  The initial temperature $T^0$ is evolved by integrating \eqref{eq:Tevolution}, keeping $\Sig$ and $u^0$ held to their initial values.  With the equation of state \eqref{eq:gammalaw} and $\ka = \ka_{es}$ this can be done exactly, yielding $T^1_{cooling}$.  We define the first-order change in $\mathcal{U}$ due to cooling as $\De \mathcal{U}_{cooling} = \mathcal{U}(T^1_{cooling}) - \mathcal{U}^0$.  Then the final value of the conservatives is $\mathcal{U}^1 = \mathcal{U}^1_{hydro} +\De \mathcal{U}_{cooling}$.
+In the simple case of blackbody cooling \eqref{eq:BBcooling} with a constant opacity $\ka_{es}$ and equation of state \eqref{eq:gammalaw} we can integrate \eqref{eq:Tevolution} exactly.  Integrating from $T$ to $T'$ over $\De t$ gives:
+\begin{equation}
+	T' = T \left( 1 + 8 (\Gam-1) \frac{\sig_{SB} T^3}{\ka_{es}\Sig^2 u^0} \De t \right)^{-1/3} \ . \label{eq:Tsolution}
+\end{equation}
+The adoption of \eqref{eq:opsplitU} with \eqref{eq:Tsolution} makes for an efficient and stable cooling scheme, allowing time steps limited only by the CFL condition of the hydro scheme.
+
 
 \subsection{Frame and Tidal Forces}
 \label{subsec:frameforces}
 
-We perform all calculations in a frame co-orbiting with the secondary black hole.  In this frame the dominant contribution to the metric is that of the secondary black hole itself, which we take to be the Schwarzschild metric in Kerr-Schild coordinates.  We then perform a coordinate transformation to a frame rigidly rotating with the binary frequency $\Om_{bin}$, which is equivalent to adding a shift $\be^\phi = \Om_{bin}$ to the metric.  This shift automatically adds both Coriolis and centrifugal forces to the equations of motion for the gas.
+We perform all calculations in a frame co-orbiting with the secondary black hole.  In this frame the dominant contribution to the metric is that of the secondary black hole itself, which we take to be the Schwarzschild metric of mass $M$ in Kerr-Schild coordinates.  We then perform a coordinate transformation to a frame rigidly rotating with the binary frequency $\Om_{bin}$, which is equivalent to adding a shift $\be^\phi = \Om_{bin}$ to the metric.  This shift automatically adds both Coriolis and centrifugal forces to the equations of motion for the gas.  The resultant metric is described by the lapse $\al$, shift $\be^i$, and spatial metric $\gam_{ij}$:
+\begin{align}
+	\al &= \frac{1}{\sqrt{1+2M/r}} \\
+	\be^i &= \begin{pmatrix} \frac{2M/r}{1+2M/r} & \Om_{bin} \end{pmatrix} \\
+	\gam_{ij} &= \begin{pmatrix} 1+2M/r & 0 \\ 0 & r^2 \end{pmatrix}
+\end{align}
 
-Incorporating the tidal forces due to the primary cannot be done exactly, as there is no exact metric for a binary black hole.  We make a pragmatic choice and include tidal forces as quasi-Newtonian source terms to the energy and momentum equations, which should be valid in the limit of large binary separation.
-
-A source is added to the second of \eqref{eq:GRHD} in the following way:
+Incorporating the tidal forces due to the primary cannot be done exactly as there is no exact metric for an orbiting binary black hole.  We make a pragmatic choice and include the effects of the primary by adding an external force field to \eqref{eq:GRHD}:
 \begin{equation}
-	\nabla_\mu T^{\mu\nu} = -\dot{Q} u^\nu - f^\nu . 
+	\nabla_\mu T^{\mu\nu} = -\dot{Q} u^\nu + f^\nu . 
 \end{equation}
 This modifies \eqref{eq:sources} as:
 \begin{equation}
 	\mathcal{S} = \sqrt{-g} \begin{pmatrix} 0 \\
                         \frac{1}{2}T^{\mu\nu}\pd_i g_{\mu\nu} - \dot{Q}u_i  + f_i \\
-                        T^{\mu\nu}\nabla_\mu U_\nu + U^\mu u_\mu \dot{Q} - U^\mu f_\mu \end{pmatrix} .\label{eq:sources}
+                        T^{\mu\nu}\nabla_\mu U_\nu + U^\mu u_\mu \dot{Q} - U^\mu f_\mu \end{pmatrix} .\label{eq:sourcesF}
 \end{equation}
-Requiring the force satisfy $u^\mu f_\mu = 0$ gives $f_0$ as a function of $f_i$.  The spatial components $f_i$ are determined from the Newtonian tidal forces.  The primary black hole $M_1$ has a fixed location $\vec{a}$ relative to the secondary at the origin.  In an orthonormal frame at position $\vec{r}$ we specify $\vec{f}$ as:
-\begin{equation}
-	\vec{f} = \Sig h (u^0)^2 \left( -\vec{\nabla} \Phi_N \right) \ ,
-\end{equation}
-where $-\vec{\nabla} \Phi_N$ is:
-\begin{equation}
-	-\nabla \Phi_{N} = M_1 \left( -\frac{\vec{r} - \vec{a}}{|\vec{r}-\vec{a}|^3} - \frac{\vec{a}}{a^3}\right)\ .
-\end{equation}
-Then $f_r = (\vec{f})_r$ and $f_\phi = r(\vec{f})_\phi$.
+This prescription, with an appropriately chosen $f^\mu$, captures the main effect of the companion black hole at large binary separation: tidal forces perturbing particle orbits.  Relativistic effects, such as an increased redshift for gas nearer the primary or perturbation of the secondary's horizon, are lost. However, we believe this approximation to have utility when the binary separation is large: $a/M_{bin} \gg 1$ and the gravitational field of the primary varies slowly over the domain, or $q \ll 1$.
 
+We calculate the spatial components $f_i$ from the Newtonian potential $\Phi_N$.  In cartesian coordinates $\vec{x}=(r \cos \phi, r \sin \phi)$ the primary black hole of mass $M_P$ is located at $\vec a = (-a, 0)$.  In the frame of the secondary the potential is:
+\begin{equation}
+	\Phi_N = -\frac{M_P}{|\vec{x} -  \vec{a} |} + \frac{M_P}{a^3}  \vec{a} \cdot \vec{x} \ , \label{eq:phiN}
+\end{equation}
+where the first term is the gravitational potential of the primary and the second is due to the orbital motion of the origin in our coordinate system.  The force $f_i$ is then the gradient of \eqref{eq:phiN}, multiplied by the appropriate energy density:
+\begin{align}
+	f_r &= \Sig h (u^0)^2 \left( -\cos(\phi) \partial_x  - \sin(\phi)\partial_y\right) \Phi_N \ ,\nonumber \\
+	f_\phi &= r\Sig h (u^0)^2 \left( \sin(\phi) \partial_x  -\cos(\phi)\partial_y\right) \Phi_N \ .\nonumber \\
+\end{align}
+Requiring the force be orthogonal to the velocity, $u^\mu f_\mu = 0$, then gives $f_0 = -v^i f_i$, completing the prescription of $f_\mu$. This last condition is a well-known fact from relativistic dynamics and ensures the source term \eqref{eq:sourcesF} provides no heating or cooling to the gas.
 
 %%%%%
 %Section 3 - Minidisc Models
@@ -244,19 +262,80 @@ Then $f_r = (\vec{f})_r$ and $f_\phi = r(\vec{f})_\phi$.
 \section{Minidisc Models}
 \label{sec:models}
 
-Early work on circumbinary accretion predicted a cavity to form within $r<2a$, where $a$ is the binary separation. Global Newtonian hydrodynamics calculations confirmed the existence of a cavity but also demonstrated the presence of smaller accretion discs (``minidiscs'') around each member of the binary.  These minidiscs are fed by streams falling ballistically off the cavity wall, revealing the essential role non-axisymmetry plays in accreting binary systems.
+Early work on circumbinary accretion predicted a cavity to form within $r<2a$, where $a$ is the binary separation (CITE). Global Newtonian hydrodynamics calculations confirmed the existence of a cavity but also demonstrated the presence of smaller accretion discs (``minidiscs'') around each member of the binary.  These minidiscs are fed by streams falling ballistically off the cavity wall, revealing the essential role non-axisymmetry plays in accreting binary systems (CITE).
 
-To model the growth and structure of minidiscs we must specify both the parameters of the binary black hole system and the accretion stream.  The binary mass $M = M_1+M_2$ can be taken to be arbitrary, essentially setting the length scale $GM/c^2$.  We restrict our attention to circular binaries, and fix the separation to be $a = 100M$.  This is the separation where gravitational wave emission begins to dominate the binary orbital dynamics. (CITE)  This is an astrophysically interesting separation, as general relativistic effects should begin to become important for the hydrodynamics, but still provides enough of a scale separation between the separation and event horizons of the black holes that our approximate treatment of tidal forces should be valid.  We run calculations for several mass ratios.
+To model the growth and structure of minidiscs we must specify both the parameters of the binary black hole system and the accretion stream.  The overall mass scale of the binary $M_{bin} = M_P+M_S$ simply sets the overall length scale for the system.  Since we focus on a minidisc around the secondary black hole, we express all lengths in terms of $M = M_S$.  Since we work in units where $c=1$, this also sets the fundamental time scale of the system.  
 
-We model the accretion streams as radial infall through the $L2$ Lagrange point of the binary.  The radial velocity is set to be $v^r = -1/2 v_{bin}$, where $v_{bin} = \sqrt{M/a}$ is the binary orbital velocity.  The angular velocity of the stream is zero in the co-rotating frame.  Since the streams are ballistic the sound speed should be significantly less than the stream velocity.  To ensure this, we set the pressure in the stream as $\Pi = 5 \times 10^{-6} \Sig$.  Several values of this parameter were used during testing, we found they did not affect the resulting minidisc. Rather shock heating and radiative cooling allow the gas to find its own equilibrium temperature once its incorporated into the disc.  We run several different accretion rates, and set the density in the stream accordingly.
+Our implementation of frame and tidal forces (see Sec \ref{subsec:frameforces}) restricts our analysis to large binary separations $a$ and small mass ratios $q$.  To satisfy these requirements we fix $q=0.11$ and $a = 100 M_{bin} \approx 1000 M$ for all runs.  At this separation the corrections to our tidal force prescription are at most $\OO({M_P / a}) \sim 1\%$, but the orbital time scale is still in an accessible regime.  The orbital angular velocity is $\Om_{bin} = \sqrt{M_{bin} / a^3} \approx 10^{-4} M^{-1}$ and the orbital period is $T_{bin} = 2\pi / \Om_{bin} \approx 2 \pi \times 10^4 M$.
 
-The numerical grid is centred on the secondary BH and extends from $4 M_2$ to $R_{L2}$, the radius of the $L2$ Lagrange point. Radial zones are distributed logarithmically and azimuthal zones are placed to keep the aspect ratio of cells close to unity.  On the outer boundary away from the stream a diode boundary condition is used: zero gradient in all fluid variables with the radial velocity restricted to be positive.  The stream extends over $\phi \in [-0.2, 0.2]$, with the grid zones fixed to the stream parameters.  
+We model the accretion streams as radial infall through the $L2$ Lagrange point of the binary.  The radial velocity is set to be $v^r = -1/2 v_{bin}$, where $v_{bin} = \sqrt{M_{bin}/a} \approx 0.1$ is the binary orbital velocity.  The angular velocity of the stream is zero in the co-rotating frame.  Since the streams are ballistic the sound speed should be significantly less than the stream velocity.  To ensure this, we set the pressure in the stream as $\Pi = 5 \times 10^{-6} \Sig$.  Several values of this parameter were used during testing, we found they did not affect the resulting minidisc. Rather shock heating and radiative cooling allow the gas to find its own equilibrium temperature once its incorporated into the disc.  The stream is given a width of $ \De \phi = 0.4$ rad, approximately that of the streams seen in global Newtonian simulations. (CITE?)
+
+The density in the nozzle is set by the accretion rate $\dot{M}$, the main parameter of interest in this study.  The inclusion of dimensionful $\ka$ and $\sig_{SB}$ parameters in the cooling term breaks the scale invariance of mass-energy that would otherwise be present.  Streams of different $\dot{M}$ will cool at different rates relative to the orbital period $T_{bin}$, leading to hotter or cooler discs.  The density in the stream has a profile $\Sig \propto \cos^2(\pi \phi / \De \phi)$, with the normalization set to ensure a total accretion rate of specified $\dot{M}$.
+
+The numerical grid is centred on the secondary BH and extends from $r_{in} = 4 M$ to $R_{L2} \approx 358 M$, the radius of the $L2$ Lagrange point. Radial zones are distributed logarithmically and azimuthal zones are placed to keep the aspect ratio of cells close to unity. The stream extends over $\phi \in [-\De \phi / 2, \De \phi / 2] rad$, boundary cells within the stream are fixed to their local stream values. On the outer boundary away from the stream a diode boundary condition is used: zero gradient in all fluid variables with the radial velocity restricted to be positive or zero.
 
 At the inner boundary a hybrid boundary condition is used.  The fluid velocity is set to be exactly \eqref{eq:Ugeo}, appropriate for ballistic matter infalling on geodesics.  The density is set to be $\Sig = -\dot{M} / r U^r \De \phi$, where $\dot{M}$ is calculated from the innermost non-boundary annulus.  Given $\Sig$, the pressure $\Pi$ is set to ensure isentropic infall.
 
-Although the inner boundary is outside the event horizon of the secondary, we find it does not affect the evolution of the system.  This is because it is still inside the sonic radius of the flow, so no information can propagate out to the minidisc itself.  
+Although the inner boundary is outside the event horizon, we find it does not affect the evolution of the system.  This is because it is still inside the sonic radius of the flow, so no information can propagate out to the minidisc itself.  The CFL limited time step $\De t$ is controlled by the innermost zones of the grid, where the radial velocity is large (due to the black hole) and the cells are narrow.  Placing the inner boundary above the event horizon allows for much larger time steps than otherwise possible, keeping it below the sonic point ensures the fidelity of the calculation.  We found $r_{in} = 4M$ to be a happy medium.
 
-Because of the dimensionfull parameters in \eqref{eq:BBcooling} the structure of minidiscs will qualitatively differ as $\dot{M}$ is varied.  As such we consider several values of $\dot{M}$ and several values of $q$.  The lowest value of $\dot{M}$ corresponds to the discs considered in \cite{Farris14}, where the initial disc profile had $\mathcal{M}(a) = 32$.  We then step in factors of 10 over four orders of magnitude.  We consider mass ratios $q = 0.11, 0.43, 1.0$.
+The initial condition for each minidisc is an $\al=10^{-3}$ Novikov-Thorne accretion disc with $\dot{M}$ set equal to the nozzle rate \citep{Novikov73}.  
+
+\begin{deluxetable}{ccccccc}
+\tablecaption{Minidisc Models \label{tb:models}}
+%\tablewidth{0pt}
+\tablehead{\colhead{Name} &\colhead{$\dot{M}$} & \colhead{$\mathcal{M}(a)$} & \colhead{$r_{in}$} & \colhead{$q$} & \colhead{$N_r$} & \colhead{Time}}
+\startdata
+Model 1 & $2\times10^{-2}$ & ? & $4M$ & $0.11$ & $256$ & $29T_{bin}$ \\
+Model 2 & $2\times10^{-3}$ & ? & $4M$ & $0.11$ & $256$ & $29T_{bin}$ \\
+Model 3 & $2\times10^{-4}$ & ? & $4M$ & $0.11$ & $256$ & $29T_{bin}$
+\enddata
+\end{deluxetable}
+
+The three primary minidisc models in this study are summarized in Table \ref{tb:models}.  The accretion rate for each disc nozzle is given in code units, which correspond to $M=M_\odot$.  A more useful figure is $\mathcal{M}(a)$, the mach number at $r=a$ of a Novikov-Thorne accretion disc around a single black hole of mass $M_{bin}$ \citep{Novikov73}.  This same scaling was used to differentiate the models in \cite{Farris14}.  Being dimensionless, this parameter can be compared both to stellar mass and supermassive binary systems.
+
+\subsection{Fiducial Run}
+\label{subsec:fiducial}
+
+We take as the $\dot{M} = 2 \times 10^{-3} M_\odot / y$ model as our fiducial run.  The accretion rate through the inner ($r=4 M$) and outer ($r=r_{L2}$) boundaries is plotted as a function of time in Fig \ref{fi:mdot-fid}. The initial disc has a surface density much higher than the stream from $L2$ (Fig \ref{fi:sig-fid-0}).  In the first orbit the initial disc develops its own tightly wound two-armed spiral as the gas in the outer radii is flung away.  The two-armed spiral begins tightly wound and diffuse, but quickly sharpens into a shock and begins to open as the disc heats (Fig \ref{fi:sig-fid-05}).  Some gas flung to the boundary falls back, and accretion proceeds in clumps for the first two orbits (Fig \ref{fi:sig-fid-2}).  After two orbits the bulk of the initial disc has either been accreted or thrown out the outer boundary.  As the remaining disc accretes it becomes more diffuse, cools, the spiral shocks tighten, and the accretion rate drops (Fig \ref{fi:sig-fid-5}).
+
+\begin{figure}
+\plotone{figs/q011_m3_mdot.pdf}
+\caption{\label{fi:mdot-fid} Time series of the accretion rate measured as a fraction of the nozzle through the inner (blue crosses) and outer (oranges x's) boundaries of Model 2.}
+\end{figure}
+
+\begin{figure}
+\plotone{figs/q011_m3_sig_0000.png}
+\caption{\label{fi:sig-fid-0} Initial surface density for fiducial minidisc.  Magenta dashed lines are level curves of the Roche potential corresponding to the L1 and L2 Lagrange points.}
+\end{figure}
+
+\begin{figure}
+\plotone{figs/q011_m3_sig_0050.png}
+\caption{\label{fi:sig-fid-05} As Fig. \ref{fi:sig-fid-0}, but at $t = 1/2\ T_{bin}$}
+\end{figure}
+
+\begin{figure}
+\plotone{figs/q011_m3_sig_0200.png}
+\caption{\label{fi:sig-fid-2} As Fig. \ref{fi:sig-fid-0}, but at $t = 2 T_{bin}$}
+\end{figure}
+
+\begin{figure}
+\plotone{figs/q011_m3_sig_0500.png}
+\caption{\label{fi:sig-fid-5} As Fig. \ref{fi:sig-fid-0}, but at $t = 5 T_{bin}$}
+\end{figure}
+
+\begin{figure}
+\plotone{figs/q011_m3_sig_1300.png}
+\caption{\label{fi:sig-fid-13} As Fig. \ref{fi:sig-fid-0}, but at $t = 13 T_{bin}$}
+\end{figure}
+
+At $t\sim 8 T_{bin}$ the accretion rate through the disc becomes comparable to the stream.  For the next 8 orbits a complicated and turbulent interaction occurs between the disc and stream.  The stream begins wobbling and sending gas to the disc in clumps.  Clumps execute and orbit of the black hole and collide with original stream causing it to wobble further.  The spiral shocks retain their structure through the turbulent accretion (Fig \ref{fi:sig-fid-13}).
+
+At $t\sim17 T_{bin}$ the disc-stream interaction stabilizes and the disc reaches a quasi-steady state.  The accretion rate through the inner boundary matches the inflow rate through the outer boundary and the two-armed spiral shocks lock into a constant pattern.  Small-scale flows still occur as gas slowly redistributes within the disc, relaxing to a true steady state.  The simulation ends at $T\sim30 T_{bin}$ (Fig \ref{fi:sig-fid-28}), before this secular evolution ends.
+
+\begin{figure*}
+\plotone{figs/q011_m3_sig_2800.png}
+\caption{\label{fi:sig-fid-28} As Fig. \ref{fi:sig-fid-0}, but at $t = 28 T_{bin}$}
+\end{figure*}
 
 
 %%%%%
@@ -348,50 +427,6 @@ Equation \eqref{eq:angMomDecom} decomposes the rate of change of angular momentu
 
 Each model was run for 30 $T_{bin}$ on the Pleiades cluster at NASA AMES...
 
-\subsection{Fiducial Run}
-\label{subsec:fiducial}
-
-We take as the $\dot{M} = 2 \times 10^{-3} M_\odot / y$ model as our fiducial run.  The accretion rate through the inner ($r=4 M$) and outer ($r=r_{L2}$) boundaries is plotted as a function of time in Fig \ref{fi:mdot-fid}. The initial disc has a surface density much higher than the stream from $L2$ (Fig \ref{fi:sig-fid-0}).  In the first orbit the initial disc develops its own tightly wound two-armed spiral as the gas in the outer radii is flung away.  The two-armed spiral begins tightly wound and diffuse, but quickly sharpens into a shock and begins to open as the disc heats (Fig \ref{fi:sig-fid-05}).  Some gas flung to the boundary falls back, and accretion proceeds in clumps for the first two orbits (Fig \ref{fi:sig-fid-2}).  After two orbits the bulk of the initial disc has either been accreted or thrown out the outer boundary.  As the remaining disc accretes it becomes more diffuse, cools, the spiral shocks tighten, and the accretion rate drops (Fig \ref{fi:sig-fid-5}).
-
-\begin{figure}
-\plotone{figs/q011_m3_mdot.pdf}
-\caption{\label{fi:mdot-fid} Time series of the accretion rate measured as a fraction of the nozzle through the inner (blue crosses) and outer (oranges x's) boundaries of Model 2.}
-\end{figure}
-
-\begin{figure}
-\plotone{figs/q011_m3_sig_0000.png}
-\caption{\label{fi:sig-fid-0} Initial surface density for fiducial minidisc.  Magenta dashed lines are level curves of the Roche potential corresponding to the L1 and L2 Lagrange points.}
-\end{figure}
-
-\begin{figure}
-\plotone{figs/q011_m3_sig_0050.png}
-\caption{\label{fi:sig-fid-05} As Fig. \ref{fi:sig-fid-0}, but at $t = 1/2\ T_{bin}$}
-\end{figure}
-
-\begin{figure}
-\plotone{figs/q011_m3_sig_0200.png}
-\caption{\label{fi:sig-fid-2} As Fig. \ref{fi:sig-fid-0}, but at $t = 2 T_{bin}$}
-\end{figure}
-
-\begin{figure}
-\plotone{figs/q011_m3_sig_0500.png}
-\caption{\label{fi:sig-fid-5} As Fig. \ref{fi:sig-fid-0}, but at $t = 5 T_{bin}$}
-\end{figure}
-
-\begin{figure}
-\plotone{figs/q011_m3_sig_1300.png}
-\caption{\label{fi:sig-fid-13} As Fig. \ref{fi:sig-fid-0}, but at $t = 13 T_{bin}$}
-\end{figure}
-
-At $t\sim 8 T_{bin}$ the accretion rate through the disc becomes comparable to the stream.  For the next 8 orbits a complicated and turbulent interaction occurs between the disc and stream.  The stream begins wobbling and sending gas to the disc in clumps.  Clumps execute and orbit of the black hole and collide with original stream causing it to wobble further.  The spiral shocks retain their structure through the turbulent accretion (Fig \ref{fi:sig-fid-13}).
-
-At $t\sim17 T_{bin}$ the disc-stream interaction stabilizes and the disc reaches a quasi-steady state.  The accretion rate through the inner boundary matches the inflow rate through the outer boundary and the two-armed spiral shocks lock into a constant pattern.  Small-scale flows still occur as gas slowly redistributes within the disc, relaxing to a true steady state.  The simulation ends at $T\sim30 T_{bin}$ (Fig \ref{fi:sig-fid-28}), before this secular evolution ends.
-
-\begin{figure*}
-\plotone{figs/q011_m3_sig_2800.png}
-\caption{\label{fi:sig-fid-28} As Fig. \ref{fi:sig-fid-0}, but at $t = 28 T_{bin}$}
-\end{figure*}
-
 \subsection{Wave Propagation}
 \label{subsec:res-prop}
 
@@ -469,11 +504,23 @@ Identifying $\ave{t^{\mu\nu} \nabla_\mu u_\nu} \sim \ave{t^r_\phi \partial_r u^\
 \end{equation}
 Such a local model neglects the global structure of spiral shock waves but may be interesting on the basis of comparison,  especially since it is the root of the $\alpha$-prescription.
 
-We compare the predicted torque due to spiral shocks eq \eqref{eq:tauRaf} to the measured $\tau_{Re}$ and $\tau_{\dot{M}}$ for Model 2 in Fig \ref{fi:torque-fid}.  The measured torques are calculated by azimuthally integrating grid quantities and centred differencing in $r$ when necessary.  The predicted torques due to irreversible shock heating, on the other hand, are calculated directly from the entropy jump $\De s$ measured to calculate $\psi_Q$.  The shock torque model $\tau_{irr}$ shows good agreement with $\tau_{Re}$, deviating by at most $30\%$ in $r < 60M$.  Since the disc is not in a steady state, one would not expect the accretion torque $\tau_{\dot{M}}$ to match exactly with the other torques, although it is evident they follow a similar profile.
+We compare the predicted torque due to spiral shocks eq \eqref{eq:tauRaf} to the measured $\tau_{Re}$ and $\tau_{\dot{M}}$ for the minidisc models in Figs \ref{fi:torque-m2}, \ref{fi:torque-m3}, and \ref{fi:torque-m4}.  The measured torques are calculated by azimuthally integrating grid quantities and centred differencing in $r$ when necessary.  The predicted torques due to irreversible shock heating, on the other hand, are calculated directly from the entropy jump $\De s$ measured to calculate $\psi_Q$.  
+
+Model 1 is very near a steady state, with the accretion torque $\tau_{\dot{M}}$ balanced by $\tau_{Re}$, $\tau_{ext}$, and $\tau_{cool}$ throughout the $r < 100M$ region.  The small contribution of $\tau_{ext}$ and $\tau_{cool}$ to the torque balance indicates the bulk of the angular momentum transport is provided by $\tau_{Re}$, a fact also true in Models 2 and 3.  This alone indicates the non-axisymmetric structures drive accretion in these discs.  The discrepancy in the balance between $\tau_{\dot{M}}$ and $\tau_{Re}$ increases in Model 2 and again in Model 3, indicating these discs are in much less steady states.  In Model 3 they widely differ, and there is even a narrow region undergoing deccretion.  Nevertheless, the shock torque model $\tau_{irr}$ shows good agreement with $\tau_{Re}$, especially for Models 1 and 2 where it deviates by at most $30\%$ in $r < 60M$.  Even Model 3, which is still evolving strongly in time, shows $\tau_{irr}$ agreeing well with $\tau_{Re}$ outside of two bands $13M \lesssim r \lesssim 20M$ and $40M \lesssim r \lesssim 50M$.  The local dissipation model $\tau_t$ does a poor job of predicting the torque on the disc.
+
+\begin{figure}
+	\plotone{figs/q011_m2_torque_r.pdf}
+	\caption{\label{fi:torque-m2} Time averaged accretion torque $\tau_{\dot{M}}$ (black crosses), Reynolds torque $\tau_{Re}$ (blue crosses), predicted torque from spiral shocks $\tau_{irr}$ (eq. \eqref{eq:tauRaf}, red crosses), and predicted torque from local dissipation $\tau_t$ (eq. \eqref{eq:tauLoc}, orange crosses) for Model 1. Time averaging was over $(20-29)T_{bin}$.}  
+\end{figure}
 
 \begin{figure}
 	\plotone{figs/q011_m3_torque_r.pdf}
-	\caption{\label{fi:torque-fid} Time averaged accretion torque $\tau_{\dot{M}}$ (black crosses), Reynolds torque $\tau_{Re}$ (blue crosses), predicted torque from spiral shocks $\tau_{irr}$ (eq. \eqref{eq:tauRaf}, red crosses), and predicted torque from local dissipation $\tau_t$ (eq. \eqref{eq:tauLoc}, orange crosses) for the fiducial run. Time averaging was over $(20-29)T_{bin}$.}  
+	\caption{\label{fi:torque-m3} As Fig \ref{fi:torque-m2}, but for Model 2}  
+\end{figure}
+
+\begin{figure}
+	\plotone{figs/q011_m4_torque_r.pdf}
+	\caption{\label{fi:torque-m4} As Fig \ref{fi:torque-m2}, but for Model 3}  
 \end{figure}
 
 %%%%%%
@@ -494,7 +541,7 @@ We compare the predicted torque due to spiral shocks eq \eqref{eq:tauRaf} to the
 
 We performed relativistic hydrodynamical simulations of accretion discs in the Schwarzschild metric subject to tidal forces of a binary companion.  Discs were fed from a nozzle at the L2 Lagrange point, emulating the accretion streams feeding minidiscs seen in circumbinary accretion.  The tidal forces excited two-armed spiral shock waves,  generating heat through dissipation and providing angular momentum transport throughout the disc.
 
-The spiral shocks propagate primarily in the linear regime, agreeing with the relativistic generalization of the well-known $WKB$ dispersion relation.  Measurements of the jump in specific entropy at the shocks provided an estimate of the irreversible heating of the disc.  The cooling profile qualitatively follows the Novikov-Thorne profile in the outer disc, but maintains a significant excess of emission within $r < 10 M$.  Comparisons of the predicted angular momentum flux due to shock heating to the measured value showed good agreement, with the shock transport model under-predicting the torques by $30\%$ at worst.  Approximate values of the Shakura-Sunyaev $\al$-parameter were found to be on the order of a few $\times 10^{-2}$.
+The spiral shocks propagate primarily in the linear regime, agreeing with the relativistic generalization of the well-known $WKB$ dispersion relation.  Measurements of the jump in specific entropy at the shocks provided an estimate of the irreversible heating of the disc.  The cooling profile qualitatively follows the Novikov-Thorne profile in the outer disc, but maintains a significant excess of emission within $r < 10 M$.  The angular momentum transport in all models was driven by torques due to non-axisymmetric structures.  Comparisons of the predicted torque due to shock heating to the measured value showed good agreement, with the shock transport model under-predicting the torques by $30\%$ at worst.  Approximate values of the Shakura-Sunyaev $\al$-parameter were found to be on the order of a few $\times 10^{-2}$.
 
 Accretion via due to spiral shocks is a purely hydrodynamical effect, occuring without the need for magnetic fields or radiation.  Any disc in a binary system will be subject to tidal forces, and the ensuing spiral shocks can carry a non-negligible portion of the angular momentum transport budget.  Spiral shocks can propagate through the ISCO, and may provide an emission excess over the standard Novikov-Thorne models.
 
