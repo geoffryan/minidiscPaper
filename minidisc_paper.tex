@@ -289,7 +289,7 @@ The initial condition for each minidisc is an $\al=10^{-3}$ Novikov-Thorne accre
 \startdata
 \model{1} & $2\times10^{-2}$ & ? & $4M$ & $0.11$ & $256$ & $0$ & $29$ \\
 \model{2} & $2\times10^{-3}$ & ? & $4M$ & $0.11$ & $256$ & $0$ & $29$ \\
-\model{2-hr} & $2\times10^{-3}$ & ? & $4M$ & $0.11$ & $512$ & $28$ & $29$ \\
+\model{2-hr} & $2\times10^{-3}$ & ? & $4M$ & $0.11$ & $512$ & $28$ & $32$ \\
 \model{2-bc} & $2\times10^{-3}$ & ? & $1.8M$ & $0.11$ & $256$ & $25$ & $26$ \\
 \model{3} & $2\times10^{-4}$ & ? & $4M$ & $0.11$ & $256$ & $0$ & $29$
 \enddata
@@ -574,7 +574,6 @@ An image of the specific intensity $I_{0.1keV}$ for \model{2} at $t=28 T_{bin}$ 
 
 The spectral differences between \model{2} and a Novikov-Thorne spectrum are subtle.  This is due to the insensitive nature of $\dot{Q}_{cool}$ in thin discs, see the discussion in \ref{subsec:diss}.
 
-{\color{red} GEOFF to ANDREW: 
 
 \begin{figure*}
 	\plotone{figs/q011_m3_spec.png}
@@ -590,9 +589,12 @@ Unfortunately due to the CFL condition this puts a heavy penalty on the time ste
 
 To evolve for several binary orbits we find it necessary to move the inner boundary of the numerical grid to $r=4M$, above the event horizon.  The choice of $4M$ was made deliberately, as this is inside the sonic radius of the flow. Inside the sonic radius characteristics are all directed inwards and the upwinded hydrodynamic evolution scheme prevents information from propagating outwards.  This gives the same advantages as including the event horizon on the grid, but with a far smaller time step penalty.  The inner boundary condition within $4M$ is cold, isentropic inflow and matches the exterior solution very well.
 
-To verify our boundary condition does not affect the global evolution, we mapped the \model{2} solution at $t=25 T_{bin}$ onto a new grid that does extend within the horizon.  This grid has $r_{min} = 1.8M$, and is referred to as \model{2-bc}.  We evolve \model{2-bc} for a single $T_{bin}$, and see no differences compared with \model{2} at the same time.  
+To verify our boundary condition does not affect the global evolution, we mapped the \model{2} solution at $t=25 T_{bin}$ onto a new grid that does extend within the horizon.  This grid has $r_{min} = 1.8M$, and is referred to as \model{2-bc}.  We evolve \model{2-bc} for a single orbit, to $26T_{bin}$.  The azimuthally averaged surface density and radial velocity profiles of \model{2} and \model{2-bc} are shown in Fig. \ref{fi:q011_bc_hr_comp}.  The \model{2-bc} curves match those of \model{2} and smoothly continue through the horizon at $R=2M$.  This demonstrates the effectiveness of the isentropic inner boundary condition, even when placed above the horizon.
 
-{\color{red}GEOFF to ANDREW: Not sure which plot to show here.}
+\begin{figure}
+	\plotone{figs/q011_bc_hr_comp.pdf}
+	\caption{\label{fi:q011_bc_hr_comp} Azimuthally averaged lab frame surface density $\Sigma$ and radial velocity $\ave{v^r}$ for \model{2} at $29T_{bin}$ (solid grey line), \model{2-bc} at $26T_{bin}$ (dashed blue line), and \model{2-hr}  at $32T_{bin}$ (dotted orange line).}
+\end{figure}
 
 \subsection{Numerical Resolution}
 \label{subsec:res}
@@ -601,7 +603,8 @@ To investigate the effects of numerical resolution we mapped Model 2 at $t=28T_{
 
 Model \texttt{2-hr} retains the strong two-armed shock structure. A similar clumpy accretion behaviour develops as in the early evolution of \model{2} (between $8$ and $17$ $T_{bin}$, see Sec. \ref{subsec:fiducial}).  The remapping procedure upsamples the \model{2} grid, necessarily producing some small scale noise.  This may be sufficient to push the model out of the quasi-equilibrium found by \model{2}. The clumpy accretion persists the length of the simulation, making a direct comparison between \model{2} and \model{2-hr} difficult.
 
-{\color{red}GEOFF to ANDREW: Not sure which plot to show here.}
+The azimuthally averaged lab frame surface density and radial velocity for \model{2-hr} are also plotted in Fig. \ref{fi:q011_bc_hr_comp}.  The data are from $t = 32T_{bin}$, where it appears the clumpy accretion is beginning to settle down.  The unsteady nature of the flow is demonstrated in the radial velocity, where two regions can be seen with net positive velocity.  These fluctuations have little effect on the density distribution, which remains in good agreement with \model{2}.
+
 
 %%%%%%
 % Discussion %
