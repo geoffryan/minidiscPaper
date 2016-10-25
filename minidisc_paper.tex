@@ -563,21 +563,21 @@ We compare the predicted torque due to spiral shocks eq \eqref{eq:tauRaf} to the
 \subsection{Spectral Comparison to Novikov-Thorne}
 \label{subsec:spectra}
 
-As seen in Fig \ref{fi:diss} the rate of cooling in the inner disc $r < 10M$ is in significant excess to the standard Novikov-Thorne model.  This naturally leads to the question as to whether there is an observational difference between a standard thin disc and one undergoing shock-driven accretion.  We calculate the observational spectrum of each model using the ray tracing methods of Sec \ref{subsec:raySpec}, based on the method of \cite{Kulkarni11}.
+As seen in Fig \ref{fi:diss} the rate of cooling in the inner disc $r < 10M$ is in significant excess to the standard Novikov-Thorne (NT) model.  This naturally leads to the question as to whether there is an observational difference between a standard thin disc and one undergoing shock-driven accretion.  We calculate the observational spectrum of each model using the ray tracing methods of Sec \ref{subsec:raySpec}, based on the method of \cite{Kulkarni11}.
 
 \begin{figure*}
 	\plotone{figs/q011_m3_im.png}
 	\caption{\label{fi:im} Ray-traced image of \model{2} at $\nu =   1keV$.}
 \end{figure*}
 
-An image of the specific intensity $I_{0.1keV}$ for \model{2} at $t=28 T_{bin}$ viewed at inclination $i=60^\circ$ is shown in Fig \ref{fi:im}.  The total emission is dominated by the bright inner region, and the two-armed structure is clearly visible. We generate the spectrum by integrating over such images at several frequencies.  The spectrum corresponding to Fig. \ref{fi:im} is shown in Fig. \ref{fi:q011_m3_spec}. 
+An image of the specific intensity $I_{0.1keV}$ for \model{2} at $t=28 T_{bin}$ viewed at inclination $i=60^\circ$ is shown in Fig \ref{fi:im}.  The total emission is dominated by the bright inner region, and the two-armed structure is clearly visible. We generate the spectrum by integrating over such images at several frequencies.  The spectrum corresponding to Fig. \ref{fi:im} is shown in Fig. \ref{fi:spec}. 
 
-The spectral differences between \model{2} and a Novikov-Thorne spectrum are subtle.  This is due to the insensitive nature of $\dot{Q}_{cool}$ in thin discs, see the discussion in \ref{subsec:diss}.
+The spectrum of each model at $28 T_{bin}$ is plotted in Fig. \ref{fi:spec} with reference NT curves.  Each spectrum is calculated including only the region $r<40M$, to ease comparison with NT and between models by removing the effect of variable outer disc truncation.  Each NT spectrum is calculated using the corresponding model's accretion rate at the inner boundary, time averaged over $(20-29)T_{bin}$.  In this comparison all model spectra are well-characterized by the NT spectrum, except for a slight excess at $\nu > 10keV$.  This excess is precisely due to the large cooling rate at $r<10M$ seen in Fig. \ref{fi:diss}, and corresponds to the presence of shock-heated gas near and within the ISCO.  
 
 
 \begin{figure*}
-	\plotone{figs/q011_m3_spec.png}
-	\caption{\label{fi:q011_m3_spec} Spectrum of \model{2} at $t = 28 T_{bin}$ (black crosses), obtained by integrating over the ray-traced intensity in Fig \ref{fi:im}.  Novikov-Thorne spectrum for a disc at the same distance with $\dot{M}$ of the inner boundary averaged over $20 T_{bin}$ to $29 T_{bin}$.}
+	\plotone{figs/q011_spec_all.pdf}
+	\caption{\label{fi:spec} Spectra of \model{1} (blue circles), \model{2} (orange crosses), and \model{3} (green triangles) at $t = 28 T_{bin}$, obtained by integrating over the ray-traced intensity (e.g. in Fig \ref{fi:im}).  Solid lines are Novikov-Thorne spectra with $\dot{M}$ of the inner boundary averaged over $20 T_{bin}$ to $29 T_{bin}$ for each model.  Only the $R<40M$ region is included in the integration, to remove the effect of truncation at the outer disc edge.  The inclination angle $i=60^\circ$ and the distance $D=1kpc$.}
 \end{figure*}
 
 \subsection{Dependence on Inner Boundary Condition}
@@ -612,6 +612,8 @@ The azimuthally averaged lab frame surface density and radial velocity for \mode
 
 \section{Discussion}
 \label{sec:discussion}
+
+High-energy excess also seen by Kulkarni (11), Noble (10,16), in the context of MRI.  
 
 %%%%%%
 % Summary %
