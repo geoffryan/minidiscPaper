@@ -51,7 +51,7 @@
 
 \begin{abstract}
 
-Newtonian calculations have demonstrated circumbinary black hole accretion is mediated by minidiscs around each black hole, fed by streams from the global circumbinary disc. We study the structure of black hole minidiscs using general relativistic hydrodynamics calculations of minidiscs with the moving mesh hydro code Disco. Torques from the binary companion induce spiral shocks in the disc which can effectively dissipate energy and transport angular momentum outwards; inducing accretion onto the central black hole. The disc is cooled with a local blackbody prescription, allowing evolution to a self-consistent temperature profile.  The shock structure agrees well with the relativistic dispersion relation for tightly-wound linear waves. We measure the shock induced dissipation, find effective alpha parameters on the order of 0.01, and produce disc spectra from the blackbody emission.
+Newtonian simulations have demonstrated that accretion onto binary black holes is mediated by minidiscs around each black hole, fed by streams from the circumbinary disc. We study the dynamics and radiation of these black hole minidiscs using general relativistic hydrodynamics simulations with a new GR version of the moving-mesh hydrodynamics code Disco. Tidal forces from the binary companion and incoming accretion streams excite spiral shocks in the disc which can effectively dissipate energy and transport angular momentum outwards; inducing accretion onto the black hole. The disc is cooled with a local blackbody prescription, allowing evolution to a self-consistent temperature profile.  The shock structure agrees well with the relativistic dispersion relation for tightly-wound linear waves. We measure the shock induced dissipation, find effective alpha parameters on the order of 0.01, and present spectral energy distributions and viewing angle dependant images of the minidiscs using a black-body radiation model.
 
 \end{abstract}
 
@@ -97,20 +97,19 @@ minidisc models calculated.  Section \ref{sec:analysis} introduces the fiducial 
 \section{Numerical Setup}
 \label{sec:numerics}
 
-The basis of our hydrodynamics scheme is the \Disco{} code; a moving mesh hydro
+The basis of our hydrodynamics scheme is the \Disco{} code, a moving-mesh hydrodynamics
 code optimized for disc geometry. This code was first used in the context of
 protoplanetary discs \citep{Duffell12, Duffell13, Duffell14} and later applied 
-to circumbinary accretion \citep{Farris14, Farris15A, Farris15B}. 
+to circumbinary accretion \citep{Farris14, Farris15A, Farris15B}. A 3D Newtonian version has recently been publicly released \citep{Duffell16}.
 
-The original \Disco{} code has been modified to solve the GRHD equations in a 
-fixed space-time:
+In the present work we have extended the \Disco{} code to solve the general relativistic hydrodynamics (GRHD) equations in a fixed space-time:
 \begin{equation}
     \nabla_\mu \rho_0 u^\mu = 0 \text{ and } \nabla_\mu T^{\mu\nu} = -\dot{Q} u^\nu , \label{eq:GRHD}
 \end{equation}
 for a single species gas of rest-mass density $\rho_0$, four velocity $u^\mu$, 
 stress energy tensor $T^{\mu\nu}$ and local isotropic cooling $\dot{Q}$.  
 
-To solve \eqref{eq:GRHD} numerically one must make a choice of which elements of $T^{\mu\nu}$ to be independent variables.  We follow the standard Valencia formulation (CITE) (also cite HARM, Duez2004, etc) for the momentum variables $T^0_i$ and choose an energy variable projected onto a known four-velocity $U^\mu$: $-U_\mu T^{\mu 0}$.
+To solve \eqref{eq:GRHD} numerically one must make a choice of which elements of $T^{\mu\nu}$ to be independent variables.  We follow the standard Valencia formulation \citep{Marti91, Banyuls97} (e.g. implemented \cite{HARM} and \cite{Duez05}) in  for the momentum variables $T^0_i$ and choose an energy variable projected onto an analytically specified four-velocity $U^\mu$: $-U_\mu T^{\mu 0}$.
 In terms of coordinate derivatives \eqref{eq:GRHD} takes the standard flux-balanced conservation form
 \begin{equation}
     \pd_0 \mathcal{U} + \pd_j \mathcal{F}^j = \mathcal{S} , \label{eq:consLaw}
@@ -141,16 +140,17 @@ In this work we assume an ideal gas with stress tensor
 \begin{equation}
 	T^{\mu\nu} = \rho_0 h u^\mu u^\nu + P g^{\mu\nu} ,
 \end{equation}
-where $P$ is the gas pressure, $h = 1 + \eps + P/\rho_0$ the relativistic specific enthalpy, and $\eps$ the specific internal energy. Furthermore we assume the gamma law equation of state
+where $P$ is the gas pressure, $h = 1 + \eps + P/\rho_0$ is the relativistic specific enthalpy, and $\eps$ is the specific internal energy. Furthermore, we assume the gamma law equation of state
 \begin{equation}
 	P = (\Gam - 1) \rho_0 \eps . \label{eq:gammalaw}
 \end{equation}
+Where the adiabatic index $\Gamma$ is chosen to be 5/3 in accordance with \cite{Farris14}.
 
-\Disco{} is a Godunov type code which solves hyperbolic systems of equations of the form \eqref{eq:consLaw} on a moving mesh in cylindrical coordinates ($r$, $\phi$, $z$).  The mesh motion is restricted to be in the $\phi$-direction, which greatly reduces numerical viscosity due to bulk azimuthal flow.  For radial flows, the code performs at the same level as fixed mesh codes.  In this work, the velocities of cell interfaces are fixed to $V^\phi \equiv U^\phi/U^0$.   
+\Disco{} is a Godunov type code which solves hyperbolic systems of equations of the form \eqref{eq:consLaw} on a moving mesh in cylindrical coordinates ($r$, $\phi$, $z$).  The mesh motion is restricted to be in the $\phi$-direction, which greatly reduces numerical viscosity and advection errors due to bulk azimuthal flow.  For radial flows, the code performs as a fixed mesh code.  In this work, the velocities of cell interfaces are fixed to $V^\phi \equiv U^\phi/U^0$.   
 
 \Disco{} is second order accurate in time and space.  It uses the piecewise linear method (PLM) to interpolate the cell-centred primitive values to the cell interfaces for the Riemann fluxes.  The relativistic HLLC approximate Riemann solver \citep{Mignone05} is employed to calculate intercell fluxes and the time evolution is performed via the RK2-TVD algorithm of \cite{Gottlieb98}.  The time step is Courant limited with a typical CFL number of $0.1$.
 
-All calculations in this work are performed in two dimensions spatial dimensions ($r$ and $\phi$) using vertically integrated fluid quantities and metric terms evaluated on the equator $z=0$.  We denote the surface density as $\Sig_0 = \int \dd z \rho_0$ and the vertically integrated pressure $\Pi = \int \dd z P$.  
+All calculations in this work are performed in two spatial dimensions ($r$ and $\phi$) using vertically integrated fluid quantities and metric terms evaluated on the equator $z=0$.  We denote the surface density as $\Sig_0 = \int \dd z \rho_0$ and the vertically integrated pressure $\Pi = \int \dd z P$.  
 
 \subsection{The Energy Variable $\tau_U$}
 \label{subsec:energy}
