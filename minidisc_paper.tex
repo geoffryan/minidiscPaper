@@ -64,7 +64,7 @@ Newtonian simulations have demonstrated that accretion onto binary black holes p
 \label{sec:intro}
 
 
-Supermassive black hole binaries (SMBHBs) are expected to form after mergers of galaxies during hierarchical structure formation. The binaries settle to the center of the merger remnant and are expected to be be embedded in gas. Gaseous accretion onto black hole binaries is thus a problem of compelling interest for understanding the dynamics and radiation of merging black holes. Pulsar timing array (PTA) measurements have started to become in tension with expected rates of nanoHertz gravitational wave emission from predicted populations of SMBHB. This raises the question of whether SMBHBs merge at all or are driven through the PTA band by interaction with ambient gas. Electromagnetic or gravitational wave (GW) detection of a SMBHB could help answer this question but requires a detailed understanding of the complex dynamics of these systems. Graham et al have recently claimed a 4.7(??) year periodicity detected in CRTS observations of the quasar PG1302 corresponds to a black hole binary with mass XX and separation $\sim 10^{-3}$ pc. 
+Supermassive black hole binaries (SMBHBs) are expected to form after mergers of galaxies during hierarchical structure formation. The binaries settle to the center of the merger remnant and are expected to be be embedded in gas. Gaseous accretion onto black hole binaries is thus a problem of compelling interest for understanding the dynamics and radiation of merging black holes. Pulsar timing array (PTA) measurements have started to become in tension with expected rates of nanoHertz gravitational wave emission from predicted populations of SMBHB (CITE PTA). This raises the question of whether SMBHBs merge at all or are driven through the PTA band by interaction with ambient gas. Electromagnetic or gravitational wave (GW) detection of a SMBHB could help answer this question but requires a detailed understanding of the complex dynamics of these systems. Graham et al have recently claimed a 4.7(??) year periodicity detected in CRTS observations of the quasar PG1302 corresponds to a black hole binary with mass XX and separation $\sim 10^{-3}$ pc. 
 
 The recent LIGO detection of GWs from stellar mass binary black holes calls attention to the dynamics of binary evolution in this mass range as well. In particular, if gas is present during some phase of these systems, circumbinary accretion will occur and may effect the orbital evolution or lead to the production of an electromagnetic counterpart [CITE Perna et al (2016) de Mink \& King (2016)].
 
@@ -483,6 +483,16 @@ We neglect the effects of the primary black hole and the orbital motion of the s
 
 \section{Results}
 \label{sec:results}
+{\color{red} 
+The accretion rate through the inner boundary as a function of time is plotted in Fig. \ref{fi:mdot_all} for all primary models.  In the first few orbits the accretion rate is very large as the initial disk is disrupted by the tidal potential and incoming accretion stream.  This is typically followed by a phase of highly variable behaviour before accretion settles into a quasi steady state.  Models \texttt{1} and \texttt{1.5} reach their asymptotic accretion rates in the first dozen orbits, \model{2} after 17 orbits following a dynamic phase described in Sec. \ref{subsec:fiducial}, and Models \texttt{2.5} and \texttt{3} remain highly variable for the duration of the simulation.  The asymptotic values of the accretion rate into black hole are always smaller than the injection rate $\dot{M}_{nozzle}$, as some gas must leave the domain to carry away the angular momentum of the accreted material.  As $\dot{M}_nozzle$ is lowered, the fraction of material accreted on to the black hole increases.
+
+The amount and duration of variability increases as $\dot{M}_{nozzle}$ is reduced.  This is in at least qualitative agreement with the early work of \cite{Spruit87}, who found the effective $\al$-parameter induced by self-similar spiral shocks scales like $\mathcal{M}^{-3/2}$.  This implies the viscous time for the disks, the typical time scale for large-scale evolution, is an increasing function of $\mathcal{M}$ and hence a decreasing function of $\dot{M}$.  Our setup is not self similar, so we would not expect quantitative agreement.
+}
+
+\begin{figure}
+\plotone{figs/mdot_all.pdf}
+\caption{\label{fi:mdot_all} Accretion rate through the inner boundary as a function of time for \model{1} (blue), \model{1.5} (red), \model{2} (orange), \model{2.5} (purple), and \model{3} (green).  $\dot{M}_{nozzle}$ for each model is shown as a dashed line in the corresponding colour.}
+\end{figure}
 
 \subsection{Wave Propagation}
 \label{subsec:res-prop}
@@ -527,7 +537,7 @@ The heating and cooling are broadly similar over the extent of the disk, with $\
 
 \begin{figure}
 \plotone{figs/q011_m3_diss_r.pdf}
-\caption{\label{fi:diss} Radial profiles of dissipative shock quantities in \model{2}, time averaged from $(20 - 29) T_{bin}$.  From top to bottom the entropy jump $\De s$, $\psi_Q$, and irreversible heating $\dot{Q}$. The shocks $A,B$ are plotted in blue and orange respectively.  The bottom panel contains as well the total irreversible heating according to \eqref{eq:QirrRaf} in black, the local cooling rate integrated over each annulus $\avet{\dot{Q}_{cool}}$ in green, and the same quantity from a Novikov-Thorne disk with $\dot{M} = 0.75 \dot{M}_2$ in grey.}
+\caption{\label{fi:diss} Radial profiles of dissipative shock quantities in \model{2}, time averaged from $(20 - 29) T_{bin}$.  From top to bottom the entropy jump $\De s$, $\psi_Q$, and irreversible heating $\dot{Q}$. The shocks $A,B$ are plotted in blue and orange dashed lines respectively.  The bottom panel contains as well the total irreversible heating according to \eqref{eq:QirrRaf} in green (solid), the local cooling rate integrated over each annulus $\avet{\dot{Q}_{cool}}$ in black (dotted), and the same quantity from a Novikov-Thorne disk with $\dot{M} = 0.75 \dot{M}_2$ in grey.}
 \end{figure}
 
 \subsection{Angular Momentum Transport}
@@ -541,7 +551,7 @@ The radial profiles of both $\al_{\dot{M}}$ and $\al_{\dot{Q}}$ are plotted in F
 
 \begin{figure}
 \plotone{figs/q011_m3_alpha_r.pdf}
-\caption{\label{fi:alpha} Radial profile of effective $\al$ parameters in the fiducial run measured from the accretion rate $\al_{\dot{M}}$ (blue) and the local dissipation $\al_{\dot{Q}}$ (orange).}
+\caption{\label{fi:alpha} Radial profile of effective $\al$ parameters in \model{2} measured from the accretion rate $\al_{\dot{M}}$ (solid) and the local dissipation $\al_{\dot{Q}}$ (dashed).}
 \end{figure}
 
 To see the effect of the spiral shocks in detail we decompose the torques acting on the disk according to \eqref{eq:angMomDecom} (see Sec \ref{subsec:angMomDecom} for details). Each of the torques $\tau_{\dot{M}}$, $\tau_{Re}$, $\tau_{ext}$, and $\tau_{cool}$ can be measured directly from \Disco{} output.  The Reynolds torque $\tau_{Re}$ in particular measures the angular momentum transport due to non-axisymmetric features.  One can estimate the torque due to spiral shocks from $\psi_Q$ directly \citep{Rafikov16}:
@@ -563,11 +573,13 @@ Such a local model neglects the global structure of spiral shock waves but may b
 
 We compare the predicted torque due to spiral shocks eq \eqref{eq:tauRaf} to the measured $\tau_{Re}$ and $\tau_{\dot{M}}$ for the minidisk models in Figs \ref{fi:torque-m2}, \ref{fi:torque-m3}, and \ref{fi:torque-m4}.  The measured torques are calculated by azimuthally integrating grid quantities and centered differencing in $r$ when necessary.  The predicted torques due to irreversible shock heating, on the other hand, are calculated directly from the entropy jump $\De s$ measured to calculate $\psi_Q$.  
 
-\model{1} is very near a steady state, with the accretion torque $\tau_{\dot{M}}$ balanced by $\tau_{Re}$, $\tau_{ext}$, and $\tau_{cool}$ throughout the $r < 100M$ region.  The small contribution of $\tau_{ext}$ and $\tau_{cool}$ to the torque balance indicates the bulk of the angular momentum transport is provided by $\tau_{Re}$, a fact also true in Models \texttt{2} and \texttt{3}.  This alone indicates the non-axisymmetric structures drive accretion in these disks.  The discrepancy in the balance between $\tau_{\dot{M}}$ and $\tau_{Re}$ increases in \model{2} and again in \model{3}, indicating these disks are in much less steady states.  In \model{3} they widely differ, and there is even a narrow region undergoing deccretion.  Nevertheless, the shock torque model $\tau_{irr}$ shows good agreement with $\tau_{Re}$, especially for Models \texttt{1} and \texttt{2} where it deviates by at most $30\%$ in $r < 60M$.  Even \model{3}, which is still evolving strongly in time, shows $\tau_{irr}$ agreeing well with $\tau_{Re}$ outside of two bands $13M \lesssim r \lesssim 20M$ and $40M \lesssim r \lesssim 50M$.  The local dissipation model $\tau_t$ does a poor job of predicting the torque on the disk.
+\model{1} is very near a steady state, with the accretion torque $\tau_{\dot{M}}$ balanced by $\tau_{Re}$, $\tau_{ext}$, and $\tau_{cool}$ throughout the $r < 100M$ region.  The small contribution of $\tau_{ext}$ and $\tau_{cool}$ to the torque balance indicates the bulk of the angular momentum transport is provided by $\tau_{Re}$, a fact also true in Models \texttt{2} and \texttt{3}.  This alone indicates the non-axisymmetric structures drive accretion in these disks.  The discrepancy in the balance between $\tau_{\dot{M}}$ and $\tau_{Re}$ increases in \model{2} and again in \model{3}, indicating these disks are in much less steady states.  In \model{3} they widely differ, and there is even a narrow region undergoing deccretion.  
+
+The shock torque model $\tau_{irr}$ shows good agreement with $\tau_{Re}+\tau_{ext}$, especially for Models \texttt{1} and \texttt{2} where it deviates by at most $30\%$ in $r < 60M$.  Even \model{3}, which is still evolving strongly in time, shows $\tau_{irr}$ agreeing well outside the band $40M \lesssim r \lesssim 50M$.  The local dissipation model $\tau_t$ does a poor job of predicting the torque on the disk.
 
 \begin{figure}
 	\plotone{figs/q011_m2_torque_r.pdf}
-	\caption{\label{fi:torque-m2} Time averaged accretion torque $\tau_{\dot{M}}$ (black crosses), Reynolds torque $\tau_{Re}$ (blue crosses), predicted torque from spiral shocks $\tau_{irr}$ (eq. \eqref{eq:tauRaf}, red crosses), and predicted torque from local dissipation $\tau_t$ (eq. \eqref{eq:tauLoc}, orange crosses) for \model{1}. Time averaging was over $(20-29)T_{bin}$.}  
+	\caption{\label{fi:torque-m2} Time averaged accretion torque $\tau_{\dot{M}}$ (black solid line), Reynolds torque $\tau_{Re}$ (blue dashed line), external and cooling torques $\tau_{ext}+\tau_{cool}$ (green dotted line) and predicted torque from spiral shocks $\tau_{irr}$ (eq. \eqref{eq:tauRaf} (orange solid line) for \model{1}. Time averaging was over $(20-29)T_{bin}$.}  
 \end{figure}
 
 \begin{figure}
@@ -633,7 +645,58 @@ The azimuthally averaged lab frame surface density and radial velocity for \mode
 \section{Discussion}
 \label{sec:discussion}
 
+
+Point: Analytic work has demonstrated some spiral wave modes can propagate through 3d vertically stratified discs, the effect probably decreases with mach number, and is sensitive to the details of the thermodynamics.
+
+Point:  Recent numerical work (Bae) finds in a spiral wave instability that destroys waves, but leads to turbulence.  Ju finds similar results to ours in 2D (spiral waves torque the disk), and finds steady shocks in 3D.  Details matter!  2D can be informative, the inner boundary condition may play a role, so simulations with on-the-grid black holes are necessary, thermodynamics plays a big role.  Shocks either act in concert with MHD (putting a lower bound on $\alpha$) or can lead to turbulent accretion on their own.
+
+Point: Shocks can provide dissipation all the way through the ISCO, leading to a high energy excess over NT.  This may be of relevance to XRB spin measurements, and is similar in spirit to other work that has found MRI dissipation active within the ISCO.  A recent report raises the possibility of a shock in the outer part of LMC X-3 \citep{Steiner14}.
+
+Point:  When shocks are dominant dissipation mechanism (as here) minidisks are thin and bright, very similar to Novikov-Thorne in emission.  This is consistent with the work of Krolik, but we neglect the effect of the streams on the cavity, which may fill in the ``notch'' (Farris).  Minidisks with significant orbital velocity will be subject to doppler beaming, with each disk potentially inducing a periodicity $T_{orb}$, more obvious at higher energies.
+
+Point:  Stellar mass Black hole binaries are of renewed interest thanks to LIGO.  If a BBH exists in a gaseous environment, for instance within an AGN disc (Imre \& Zoltan) or from post-SN fallback (Rosalba), it will undergo circumbinary accretion, and shocks can potentially drive accretion-dissipate-provide an EM counterpart (although probably difficult to observe at cosmological distances.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+There is a long discussion as to the relevance of accretion via tidally induced shocks in astrophysical disks.  
+
+Recently \cite{Ju16} performed a study of cataclysmic variable accretion discs and investigated accretion by spiral shocks in the Newtonian regime with the MHD code \texttt{Athena++}.  In lieu of implementing a cooling prescription they used an isothermal equation of state with a specified temperature profile.  Most impress
+
 \begin{itemize}
+	\item \cite{Lubow98} and \cite{Ogilvie99} say vertical stratification can channel \& amplify waves throughout the disc.
 	\item High-energy excess also seen by Kulkarni (11), Noble (10,16), in the context of MRI.  
 	\item James Steiner: spiral shock in LMC-X3?
 	\item CSS, PTF? SMBBH candidates
@@ -652,11 +715,11 @@ The azimuthally averaged lab frame surface density and radial velocity for \mode
 \section{Summary}
 \label{sec:summary}
 
-We performed relativistic hydrodynamical simulations of accretion disks in the Schwarzschild metric subject to tidal forces of a binary companion.  Disks were fed from a nozzle at the L2 Lagrange point, emulating the accretion streams feeding minidisks seen in circumbinary accretion.  The tidal forces excited two-armed spiral shock waves,  generating heat through dissipation and providing angular momentum transport throughout the disk.
+We performed relativistic hydrodynamical simulations of accretion disks in the Schwarzschild metric subject to tidal forces of a binary companion.  Disks were fed from a nozzle at the L2 Lagrange point, emulating the accretion streams feeding minidisks seen in circumbinary accretion.  The tidal forces excited two-armed spiral shock waves which propagated throughout the disk,  generating heat through dissipation, transporting angular momentum, and ultimately driving accretion onto the black hole.
 
-The spiral shocks propagate primarily in the linear regime, agreeing with the relativistic generalization of the well-known WKB dispersion relation.  Measurements of the jump in specific entropy at the shocks provided an estimate of the irreversible heating of the disk.  The cooling profile qualitatively follows the Novikov-Thorne profile in the outer disk, but maintains a significant excess of emission within $r < 10 M$.  The angular momentum transport in all models was driven by torques due to non-axisymmetric structures.  Comparisons of the predicted torque due to shock heating to the measured value showed good agreement, with the shock transport model under-predicting the torques by $30\%$ at worst.  Approximate values of the Shakura-Sunyaev $\al$-parameter were found to be on the order of a few $\times 10^{-2}$.
+The spiral shocks propagate primarily in the linear regime, agreeing with the relativistic generalization of the WKB dispersion relation for tightly-wound linear waves.  Measurements of the jump in specific entropy at the shocks provided an estimate of the irreversible heating of the disk.  The cooling profile qualitatively follows the Novikov-Thorne profile in the outer disk, but maintains a significant excess of emission within $r < 10 M$.  The angular momentum transport in all models was driven by torques due to non-axisymmetric structures.  Comparisons of the predicted torque due to shock heating \citep{Rafikov16} to the measured value showed good agreement, with the shock transport model under-predicting the torques by $30\%$ at worst.  Approximate values of the Shakura-Sunyaev $\al$-parameter were found to be on the order of a few $\times 10^{-2}$.
 
-Accretion via spiral shocks is a purely hydrodynamical effect, occuring without the need for magnetic fields or radiation (apart from cooling).  Any disk in a binary system will be subject to tidal forces, and the ensuing spiral shocks can carry a non-negligible portion of the angular momentum transport budget.  Spiral shocks can propagate through the ISCO, and may provide an emission excess over the standard Novikov-Thorne models.
+Accretion via spiral shocks is a purely hydrodynamical effect, occurring without the need for magnetic fields or radiation (apart from cooling).  Any disk in a binary system will be subject to tidal forces, and the ensuing spiral shocks can carry a non-negligible portion of the angular momentum transport budget.  Spiral shocks can propagate through the ISCO, and may provide an emission excess over the standard Novikov-Thorne models.
 
 %%%%%%
 % Acknowledgements %
