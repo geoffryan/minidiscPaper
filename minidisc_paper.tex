@@ -1,4 +1,3 @@
-%\documentclass[preprint]{aastex}
 \documentclass{emulateapj}
 \usepackage{amsmath}
 \usepackage{graphicx}
@@ -276,7 +275,7 @@ Analysis of circumbinary accretion predicted a cavity to form within $r<2a$, whe
 
 \begin{figure}
 \plotone{figs/domain.pdf}
-\caption{\label{fi:domain} A global sketch of circumbinary accretion.  A binary black hole system (black dots) with orbital separation $a$ surrounded by a circumbinary gaseous disk (grey solid).  A cavity of radius $2a$ is cleared, and streams from the cavity wall feed ``minidisks'' around each black hole. The $L1$ and $L2$ Roche curves are plotted as dotted black lines.  The gas streams enter the vicinity of each black hole through the $L2$ and $L3$ Lagrange points.  A gaseous ``bridge'' is seen to exchange gas between minidisks in global Newtonian simulations, for simplicity we do not consider it in this work.  The circular computational domain (thick blue circle) is centered around the secondary black hole and extends to the $L2$ Lagrange point.  Arrows denote the rotation direction of the system, the computational domain co-rotates with the binary.  At boundary near the incoming stream (thick orange rectangle) a nozzle boundary condition with constant mass injection rate $\dot{M}_{nozzle}$ is enforced.  Elsewhere the boundary is outflow.} 
+\caption{\label{fi:domain} A global sketch of circumbinary accretion.  A binary black hole system (black dots) with orbital separation $a$ surrounded by a circumbinary gaseous disk (grey solid).  A cavity of radius $2a$ is cleared, and streams from the cavity wall feed ``minidisks'' around each black hole. The $L1$ and $L2$ Roche curves are plotted as dotted black lines.  The gas streams enter the vicinity of each black hole through the $L2$ and $L3$ Lagrange points.  A gaseous ``bridge'' is seen to exchange gas between minidisks in global Newtonian simulations, for simplicity we do not consider it in this work.  The circular computational domain (thick blue circle) is centered around the secondary black hole and extends to the $L2$ Lagrange point.  Arrows denote the rotation direction of the system, the computational domain co-rotates with the binary.  At the boundary near the incoming stream (thick orange rectangle) a nozzle boundary condition with constant mass injection rate $\dot{M}_{nozzle}$ is enforced.  Elsewhere the boundary is diode.} 
 \end{figure}
 
 To model the growth and structure of minidisks we must specify both the parameters of the binary black hole system and the accretion stream.  The overall mass scale of the binary $M_{bin} = M_P+M_S$ sets the overall length scale for the system.  Since we focus on a minidisk around the secondary black hole, we express all lengths in terms of $M = M_S$.  Since we work in units where $c=1$, this also sets the fundamental time scale of the system. The use of physical constants in the cooling prescription \eqref{eq:BBcooling} introduces a mass scale $\bar{m}=$ into the system, which scales with $M$ as $\bar{m} \propto M^{5/2}$.  
@@ -684,7 +683,7 @@ Accretion via spiral shocks is a purely hydrodynamical effect, occurring without
 %%%%%%
 
 \section{Acknowledgements}
-We are grateful to Paul Duffell, Zoltan Haiman, Dan D'Orazio, Roman Rafikov, Patrick Cooper, and Andrei Gruzinov for many enlightening conversations.  This work was supported in part by NASA through grant Astrophysics Theory Grant NNX11AE05G.  Computations were performed on the Pleiades cluster at NASA AMES, and the Ria cluster at the Center for Cosmology and Particle Physics, New York University.
+We are grateful to Paul Duffell, Zoltan Haiman, Dan D'Orazio, Roman Rafikov, Patrick Cooper, and Andrei Gruzinov for many enlightening conversations.  This work was supported in part by NASA through Astrophysics Theory (ATP) Grant NNX11AE05G.  Computations were performed on the Pleiades cluster at NASA AMES, and the Ria cluster at the Center for Cosmology and Particle Physics, New York University.
 
 
 \newpage
