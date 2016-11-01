@@ -23,7 +23,6 @@ arxiv: .FORCE
 	mkdir -p arxiv/figs
 	cp $(TEX) $(DOC).bbl $(INC) arxiv/
 	cp figs/*.pdf arxiv/figs/
-	cp *.sty arxiv/
 	zip -r toArxiv arxiv
 
 apj: .FORCE
@@ -65,5 +64,6 @@ clean:
 	rm -rf apj/
 	rm -rf arxiv/
 	rm -f toApj.tar.gz
+	rm -f toArxiv.zip
 
 .FORCE:
