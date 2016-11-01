@@ -27,8 +27,8 @@ arxiv: .FORCE
 
 apj: .FORCE
 	mkdir -p apj
-	#pdflatex cover_apj.tex
-	#cp -f cover_apj.pdf apj/
+	pdflatex cover_apj.tex
+	cp -f cover_apj.pdf apj/
 	cp $(TEX) $(DOC).bbl $(INC) apj/
 	#cp -f readme_apj.txt apj/
 	#cp figs/*.pdf apj/
