@@ -1,0 +1,24 @@
+Referee Report
+
+This is a useful, interesting paper on the difficult problem of modeling the accretion disk or minidisks that are around each black hole in a binary system. I think this is a worthy, incremental addition to the literature that presents a very useful new general relativistic version of the code DISCO. I recommend it is published.
+However, there are some minor corrections and additional information to be included. 
+
+*Introduction 
+1) In the third line there is a typo. Where it says: " and are expected to be be" there is an additional "be".
+
+2) In the third paragraph where the formation of a cavity is discussed it would be worth mentioning that the cavity will be formed only if certain conditions are fulfilled and that in some cases we may expect a binary to be totally embedded in a gaseous environment without the existence of a cavity. For example you can see this in common envelope systems (Passy etal. 2011, Ricker and Taam 2012) or in SMBHB (Dotti 2006). You can also read about the conditions for gap formation in del Valle & Escala 2014.
+
+* Numerical setup
+
+1) At the end of the page 2 and at the beginning of page 3 where it says HLLC and CFL it would be better to define the meaning of the initials (for example Courant Factor Limit for CFL).
+
+* Minidisk Models
+
+1) At the end of page 5 when the authors discuss the accretion rate for a system with M=Msun it will be useful to have also the information of the binary separation for this mass. Indeed, it would be important to present, in an explicit way, the separation of the binary for masses of SMBHBs like the ones that we expect to observe with eLISA (Mbin ~ 1e6 Msun), or BHBs as the ones observed by LIGO. Also, the authors may say something about the evolution of the binary separation due to gravitational wave emission. 
+For example, if I'm not mistaken, for a SMBHB with M=1e6 Msun the binary separation that the authors define will be a=1000*M=1000*1e6*G/(c*c)=4.7e-5 pc. 
+For this distance we expect that the binary is emitting gravitational waves and will coalescence in something like 4e4 orbits (tgw=124 yr), 
+therefore in the 20-30 orbits in which the authors evolve the system the binary separation can be assumed as constant, as they do (the authors can estimate this using the expressions in Peters 1964 for da/dt). This estimation would clarify the validity of the assumption of the authors.
+
+* Discussion
+
+1) In the discussion I think the authors may add some lines about two main points: i) Some words about the evolution of the binary separation and if this can change their results (see previous point of minidisk models). ii) How, or if, the structure of the minidisk may change if there is no cavity in the circumbinary disk (in this case the accretion onto the minidisk may no be restricted to one stream of gas).
