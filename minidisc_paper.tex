@@ -270,7 +270,7 @@ Requiring that the force be orthogonal to the velocity, $u^\mu f_\mu = 0$, then 
 \section{Minidisk Models}
 \label{sec:models}
 
-Analysis of circumbinary accretion predicted a cavity to form within $r<2a$, where $a$ is the binary separation \citep{Milos05}. Global Newtonian hydrodynamics simulations confirmed the existence of a cavity but also demonstrated the presence of minidisks around each member of the binary.  These minidisks are fed by streams coming from the cavity wall, revealing the essential role nonaxisymmetry plays in accreting binary systems \citep{Farris14}.  This general picture is sketched in Fig. \ref{fi:domain} with the simulation domain.
+Analysis of circumbinary accretion predicted a cavity to form within $r<2a$, where $a$ is the binary separation \citep{Milos05}. Global Newtonian hydrodynamics simulations confirmed the existence of a cavity but also demonstrated the presence of minidisks around each member of the binary.  These minidisks are fed by streams coming from the cavity wall, revealing the essential role nonaxisymmetry plays in accreting binary systems \citep{Farris14}.  This general picture is sketched in Figure \ref{fi:domain} with the simulation domain.
 
 \begin{figure}
 \plotone{figs/domain.pdf}
@@ -279,7 +279,7 @@ Analysis of circumbinary accretion predicted a cavity to form within $r<2a$, whe
 
 To model the growth and structure of minidisks, we must specify both the parameters of the binary black hole system and the accretion stream.  The overall mass scale of the binary $M_\text{bin} = M_P+M_S$ sets the overall length scale for the system.  Since we focus on a minidisk around the secondary black hole, we express all lengths in terms of $M = M_S$.  Since we work in units where $c=1$, this also sets the fundamental time scale of the system. The use of physical constants in the cooling prescription \eqref{eq:BBcooling} introduces a mass scale $\bar{m}=$ into the system, which scales with $M$ as $\bar{m} \propto M^{5/2}$.  
 
-Our implementation of frame and tidal forces (see Sec \ref{subsec:frameforces}) restricts our analysis to large binary separations $a$ and small mass ratios $q$.  We fix $q=0.11$ and $a = 100 M_\text{bin} \approx 1000 M$ for all runs, which satisfies these requirements.  At this separation the corrections to our tidal force prescription are at most $\OO({M_P / a}) \sim 1\%$, but the orbital time scale is still in an accessible regime.  The orbital angular velocity is $\Om_\text{bin} = \sqrt{M_\text{bin} / a^3} \approx 10^{-4} M^{-1}$ and the orbital period is $T_\text{bin} = 2\pi / \Om_\text{bin} \approx 2 \pi \times 10^4 M$.
+Our implementation of frame and tidal forces (see Section \ref{subsec:frameforces}) restricts our analysis to large binary separations $a$ and small mass ratios $q$.  We fix $q=0.11$ and $a = 100 M_\text{bin} \approx 1000 M$ for all runs, which satisfies these requirements.  At this separation the corrections to our tidal force prescription are at most $\OO({M_P / a}) \sim 1\%$, but the orbital time scale is still in an accessible regime.  The orbital angular velocity is $\Om_\text{bin} = \sqrt{M_\text{bin} / a^3} \approx 10^{-4} M^{-1}$ and the orbital period is $T_\text{bin} = 2\pi / \Om_\text{bin} \approx 2 \pi \times 10^4 M$.
 
 A circular binary emits GWs that carry away energy and angular momentum and eventually lead to merger.  The time for a circular binary to merge \citep{Peters64}, in units of the initial orbital period, is
 \begin{equation}
@@ -287,7 +287,7 @@ A circular binary emits GWs that carry away energy and angular momentum and even
 \end{equation}
 For the system we consider $a=100 M_\text{bin}$ and $q=0.1$, so $T_\text{merger} \approx 3.7\times 10^3 T_\text{bin}$.  The simulations run for $\approx 30 T_\text{bin}$, so we do not include evolution of the binary orbital parameters at this time.
 
-We model the accretion streams as radial infall through the L2 Lagrange point of the binary, based on global Newtonian simulations of circumbinary accretion \citep{Farris14, Farris15A, Farris15B, DOrazio12, DOrazio16}.  The radial velocity is set to be $v^r = -1/2 v_\text{bin}$, where $v_{bin} = \sqrt{M_\text{bin}/a} \approx 0.1$ is the binary orbital velocity.  The angular velocity of the stream is zero in the co-rotating frame.  Since the streams are ballistic, the sound speed should be significantly less than the stream velocity.  To ensure this, we set the pressure in the stream as $\Pi = 5 \times 10^{-6} \Sig$.  Several values of this parameter were used during testing; we found that they did not affect the resulting minidisk. Rather, shock heating and radiative cooling allow the gas to find its own equilibrium temperature once it is incorporated into the disk.  The stream is given a width of $ \De \phi = 0.4$ rad, approximately that of the streams seen in global Newtonian simulations \cite{Farris14}.
+We model the accretion streams as radial infall through the L2 Lagrange point of the binary, based on global Newtonian simulations of circumbinary accretion \citep{Farris14, Farris15A, Farris15B, DOrazio12, DOrazio16}.  The radial velocity is set to be $v^r = -1/2 v_\text{bin}$, where $v_\text{bin} = \sqrt{M_\text{bin}/a} \approx 0.1$ is the binary orbital velocity.  The angular velocity of the stream is zero in the co-rotating frame.  Since the streams are ballistic, the sound speed should be significantly less than the stream velocity.  To ensure this, we set the pressure in the stream as $\Pi = 5 \times 10^{-6} \Sig$.  Several values of this parameter were used during testing; we found that they did not affect the resulting minidisk. Rather, shock heating and radiative cooling allow the gas to find its own equilibrium temperature once it is incorporated into the disk.  The stream is given a width of $ \De \phi = 0.4$ rad, approximately that of the streams seen in global Newtonian simulations \cite{Farris14}.
 
 The density in the nozzle is set by the accretion rate $\dot{M}$, the main parameter of interest in this study.  The inclusion of dimensionfull $\ka$ and $\sig_{SB}$ parameters in the cooling term breaks the scale invariance of mass energy that would otherwise be present.  Streams of different $\dot{M}$ will cool at different rates relative to the orbital period $T_{\text{bin}}$, leading to hotter or cooler disks.  The density in the stream has a profile $\Sig \propto \cos^2(\pi \phi / \De \phi)$, with the normalization set to match the total accretion rate of specified $\dot{M}$.
 
@@ -295,7 +295,7 @@ The numerical grid is centered on the secondary black hole and extends from $r_\
 
 At the inner boundary a hybrid boundary condition is used.  The fluid velocity is set to be exactly as given in Equation \eqref{eq:Ugeo}, appropriate for ballistic matter infalling on geodesics.  The density is set to be $\Sig = -\dot{M} / r U^r \De \phi_\text{cell}$, where $\dot{M}$ is calculated from the innermost non-boundary annulus and $\De \phi_\text{cell}$ is the angular width of the cell.  Given $\Sig$, the pressure $\Pi$ is set to ensure isentropic infall.
 
-Although the inner boundary is outside the event horizon, we find that it does not affect the evolution of the system.  This is because it is still inside the sonic radius of the flow, so no information can propagate out to the minidisk itself.  See the discussion in Sec. \ref{subsec:bc} and Fig. \ref{fi:bc_hr_comp} for details. The CFL limited time step $\De t$ is controlled by the innermost zones of the grid, where the radial velocity is large (due to the black hole) and the cells are narrow.  Placing the inner boundary above the event horizon allows for much larger time steps than otherwise possible; keeping it below the sonic point ensures the fidelity of the simulation.  We found $r_{in} = 4M$ to be a good choice.
+Although the inner boundary is outside the event horizon, we find that it does not affect the evolution of the system.  This is because it is still inside the sonic radius of the flow, so no information can propagate out to the minidisk itself.  See the discussion in Section \ref{subsec:bc} and Figure \ref{fi:bc_hr_comp} for details. The CFL limited time step $\De t$ is controlled by the innermost zones of the grid, where the radial velocity is large (due to the black hole) and the cells are narrow.  Placing the inner boundary above the event horizon allows for much larger time steps than otherwise possible; keeping it below the sonic point ensures the fidelity of the simulation.  We found $r_{in} = 4M$ to be a good choice.
 
 The initial condition for each minidisk is an $\al=10^{-3}$ Novikov--Thorne accretion disk with $\dot{M}$ set equal to the nozzle rate \citep{Novikov73}.  
 
@@ -322,7 +322,7 @@ The five primary minidisk models in this study are summarized in Table \ref{tb:m
 \subsection{Fiducial Run}
 \label{subsec:fiducial}
 
-We take the $\dot{M} = 2 \times 10^{-3} M_\odot \text{yr}^{-1}$ model (\model{2}) as our fiducial run.  The accretion rate through the inner ($r=4 M$) and outer ($r=r_\text{L2}$) boundaries is plotted as a function of time in Fig \ref{fi:mdot-fid}. The initial disk has a surface density much higher than the stream from L2 (Fig \ref{fi:sig-fid-0}).  In the first orbit the initial disk develops its own tightly wound two-armed spiral as the gas in the outer radii is flung away.  The two-armed spiral begins tightly wound and diffuse, but quickly sharpens into a shock and begins to open as the disk heats (Fig \ref{fi:sig-fid-05}).  Some gas flung to the boundary falls back, and accretion proceeds in clumps for the first two orbits (Fig \ref{fi:sig-fid-2}).  After two orbits, the bulk of the initial disk has either been accreted or thrown out the outer boundary.  As the remaining disk accretes, it becomes more diffuse and cools, the spiral shocks tighten, and the accretion rate drops (Fig \ref{fi:sig-fid-5}).
+We take the $\dot{M} = 2 \times 10^{-3} M_\odot \text{yr}^{-1}$ model (\model{2}) as our fiducial run.  The accretion rate through the inner ($r=4 M$) and outer ($r=r_\text{L2}$) boundaries is plotted as a function of time in Figure \ref{fi:mdot-fid}. The initial disk has a surface density much higher than the stream from L2 (Figure \ref{fi:sig-fid-0}).  In the first orbit the initial disk develops its own tightly wound two-armed spiral as the gas in the outer radii is flung away.  The two-armed spiral begins tightly wound and diffuse, but quickly sharpens into a shock and begins to open as the disk heats (Figure \ref{fi:sig-fid-05}).  Some gas flung to the boundary falls back, and accretion proceeds in clumps for the first two orbits (Figure \ref{fi:sig-fid-2}).  After two orbits, the bulk of the initial disk has either been accreted or thrown out the outer boundary.  As the remaining disk accretes, it becomes more diffuse and cools, the spiral shocks tighten, and the accretion rate drops (Figure \ref{fi:sig-fid-5}).
 
 \begin{figure}
 \plotone{figs/q011_m3_mdot.pdf}
@@ -336,32 +336,32 @@ We take the $\dot{M} = 2 \times 10^{-3} M_\odot \text{yr}^{-1}$ model (\model{2}
 
 \begin{figure}
 \plotone{figs/q011_m3_sig_0050.pdf}
-\caption{\label{fi:sig-fid-05} Same as Fig. \ref{fi:sig-fid-0}, but at $t = 1/2\ T_\text{bin}$.  The initial disk quickly develops spiral shocks.}
+\caption{\label{fi:sig-fid-05} Same as Figure \ref{fi:sig-fid-0}, but at $t = 1/2\ T_\text{bin}$.  The initial disk quickly develops spiral shocks.}
 \end{figure}
 
 \begin{figure}
 \plotone{figs/q011_m3_sig_0200.pdf}
-\caption{\label{fi:sig-fid-2} Same as Fig. \ref{fi:sig-fid-0}, but at $t = 2 T_\text{bin}$.  Accretion proceeds in clumps as gas from the initial disk is either thrown out of the domain or falls into the black hole.}
+\caption{\label{fi:sig-fid-2} Same as Figure \ref{fi:sig-fid-0}, but at $t = 2 T_\text{bin}$.  Accretion proceeds in clumps as gas from the initial disk is either thrown out of the domain or falls into the black hole.}
 \end{figure}
 
 \begin{figure}
 \plotone{figs/q011_m3_sig_0500.pdf}
-\caption{\label{fi:sig-fid-5} Same as Fig. \ref{fi:sig-fid-0}, but at $t = 5 T_\text{bin}$.  Most of the initial gas has left. The accretion rate drops as the disk cools.}
+\caption{\label{fi:sig-fid-5} Same as Figure \ref{fi:sig-fid-0}, but at $t = 5 T_\text{bin}$.  Most of the initial gas has left. The accretion rate drops as the disk cools.}
 \end{figure}
 
 \begin{figure}
 \plotone{figs/q011_m3_sig_1300.pdf}
-\caption{\label{fi:sig-fid-13} Same as Fig. \ref{fi:sig-fid-0}, but at $t = 13 T_\text{bin}$.  Variability sets in as the disk begins interacting dynamically with the accretion stream.}
+\caption{\label{fi:sig-fid-13} Same as Figure \ref{fi:sig-fid-0}, but at $t = 13 T_\text{bin}$.  Variability sets in as the disk begins interacting dynamically with the accretion stream.}
 \end{figure}
 
 
-At $t\sim 8 T_\text{bin}$ the accretion rate through the disk becomes comparable to the stream.  For the next eight orbits a complicated and turbulent interaction occurs between the disk and stream.  The stream begins wobbling and sending gas to the disk in clumps.  Clumps execute an orbit of the black hole and collide with the original stream, causing it to wobble further, producing more clumps.  The clumps are sheared by the accretion flow, and after many orbits within the disk, they are accreted. The spiral shocks retain their structure through the clumpy accretion (Fig \ref{fi:sig-fid-13}).
+At $t\sim 8 T_\text{bin}$ the accretion rate through the disk becomes comparable to the stream.  For the next eight orbits a complicated and turbulent interaction occurs between the disk and stream.  The stream begins wobbling and sending gas to the disk in clumps.  Clumps execute an orbit of the black hole and collide with the original stream, causing it to wobble further, producing more clumps.  The clumps are sheared by the accretion flow, and after many orbits within the disk, they are accreted. The spiral shocks retain their structure through the clumpy accretion (Figure \ref{fi:sig-fid-13}).
 
-At $t\sim17 T_\text{bin}$ the disk--stream interaction stabilizes and the disk reaches a quasi-steady state.  The accretion rate through the inner boundary matches the inflow rate through the outer boundary, and the two-armed spiral shocks lock into a constant pattern.  Small-scale flows still occur as gas slowly redistributes within the disk, relaxing to a true steady state.  The simulation ends at $T\sim30 T_\text{bin}$ (Fig \ref{fi:sig-fid-28}), before this secular evolution ends.
+At $t\sim17 T_\text{bin}$ the disk--stream interaction stabilizes and the disk reaches a quasi-steady state.  The accretion rate through the inner boundary matches the inflow rate through the outer boundary, and the two-armed spiral shocks lock into a constant pattern.  Small-scale flows still occur as gas slowly redistributes within the disk, relaxing to a true steady state.  The simulation ends at $T\sim30 T_\text{bin}$ (Figure \ref{fi:sig-fid-28}), before this secular evolution ends.
 
 \begin{figure*}
 \plotone{figs/q011_m3_sig_2800.pdf}
-\caption{\label{fi:sig-fid-28} As Fig. \ref{fi:sig-fid-0}, but at $t = 28 T_\text{bin}$.  The disk in a quasi-steady state.}
+\caption{\label{fi:sig-fid-28} Same as Figure \ref{fi:sig-fid-0}, but at $t = 28 T_\text{bin}$.  The disk in a quasi-steady state.}
 \end{figure*}
 
 
@@ -487,7 +487,7 @@ We do not consider the effects of the primary black hole and the orbital motion 
 \section{Results}
 \label{sec:results}
 
-The accretion rate through the inner boundary as a function of time is plotted in Fig. \ref{fi:mdot_all} for all primary models.  In the first few orbits the accretion rate is very large, as the initial disk is disrupted by the tidal potential and incoming accretion stream.  This is typically followed by a phase of highly variable behavior before accretion settles into a quasi-steady state.  Models \texttt{1} and \texttt{1.5} reach their asymptotic accretion rates in the first dozen orbits, \model{2} after 17 orbits following a dynamic phase described in Sec. \ref{subsec:fiducial}, and Models \texttt{2.5} and \texttt{3} remain highly variable for the duration of the simulation.  The asymptotic values of the accretion rate into the black hole are always smaller than the injection rate $\dot{M}_\text{nozzle}$, as some gas must leave the domain to carry away the angular momentum of the accreted material.  As $\dot{M}_\text{nozzle}$ is lowered, the fraction of material accreted onto the black hole increases.
+The accretion rate through the inner boundary as a function of time is plotted in Figure \ref{fi:mdot_all} for all primary models.  In the first few orbits the accretion rate is very large, as the initial disk is disrupted by the tidal potential and incoming accretion stream.  This is typically followed by a phase of highly variable behavior before accretion settles into a quasi-steady state.  Models \texttt{1} and \texttt{1.5} reach their asymptotic accretion rates in the first dozen orbits, \model{2} after 17 orbits following a dynamic phase described in Section \ref{subsec:fiducial}, and Models \texttt{2.5} and \texttt{3} remain highly variable for the duration of the simulation.  The asymptotic values of the accretion rate into the black hole are always smaller than the injection rate $\dot{M}_\text{nozzle}$, as some gas must leave the domain to carry away the angular momentum of the accreted material.  As $\dot{M}_\text{nozzle}$ is lowered, the fraction of material accreted onto the black hole increases.
 
 The amount and duration of variability increase as $\dot{M}_\text{nozzle}$ is reduced.  This is in at least qualitative agreement with the early work of \cite{Spruit87}, who found that the effective $\al$-parameter induced by self-similar spiral shocks scales like $\mathcal{M}^{-3/2}$.  This implies that the viscous time for the disks, the typical time scale for large-scale evolution, is an increasing function of $\mathcal{M}$ and hence a decreasing function of $\dot{M}$.  Our setup is not self-similar, so we would not expect quantitative agreement.
 
@@ -496,11 +496,11 @@ The amount and duration of variability increase as $\dot{M}_\text{nozzle}$ is re
 \caption{\label{fi:mdot_all} Accretion rate through the inner boundary as a function of time for \model{1} (blue), \model{1.5} (red), \model{2} (orange), \model{2.5} (purple), and \model{3} (green).  $\dot{M}_\text{nozzle}$ for each model is shown as a dashed line in the corresponding color. Variability lasts longer and is of greater amplitude in disks with lower accretion rates.  Models \texttt{1}, \texttt{1.5}, and \texttt{2} establish a quasi-steady state.}
 \end{figure}
 
-In Figure \ref{fi:tacc} we plot the accretion timescale $t_{\dot{M}} = M_\text{disk} / \dot{M}$ as a function of $\dot{M}$ for all primary models at the end of their runs.  The total disk mass $M_\text{disk}$ is calculated by integrating the lab-frame surface density $u^0 \Sig$ over the whole computational domain, and the accretion rates are taken from the inner boundary.  We see that Models \texttt{2.5} and \texttt{3} have accretion timescales longer than the runtime of the simulation, explaining the extended variability seen in Fig. \ref{fi:mdot_all}.  A power-law fit to the data gives a slope of $-0.78 \pm 0.08$. This is of relevance to global Newtonian circumbinary accretion simulations, which typically employ a mass sink that removes some fraction of material every orbit.
+In Figure \ref{fi:tacc} we plot the accretion timescale $t_{\dot{M}} = M_\text{disk} / \dot{M}$ as a function of $\dot{M}$ for all primary models at the end of their runs.  The total disk mass $M_\text{disk}$ is calculated by integrating the lab-frame surface density $u^0 \Sig$ over the whole computational domain, and the accretion rates are taken from the inner boundary.  We see that Models \texttt{2.5} and \texttt{3} have accretion timescales longer than the runtime of the simulation, explaining the extended variability seen in Figure \ref{fi:mdot_all}.  A power-law fit to the data gives a slope of $-0.78 \pm 0.08$. This is of relevance to global Newtonian circumbinary accretion simulations, which typically employ a mass sink that removes some fraction of material every orbit.
 
 \begin{figure}
 \plotone{figs/tacc.pdf}
-\caption{\label{fi:tacc} Accretion time $t_{\dot{M}}=M_\text{disk}/\dot{M}$ as a function of $\dot{M}$ for all models (blue plus signs), and power-law fit to the simulation data (gray line).  Models \texttt{1}, \texttt{1.5}, and \texttt{2} can accrete their entire disk mass within the run time of the simulation ($29 T_{bin}$) and achieve quasi-equilibrium, unlike Models \texttt{2.5} and \texttt{3} with lower accretion rates. The dependence of $t_{\dot{M}}$ on $\dot{M}$ follows a rough power law of $-0.78 \pm 0.08$.}
+\caption{\label{fi:tacc} Accretion time $t_{\dot{M}}=M_\text{disk}/\dot{M}$ as a function of $\dot{M}$ for all models (blue plus signs), and power-law fit to the simulation data (gray line).  Models \texttt{1}, \texttt{1.5}, and \texttt{2} can accrete their entire disk mass within the run time of the simulation ($29 T_\text{bin}$) and achieve quasi-equilibrium, unlike Models \texttt{2.5} and \texttt{3} with lower accretion rates. The dependence of $t_{\dot{M}}$ on $\dot{M}$ follows a rough power law of $-0.78 \pm 0.08$.}
 \end{figure}
 
 \subsection{Wave Propagation}
@@ -536,9 +536,9 @@ Then the specific irreversible heating at a shock is simply $T_\text{lead} \psi_
 	\dot{Q}_{irr} = \sum_i \left[ \Sigma \left(r u^\phi - r \Phi'(r) u^r \right) T \right]_{i,\text{lead}} \psi_{Q,i} \ . \label{eq:QirrRaf}
 \end{equation}
 
-Figure \ref{fi:diss} shows the radial profiles of $\Delta s_i$, $\psi_{Q,i}$, $\avet{\dot{Q}_\text{irr}}$, and $\avet{\dot{Q}_{cool}}$ for \model{2} averaged from $20 T_\text{bin}$ to $29 T_\text{bin}$.  Note that $\avet{\dot{Q}_\text{irr}}$ does not include heating (cooling) due to adiabatic compression (expansion) and advection.  Both $\De s$ and $\psi_Q$ vary over an order of magnitude through the disk, reflecting the double-peaked radial distribution seen in Fig \ref{fi:sig-fid-28}. On average, $\psi_Q \sim 0.1$.  
+Figure \ref{fi:diss} shows the radial profiles of $\Delta s_i$, $\psi_{Q,i}$, $\avet{\dot{Q}_\text{irr}}$, and $\avet{\dot{Q}_{cool}}$ for \model{2} averaged from $20 T_\text{bin}$ to $29 T_\text{bin}$.  Note that $\avet{\dot{Q}_\text{irr}}$ does not include heating (cooling) due to adiabatic compression (expansion) and advection.  Both $\De s$ and $\psi_Q$ vary over an order of magnitude through the disk, reflecting the double-peaked radial distribution seen in Figure \ref{fi:sig-fid-28}. On average, $\psi_Q \sim 0.1$.  
 
-The distribution of irreversible heating and cooling in \model{2} has a much smoother radial dependence than $\psi_Q$. The is reflective of the universal character of emission from thin accretion disks: the profile of $\avet{\dot{Q}_\text{cool}}$ for a steady axisymmetric thin disk subject to local dissipation depends only on the accretion rate and black hole parameters, not the particular form of the dissipation or opacities.  For comparison we plot the expected Novikov-Thorne $\avet{\dot{Q}_\text{NT}}$ using the asymptotic value of $\dot{M}$ from Fig \ref{fi:mdot-fid}. 
+The distribution of irreversible heating and cooling in \model{2} has a much smoother radial dependence than $\psi_Q$. The is reflective of the universal character of emission from thin accretion disks: the profile of $\avet{\dot{Q}_\text{cool}}$ for a steady axisymmetric thin disk subject to local dissipation depends only on the accretion rate and black hole parameters, not the particular form of the dissipation or opacities.  For comparison we plot the expected Novikov-Thorne $\avet{\dot{Q}_\text{NT}}$ using the asymptotic value of $\dot{M}$ from Figure \ref{fi:mdot-fid}. 
 
 The heating and cooling are broadly similar over the extent of the disk, with $\avet{\dot{Q}_\text{irr}} \lesssim \avet{\dot{Q}_\text{cool}}$ most often.  Even in a steady state one would not expect them to match exactly, as some energy must be advected inwards.  Both $\avet{\dot{Q}_\text{irr}}$ and $\avet{\dot{Q}_\text{cool}}$ agree with the Novikov-Thorne profile in $12 M \lesssim r \lesssim 30M$ but far exceed it in the inner disk as $r \to r_\text{ISCO}$, peaking at $r \approx 7.5M$.
 
@@ -554,7 +554,7 @@ Dissipation in the fluid flow is a sign of angular momentum transport and hence 
 
 The relative strength of stress in an accretion flow is typically measured by determining an effective Shakura--Sunyaev (or Novikov--Thorne) $\al$-parameter.  The gravitational forces of the companion, plus the global character of the shocks providing the dissipation, make $\al_{\text{eff}}$ a somewhat imprecise notion.  We present two measures of $\al_{\text{eff}}$.  First, following \cite{Ju16}, we calculate the $\al_{\dot{M}}$ required at each radius for a Novikov--Thorne disk of the same average temperature and accretion rate.  Second, \cite{Rafikov16} determines for shocked Newtonian disks $\al_{\dot{Q}} \sim \psi_Q / 3\pi$.  We take this same prescription without modification, as $\psi_Q$ is a scalar quantity and hence frame independent.  
 
-The radial profiles of both $\al_{\dot{M}}$ and $\al_{\dot{Q}}$ are plotted in Fig \ref{fi:alpha} for the fiducial run.  We see that they are broadly similar across the disk, except near the ISCO at $r=6M$ where $\al_{\dot{M}}$ diverges owing to the singularity in the Novikov--Thorne model.
+The radial profiles of both $\al_{\dot{M}}$ and $\al_{\dot{Q}}$ are plotted in Figure \ref{fi:alpha} for the fiducial run.  We see that they are broadly similar across the disk, except near the ISCO at $r=6M$ where $\al_{\dot{M}}$ diverges owing to the singularity in the Novikov--Thorne model.
 
 \begin{figure}
 \plotone{figs/q011_m3_alpha_r.pdf}
@@ -591,12 +591,12 @@ The shock torque model $\tau_\text{shock}$ shows good agreement with $\tau_\text
 
 \begin{figure}
 	\plotone{figs/q011_m3_torque_r.pdf}
-	\caption{\label{fi:torque-m3} Same as Fig \ref{fi:torque-m2}, but for \model{2}}  
+	\caption{\label{fi:torque-m3} Same as Figure \ref{fi:torque-m2}, but for \model{2}}  
 \end{figure}
 
 \begin{figure}
 	\plotone{figs/q011_m4_torque_r.pdf}
-	\caption{\label{fi:torque-m4} Same as Fig \ref{fi:torque-m2}, but for \model{3}}  
+	\caption{\label{fi:torque-m4} Same as Figure \ref{fi:torque-m2}, but for \model{3}}  
 \end{figure}
 
 \subsection{Spectral Comparison to Novikov--Thorne}
@@ -609,9 +609,9 @@ As seen in Figure \ref{fi:diss} the rate of cooling in the inner disk $r < 10M$ 
 	\caption{\label{fi:im} Ray-traced image of \model{2} at $\nu =   1$ keV. Shocks are clearly visible even near the black hole's shadow.  Relativistic beaming increases the intensity of observed emission in material with velocities toward the observer.}
 \end{figure*}
 
-An image of the specific intensity $I_{0.1\text{ keV}}$ for \model{2} at $t=28 T_\text{bin}$ viewed at inclination $i=60^\circ$ is shown in Fig \ref{fi:im}.  The total emission is dominated by the bright inner region, and the two-armed structure is clearly visible. We generate the spectrum by integrating over such images at several frequencies.  The spectrum corresponding to Fig. \ref{fi:im} is shown in Fig. \ref{fi:spec}. 
+An image of the specific intensity $I_{0.1\text{ keV}}$ for \model{2} at $t=28 T_\text{bin}$ viewed at inclination $i=60^\circ$ is shown in Figure \ref{fi:im}.  The total emission is dominated by the bright inner region, and the two-armed structure is clearly visible. We generate the spectrum by integrating over such images at several frequencies.  The spectrum corresponding to Figure \ref{fi:im} is shown in Figure \ref{fi:spec}. 
 
-The spectrum of each model at $28 T_\text{bin}$ is plotted in Fig. \ref{fi:spec} with reference Novikov--Thorne curves.  Each spectrum is calculated including only the region $r<40M$, to ease comparison with the Novikov--Thorne model and between models by removing the effect of variable outer disk truncation.  Each Novikov--Thorne spectrum is calculated using the corresponding model's accretion rate at the inner boundary, time averaged over $(20-29)T_\text{bin}$.  In this comparison all model spectra are well characterized by the Novikov--Thorne spectrum, except for a slight excess at $\nu > 10$ keV.  This excess is precisely due to the large cooling rate at $r<10M$ seen in Figure \ref{fi:diss}, and corresponds to the presence of shock-heated gas near and within the ISCO.  
+The spectrum of each model at $28 T_\text{bin}$ is plotted in Figure \ref{fi:spec} with reference Novikov--Thorne curves.  Each spectrum is calculated including only the region $r<40M$, to ease comparison with the Novikov--Thorne model and between models by removing the effect of variable outer disk truncation.  Each Novikov--Thorne spectrum is calculated using the corresponding model's accretion rate at the inner boundary, time averaged over $(20-29)T_\text{bin}$.  In this comparison all model spectra are well characterized by the Novikov--Thorne spectrum, except for a slight excess at $\nu > 10$ keV.  This excess is precisely due to the large cooling rate at $r<10M$ seen in Figure \ref{fi:diss}, and corresponds to the presence of shock-heated gas near and within the ISCO.  
 
 \begin{figure*}
 	\plotone{figs/q011_spec_all.pdf}
@@ -627,7 +627,7 @@ Unfortunately, due to the CFL condition, this puts a heavy penalty on the time s
 
 To evolve for several binary orbits, we find it necessary to move the inner boundary of the numerical grid to $r=4M$, above the event horizon.  The choice of $4M$ was made deliberately, as this is inside the sonic radius of the flow. Inside the sonic radius characteristics are all directed inward and the upwinded hydrodynamic evolution scheme prevents information from propagating outward.  This gives the same advantages as including the event horizon on the grid, but with a far smaller time step penalty.  The inner boundary condition within $4M$ is cold, isentropic inflow and matches the exterior solution very well.
 
-To verify that our boundary condition does not affect the global evolution, we mapped the \model{2} solution at $t=25 T_\text{bin}$ onto a new grid that does extend within the horizon.  This grid has $r_\text{min} = 1.8M$, and is referred to as \model{2-bc}.  We evolve \model{2-bc} for a single orbit, to $26T_\text{bin}$.  The azimuthally averaged surface density and radial velocity profiles of \model{2} and \model{2-bc} are shown in Fig. \ref{fi:bc_hr_comp}.  The \model{2-bc} curves match those of \model{2} and smoothly continue through the horizon at $R=2M$.  This demonstrates the effectiveness of the isentropic inner boundary condition, even when placed above the horizon.
+To verify that our boundary condition does not affect the global evolution, we mapped the \model{2} solution at $t=25 T_\text{bin}$ onto a new grid that does extend within the horizon.  This grid has $r_\text{min} = 1.8M$, and is referred to as \model{2-bc}.  We evolve \model{2-bc} for a single orbit, to $26T_\text{bin}$.  The azimuthally averaged surface density and radial velocity profiles of \model{2} and \model{2-bc} are shown in Figure \ref{fi:bc_hr_comp}.  The \model{2-bc} curves match those of \model{2} and smoothly continue through the horizon at $R=2M$.  This demonstrates the effectiveness of the isentropic inner boundary condition, even when placed above the horizon.
 
 \begin{figure}
 	\plotone{figs/q011_bc_hr_comp.pdf}
@@ -641,7 +641,7 @@ To investigate the effects of numerical resolution, we mapped Model 2 at $t=28T_
 
 Model \texttt{2-hr} retains the strong two-armed shock structure. A similar clumpy accretion behavior develops as in the early evolution of \model{2} (between $8$ and $17$ $T_\text{bin}$, see Section \ref{subsec:fiducial}).  The remapping procedure upsamples the \model{2} grid, necessarily producing some small--scale noise.  This may be sufficient to push the model out of the quasi-equilibrium found by \model{2}. The clumpy accretion persists the length of the simulation, making a direct comparison between \model{2} and \model{2-hr} difficult.
 
-The azimuthally averaged lab-frame surface density and radial velocity for \model{2-hr} are also plotted in Fig. \ref{fi:bc_hr_comp}.  The data are from $t = 32T_{bin}$, where it appears that the clumpy accretion is beginning to settle down.  The unsteady nature of the flow is demonstrated in the radial velocity, where two regions can be seen with net positive velocity.  These fluctuations have little effect on the density distribution, which remains in good agreement with \model{2}.
+The azimuthally averaged lab-frame surface density and radial velocity for \model{2-hr} are also plotted in Figure \ref{fi:bc_hr_comp}.  The data are from $t = 32T_\text{bin}$, where it appears that the clumpy accretion is beginning to settle down.  The unsteady nature of the flow is demonstrated in the radial velocity, where two regions can be seen with net positive velocity.  These fluctuations have little effect on the density distribution, which remains in good agreement with \model{2}.
 
 
 %%%%%%
@@ -661,7 +661,7 @@ In black hole disks, if the shocks propagate undisturbed, they can provide dissi
 
 Of relevance to SMBH binary detection, our results confirm that the minidisk SED resembles a standard disk blackbody apart from the high-energy excess (Figure \ref{fi:spec}).  Minidisks are soft X-ray sources undergoing orbital motion at potentially relativistic velocities.  In the Earth's frame, relativistic beaming will induce a periodic variation in each minidisk's emission that should be absent in the emission from the global circumbinary disk \citep{DOrazio15}.  Discriminating the minidisk emission from the circumbinary disk may be possible if the SED of the entire system has a ``notch,'' as suggested in \cite{Roedig14}.  However, global Newtonian simulations with \Disco{} show that gas thrown off the minidisks can impact and shock-heat the cavity wall, creating hot spots that can smooth the spectrum \citep{Farris15A}.
 
-Emission of GWs shrinks the orbit of the binary, leading to merger in a time given by Equation \eqref{eq:Tmerge}, thousands of orbits for the parameters in this work.  We find that spiral shock patterns establish themselves very rapidly, in less than a single orbit of the binary, and can lead to a quasi-steady state in dozens of binary orbits.  This separation of timescales implies that spiral shocks will remain in quasi-steady state and drive accretion as the binary orbit secularly evolves.  This should remain the case until the binary begins evolving on an orbital timescale, when the separation is tens of $M_{bin}$. In this regime our quasi-Newtonian treatment of the binary potential ceases to be valid and a fully general relativistic binary black hole metric should be employed as in \cite{Farris12,Noble12,Zilhao15}.
+Emission of GWs shrinks the orbit of the binary, leading to merger in a time given by Equation \eqref{eq:Tmerge}, thousands of orbits for the parameters in this work.  We find that spiral shock patterns establish themselves very rapidly, in less than a single orbit of the binary, and can lead to a quasi-steady state in dozens of binary orbits.  This separation of timescales implies that spiral shocks will remain in quasi-steady state and drive accretion as the binary orbit secularly evolves.  This should remain the case until the binary begins evolving on an orbital timescale, when the separation is tens of $M_\text{bin}$. In this regime our quasi-Newtonian treatment of the binary potential ceases to be valid and a fully general relativistic binary black hole metric should be employed as in \cite{Farris12,Noble12,Zilhao15}.
 
 After the LIGO discovery of GW150914 and GW151226, electromagnetic counterparts to stellar mass black hole binaries are of great interest \citep{LIGO16GW150914Discovery, LIGO16GW151226}.  If a black hole binary exists in a gaseous environment, for instance, within an AGN disk \citep{Bartos16, Stone17} or post-supernova fallback \citep{Perna16}, it will undergo circumbinary accretion and minidisks will form, potentially producing distinct radiative signatures.  
 
